@@ -8,21 +8,25 @@ CFG = _open_config()
 from tense.service_layer.dot_tense.service import step_chain
 
 a = """
-[settings]
+[model.Tense]
 base_unit_value = 1
 
-[settings.unit]
-case_sensitive = False  # supports lowercase booleans
+[units.Minute]
+duration = 60
 
-[settings.unit.Minute.locale=en]
+[units.Minute.aliases]
+m, min, mins
+# or
 - m
 - min
 - mins
 
-[settings.unit.Minute.settings]
-duration = 60
+[commands.register_unit.Decade]
+duration = units.Year.duration * 10
+
+[units.Decade.aliases]
+- decade
+- decades
+- decs
+- dec
 """
-print(step_chain.from_tense_file(a))
-# 1 - словарь + парсить значения с конвертацией -------- DONE
-# 2 - обновить базовый конфиг новым, проверить как-то на валидность с помощью scheme и соеденить в 1 словарь
-# 3 - создать обьекты f

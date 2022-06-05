@@ -26,7 +26,7 @@ from typing import Generic, Literal, TypeVar
 
 from tense import types
 from tense.application import locales
-from tense.domain import locale as locale_model
+from tense.domain import model as locale_model
 from tense.service_layer import functional
 
 LT = TypeVar("LT", bound=types.LocaleType)

@@ -18,7 +18,7 @@ __all__ = ["build_locale_from_string"]
 
 from typing import TYPE_CHECKING
 
-from tense.domain import locale, units
+from tense.domain import model, units
 from tense.i18n import i18n
 
 if TYPE_CHECKING:

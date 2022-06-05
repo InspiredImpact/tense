@@ -14,7 +14,7 @@
 """Locale domain."""
 from __future__ import annotations
 
-__all__ = ["Locale"]
+__all__ = ["Tense"]
 
 from dataclasses import dataclass
 from typing import Iterator, Iterable
@@ -23,11 +23,12 @@ from tense.domain import units
 
 
 @dataclass
-class Locale:
+class Tense:
     minute: units.Minute
     hour: units.Hour
     day: units.Day
     week: units.Week
+    multiplier: int = 1
 
     def __post_init__(self) -> None:
         self.iterunits = list(self.__dict__.values())
@@ -37,6 +38,6 @@ class Locale:
             if isinstance(unit, units.Unit):
                 yield unit
 
-    def with_virtual_units(self, virtual: Iterable[units.Unit], /) -> Locale:
+    def with_virtual_units(self, virtual: Iterable[units.Unit], /) -> Tense:
         self.iterunits.extend(virtual)
         return self
