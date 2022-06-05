@@ -1,0 +1,5 @@
+[settings]
+base_unit_value = 1
+
+[settings.unit]
+case_sensitive = False
