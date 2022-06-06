@@ -14,74 +14,54 @@
 """Unit of work for atomic alias operations."""
 from __future__ import annotations
 
-__all__ = ["AbstractAliasUnitOfWork", "AliasUnitOfWork"]
+__all__ = ["AbstractTenseUnitOfWork", "TenseUnitOfWork"]
 
 import abc
-from typing import TYPE_CHECKING, Any
+from typing import Any, Iterable
 
-import yaml
-
-from aiotense.i18n import repository
-from aiotense.i18n.i18n import _ALIASES_DIR
-
-if TYPE_CHECKING:
-    from aiotense import types
+from aiotense.adapters import repository
 
 
-class AbstractAliasUnitOfWork(abc.ABC):
-    products: repository.AbstractAliasRepository
+class AbstractTenseUnitOfWork(abc.ABC):
+    tenses: repository.AbstractTenseRepository
 
-    def __enter__(self) -> AbstractAliasUnitOfWork:
+    def __enter__(self) -> AbstractTenseUnitOfWork:
         return self
 
     def __exit__(self, *args: Any) -> None:
         ...
 
     @abc.abstractmethod
-    def delete_alias(
-        self, locale: types.LocaleType, unit: types.UnitType, alias: str
-    ) -> None:
+    def delete_aliases(self, unit: str, aliases: Iterable[str]) -> None:
         ...
 
     @abc.abstractmethod
-    def replace_alias(
-        self, locale: types.LocaleType, unit: types.UnitType, *, old: str, new: str
-    ) -> None:
+    def replace_aliases(self, unit: str, replacements: dict[str, str]) -> None:
         ...
 
 
-class AliasUnitOfWork(AbstractAliasUnitOfWork):
-    def __enter__(self) -> AbstractAliasUnitOfWork:
-        self.products = repository.AliasRepository()
+class TenseUnitOfWork(AbstractTenseUnitOfWork):
+    def __enter__(self) -> AbstractTenseUnitOfWork:
+        self.tenses = repository.TenseRepository()
         return super().__enter__()
 
-    def delete_alias(
-        self, locale: types.LocaleType, unit: types.UnitType, alias: str
-    ) -> None:
-        unit_path = self.products.aliases[locale][unit]
-        for element in unit_path:
-            if element == alias:
-                unit_path.remove(element)
+    @staticmethod
+    def _with_unit_resolve(unit: str, /) -> str:
+        if not unit.startswith("units."):
+            unit = "units." + unit.title()
+        return unit
 
-        with open(_ALIASES_DIR, "w") as yaml_file:
-            yaml_file.write(
-                yaml.safe_dump(self.products.aliases, default_flow_style=False)
-            )
+    def delete_aliases(self, unit: str, aliases: Iterable[str]) -> None:
+        unit = self._with_unit_resolve(unit)
+        unit_aliases = self.tenses.source[unit]["aliases"]
+        for alias in aliases:
+            unit_aliases.remove(alias)
 
-    def replace_alias(
-        self, locale: types.LocaleType, unit: types.UnitType, *, old: str, new: str
-    ) -> None:
-        unit_path = self.products.aliases[locale][unit]
-        if old not in unit_path:
-            raise KeyError(f"Alias {old!s} not found.")
-
-        for alias in unit_path:
-            if alias == old:
-                old_idx = unit_path.index(old)
-                unit_path.pop(old_idx)
-                unit_path.insert(old_idx, new)
-
-        with open(_ALIASES_DIR, "w") as yaml_file:
-            yaml_file.write(
-                yaml.safe_dump(self.products.aliases, default_flow_style=False)
-            )
+    def replace_aliases(self, unit: str, replacements: dict[str, str]) -> None:
+        unit = self._with_unit_resolve(unit)
+        unit_aliases = self.tenses.source[unit]["aliases"]
+        for old, new in replacements.items():
+            for idx, exiting_alias in enumerate(unit_aliases):
+                if old == exiting_alias:
+                    unit_aliases.pop(idx)
+                    unit_aliases.insert(idx, new)

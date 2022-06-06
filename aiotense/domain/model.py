@@ -51,3 +51,22 @@ class Tense:
     def _resolve_virtual(self) -> None:
         for n, unit_dict in enumerate(self.virtual):
             self.__dict__[f"virtual{n}"] = units.VirtualUnit(**unit_dict)
+
+    @classmethod
+    def from_dict(cls, tense_dict: dict[str, Any]) -> Tense:
+        tense_attrs = {}
+        for key, attrs in tense_dict.items():
+            module, cls_name = key.split(".")
+            if cls_name == cls.__name__:
+                if not isinstance(attrs, dict):
+                    continue
+
+                tense_attrs.update(attrs)
+                continue
+
+            module = globals()[module]
+            unit_cls = getattr(module, cls_name)
+            tense_attrs[cls_name.lower()] = unit_cls(**attrs)
+            continue
+
+        return cls(**tense_attrs)

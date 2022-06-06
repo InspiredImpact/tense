@@ -1,0 +1,2 @@
+class InvalidParserType(Exception):
+    pass
