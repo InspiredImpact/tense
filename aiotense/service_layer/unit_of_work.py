@@ -21,11 +21,11 @@ from typing import TYPE_CHECKING, Any
 
 import yaml
 
-from tense.i18n import repository
-from tense.i18n.i18n import _ALIASES_DIR
+from aiotense.i18n import repository
+from aiotense.i18n.i18n import _ALIASES_DIR
 
 if TYPE_CHECKING:
-    from tense import types
+    from aiotense import types
 
 
 class AbstractAliasUnitOfWork(abc.ABC):

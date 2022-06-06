@@ -1,4 +1,4 @@
-__all__ = ["HashableParticle", "HeaderParticle", "GetattributeParticle", "ListParticle"]
+__all__ = ["HashableParticle", "HeaderParticle", "GetattributeParticle"]
 
 import abc
 
@@ -34,11 +34,3 @@ class HeaderParticle(HashableParticle):
 class GetattributeParticle(HashableParticle):
     def matches(self) -> bool:
         return len(self.target.split("=")) > 1
-
-
-class ListParticle(HashableParticle):
-    def matches(self) -> bool:
-        return "-" in self.target or len(self.target.split(",")) > 1
-
-    def is_comma_list(self) -> bool:
-        return "-" not in self.target

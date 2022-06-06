@@ -16,10 +16,11 @@ from __future__ import annotations
 
 __all__ = ["Tense"]
 
-from dataclasses import dataclass
-from typing import Iterator, Iterable
+import warnings
+from dataclasses import dataclass, field
+from typing import Iterator, Any
 
-from tense.domain import units
+from aiotense.domain import units
 
 
 @dataclass
@@ -29,15 +30,24 @@ class Tense:
     day: units.Day
     week: units.Week
     multiplier: int = 1
+    virtual: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
-        self.iterunits = list(self.__dict__.values())
+        if self.multiplier <= 0:
+            warnings.warn(
+                "The time multiplier is less than zero, the work of "
+                "parsers may be incorrect. It is recommended to set "
+                "the value more than zero."
+            )
+
+        if self.virtual:
+            self._resolve_virtual()
 
     def __iter__(self) -> Iterator[units.Unit]:
-        for unit in self.iterunits:
+        for unit in self.__dict__.values():
             if isinstance(unit, units.Unit):
                 yield unit
 
-    def with_virtual_units(self, virtual: Iterable[units.Unit], /) -> Tense:
-        self.iterunits.extend(virtual)
-        return self
+    def _resolve_virtual(self) -> None:
+        for n, unit_dict in enumerate(self.virtual):
+            self.__dict__[f"virtual{n}"] = units.VirtualUnit(**unit_dict)

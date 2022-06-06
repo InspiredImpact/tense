@@ -11,25 +11,41 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Application locale functions."""
+"""Units domain."""
 from __future__ import annotations
 
-__all__ = ["build_locale_from_string"]
+__all__ = ["Unit", "Minute", "Hour", "Day", "Week", "VirtualUnit"]
 
-from typing import TYPE_CHECKING
-
-from tense.domain import model, units
-from tense.i18n import i18n
-
-if TYPE_CHECKING:
-    from tense import types
+from dataclasses import dataclass
+from typing import Iterable
 
 
-def build_locale_from_string(locale_string: types.LocaleType) -> locale.Locale:
-    _i18n = i18n.ALIASES[locale_string]
-    return locale.Locale(
-        minute=units.Minute(aliases=_i18n["minute"]),
-        hour=units.Hour(aliases=_i18n["hour"]),
-        day=units.Day(aliases=_i18n["day"]),
-        week=units.Week(aliases=_i18n["week"]),
-    )
+@dataclass
+class Unit:
+    aliases: Iterable[str]
+    duration: int
+
+
+@dataclass
+class VirtualUnit(Unit):
+    pass
+
+
+@dataclass
+class Minute(Unit):
+    duration: int = 60
+
+
+@dataclass
+class Hour(Unit):
+    duration: int = 60 * 60
+
+
+@dataclass
+class Day(Unit):
+    duration: int = 60 * 60 * 24
+
+
+@dataclass
+class Week(Unit):
+    duration: int = 60 * 60 * 24 * 7

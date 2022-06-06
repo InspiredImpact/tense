@@ -11,7 +11,7 @@ __all__ = [
 ]
 
 import abc
-from typing import TYPE_CHECKING, Any, Literal, SupportsInt, Hashable
+from typing import TYPE_CHECKING, Any, Hashable, Literal, SupportsInt
 
 if TYPE_CHECKING:
     _BooleanType = Literal["true", "True", "false", "False"]
@@ -31,15 +31,6 @@ class AbstractValueConverter(abc.ABC):
     @abc.abstractmethod
     def convert(self, value: str) -> Any:
         ...
-
-
-class ListParticleConverter(AbstractParticleConverter):
-    def convert(self, value: str) -> list[str] | str:
-        by_comma = value.split(",")
-        if len(by_comma) > 1:
-            return [i.strip() for i in by_comma if i and not i.isspace()]
-        _, value = value.split("-")
-        return value.strip()
 
 
 class GetattributeParticleConverter(AbstractParticleConverter):
@@ -73,12 +64,22 @@ class BooleanConverter(AbstractValueConverter):
         return value.lower() == "true"
 
 
+class ListValueConverter(AbstractValueConverter):
+    def matches(self, value: str) -> bool:
+        return len(value.split(",")) > 1
+
+    def convert(self, value: str) -> list[str] | str:
+        by_comma = value.split(",")
+        return [i.strip() for i in by_comma if i and not i.isspace()]
+
+
 PARTICLE_CONVERTERS: frozenset[AbstractParticleConverter] = frozenset(
-    (ListParticleConverter(), GetattributeParticleConverter())
+    (GetattributeParticleConverter(),)
 )
 VALUE_CONVERTERS: frozenset[AbstractValueConverter] = frozenset(
     (
         BooleanConverter(),
         DigitConverter(),
+        ListValueConverter(),
     )
 )

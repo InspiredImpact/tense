@@ -1,32 +1,23 @@
 def _open_config():
-    with open(".tense", "r") as cfg:
+    with open(".aiotense", "r") as cfg:
         return cfg.read()
 
 
 CFG = _open_config()
 
-from tense.service_layer.dot_tense.service import step_chain
+from aiotense.service_layer.dot_tense.step_chain import from_tense_file
 
 a = """
 [model.Tense]
-base_unit_value = 1
+multiplier = 1
 
 [units.Minute]
 duration = 60
+aliases = m, min, mins
 
-[units.Minute.aliases]
-m, min, mins
-# or
-- m
-- min
-- mins
-
-[commands.register_unit.Decade]
-duration = units.Year.duration * 10
-
-[units.Decade.aliases]
-- decade
-- decades
-- decs
-- dec
+[virtual]
+duration = 666
+aliases = alisher,
 """
+import pprint
+pprint.pprint(from_tense_file(a))

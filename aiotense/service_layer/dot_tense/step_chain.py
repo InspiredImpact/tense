@@ -2,12 +2,17 @@ from __future__ import annotations
 
 import abc
 import inspect
-from typing import Any, Generic, TypeVar, Type, Hashable, final, Optional
+from typing import Any, Generic, Hashable, Optional, Type, TypeVar, final
 
-from tense.service_layer.dot_tense.service import converters, domain, base
+from aiotense.domain import model, units
+from aiotense.service_layer.dot_tense import converters, domain, exceptions
 
 T = TypeVar("T")
 T_co = TypeVar("T_co", covariant=True)
+
+_BASE_SETTING_PATH = "model.Tense"
+_VIRTUAL_PREFIX = "virtual"
+_VIRTUALS = []
 
 
 def sorting_hat(target: str) -> domain.HashableParticle:
@@ -24,7 +29,8 @@ def sorting_hat(target: str) -> domain.HashableParticle:
 
 
 def inject_particle_converters() -> dict[
-    Type[domain.HashableParticle], converters.AbstractParticleConverter,
+    Type[domain.HashableParticle],
+    converters.AbstractParticleConverter,
 ]:
     injected = {}
     for pname in domain.__all__:
@@ -60,14 +66,14 @@ class AbstractStepChain(abc.ABC, Generic[T, T_co]):
         return self._next_handler
 
 
-class FirstStep(AbstractStepChain[str, dict[Hashable, Any]]):
+class LexingStep(AbstractStepChain[str, dict[str, Any]]):
     @staticmethod
     def _trim_comment(line: str) -> str:
         if "#" in line:
             return line[: line.find("#")]
         return line
 
-    def take_a_step(self, target: str) -> dict[Hashable, Any]:
+    def take_a_step(self, target: str) -> dict[str, Any]:
         groups = {}
         last_section = ""
         pconverters = inject_particle_converters()
@@ -84,20 +90,6 @@ class FirstStep(AbstractStepChain[str, dict[Hashable, Any]]):
                 groups[section] = {}
                 last_section = section
 
-            elif isinstance(particle, domain.ListParticle):
-                last_section_type = type(groups[last_section])
-                if last_section_type is dict:
-                    groups[last_section] = []
-
-                converted_value = pconverters[particle_type].convert(particle.target)
-                if particle.is_comma_list():
-                    groups[last_section] = sum(
-                        (groups[last_section], converted_value),
-                        [],
-                    )
-                else:
-                    groups[last_section].append(converted_value)
-
             elif isinstance(particle, domain.GetattributeParticle):
                 groups[last_section].update(
                     pconverters[particle_type].convert(particle.target)
@@ -108,23 +100,52 @@ class FirstStep(AbstractStepChain[str, dict[Hashable, Any]]):
         return groups
 
 
-class SecondStep(AbstractStepChain[dict[Hashable, Any], dict[Hashable, Any]]):
-    def take_a_step(self, target: dict[Hashable, Any]) -> dict[Hashable, Any]:
-        base.tenses.update(target)
-        return base.tenses
+class AnalyzeStep(AbstractStepChain[dict[str, Any], dict[str, Any]]):
+    def take_a_step(self, target: dict[str, Any]) -> dict[str, Any]:
+        _copied_target = target.copy()
+        for key, value in _copied_target.items():
+            key_parts = key.split(".")
+            if len(key_parts) == 1:
+                if key_parts[0].lower() != _VIRTUAL_PREFIX:
+                    raise exceptions.AnalyzeError(f"Undefined key {key!r}.")
+                _VIRTUALS.append(value)
+                target.pop(key)
+                continue
+
+            key_type, obj_type = key_parts
+            module = globals().get(key_type, None)
+            if module is None:
+                raise exceptions.AnalyzeError(
+                    f"Undefined part {key_type!r} in key {key!r}."
+                )
+
+            obj = getattr(module, obj_type, None)
+            if obj is None:
+                raise exceptions.AnalyzeError(
+                    f"Undefined object {obj_type!r} in key {key!r}."
+                )
+
+        return target
 
 
-class LastStep(AbstractStepChain[dict[Hashable, Any], dict[Hashable, Any]]):
+class CompilingStep(AbstractStepChain[dict[str, Any], dict[str, Any]]):
+    def take_a_step(self, target: dict[str, Any]) -> dict[str, Any]:
+        if _VIRTUALS:
+            target[_BASE_SETTING_PATH][_VIRTUAL_PREFIX] = _VIRTUALS
+        return target
+
+
+class _ShadowStep(AbstractStepChain[dict[Hashable, Any], dict[Hashable, Any]]):
     def take_a_step(self, target: dict[Hashable, Any]) -> dict[Hashable, Any]:
         return target
 
 
 def from_tense_file(file_source: str) -> Any:
-    first_step = FirstStep()
     (
-        first_step
-        .set_next(SecondStep())
-        .set_next(LastStep())
+        (first_step := LexingStep())
+        .set_next(AnalyzeStep())
+        .set_next(CompilingStep())
+        .set_next(_ShadowStep())
     )
     handler = first_step
     parsed_source = file_source
