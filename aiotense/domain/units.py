@@ -16,6 +16,7 @@ from __future__ import annotations
 
 __all__ = ["Unit", "Minute", "Hour", "Day", "Week", "VirtualUnit"]
 
+import warnings
 from dataclasses import dataclass
 from typing import Iterable
 
@@ -24,6 +25,14 @@ from typing import Iterable
 class Unit:
     aliases: Iterable[str]
     duration: int
+
+    def __post_init__(self) -> None:
+        if self.duration <= 0:
+            warnings.warn(
+                "The unit duration is less than zero, the work of "
+                "parsers may be incorrect. It is recommended to set "
+                "the value more than zero."
+            )
 
 
 @dataclass

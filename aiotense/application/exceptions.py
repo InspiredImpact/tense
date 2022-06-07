@@ -12,8 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """ """
-__all__ = ["InvalidParserType"]
+__all__ = ["InvalidParserType", "TenseError"]
 
 
-class InvalidParserType(Exception):
+class TenseError(Exception):
+    pass
+
+
+class InvalidParserType(TenseError):
     pass

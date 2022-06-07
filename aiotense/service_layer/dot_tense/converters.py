@@ -11,7 +11,18 @@ __all__ = [
 ]
 
 import abc
-from typing import Any, Hashable
+from typing import Any, Final, Hashable
+
+from aiotense.service_layer.safe_eval import SafelyExpEvalute
+
+_VCONVERTER_CONSTS: Final[dict[str, int]] = {
+    "second": 1,
+    "minute": 60,
+    "hour": 60 * 60,
+    "day": 60 * 60 * 24,
+    "week": 60 * 60 * 24 * 7,
+    "year": 60 * 60 * 24 * 365,
+}
 
 
 class AbstractParticleConverter(abc.ABC):
@@ -70,6 +81,15 @@ class ListValueConverter(AbstractValueConverter):
         return [i.strip() for i in by_comma if i and not i.isspace()]
 
 
+class ExpressionValueConverter(AbstractValueConverter):
+    def matches(self, value: str) -> bool:
+        return value.startswith("exp(") and value.endswith(")")
+
+    def convert(self, value: str) -> Any:
+        exp = value[value.find("(") + 1 : value.find(")")]
+        return SafelyExpEvalute(exp, eval_locals=_VCONVERTER_CONSTS).safe_evalute()
+
+
 PARTICLE_CONVERTERS: frozenset[AbstractParticleConverter] = frozenset(
     (GetattributeParticleConverter(),)
 )
@@ -78,5 +98,6 @@ VALUE_CONVERTERS: frozenset[AbstractValueConverter] = frozenset(
         BooleanConverter(),
         DigitConverter(),
         ListValueConverter(),
+        ExpressionValueConverter(),
     )
 )

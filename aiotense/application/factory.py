@@ -44,3 +44,9 @@ class TenseParser:
         instance = parser_cls.__new__(parser_cls)
         instance.__init__(tense=tense)
         return instance
+
+    def __enter__(self) -> TenseParser:
+        return self
+
+    def __exit__(self, *args: Any) -> None:
+        ...

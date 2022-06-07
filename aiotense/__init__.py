@@ -11,12 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" """
+"""Root package."""
 from aiotense.application import TenseParser
 from aiotense.service_layer import AbstractTenseUnitOfWork, TenseUnitOfWork
+from aiotense.service_layer.dot_tense import from_tense_file, from_tense_file_source
 
 __all__ = [
     "TenseParser",
     "AbstractTenseUnitOfWork",
     "TenseUnitOfWork",
+    "from_tense_file_source",
+    "from_tense_file",
 ]

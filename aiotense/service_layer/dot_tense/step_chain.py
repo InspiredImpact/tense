@@ -17,9 +17,21 @@ from __future__ import annotations
 __all__ = ["from_tense_file", "from_tense_file_source"]
 
 import abc
+import difflib
 import inspect
 import pathlib
-from typing import Any, Generic, Hashable, Optional, Type, TypeVar, cast, final
+from typing import (
+    Any,
+    Final,
+    Generic,
+    Hashable,
+    Iterable,
+    Optional,
+    Type,
+    TypeVar,
+    cast,
+    final,
+)
 
 from aiotense.domain import model, units
 from aiotense.service_layer.dot_tense import converters, domain, exceptions
@@ -27,9 +39,16 @@ from aiotense.service_layer.dot_tense import converters, domain, exceptions
 T = TypeVar("T")
 T_co = TypeVar("T_co", covariant=True)
 
-_BASE_SETTING_PATH = "model.Tense"
-_VIRTUAL_PREFIX = "virtual"
-_VIRTUALS = []
+_BASE_SETTING_PATH: Final[str] = "model.Tense"
+_VIRTUAL_PREFIX: Final[str] = "virtual"
+_VIRTUALS: list[dict[str, Any]] = []
+
+_ONEWORD_HEADER_MATCHES: Final[tuple[str, ...]] = (_VIRTUAL_PREFIX,)
+_MODULE_HEADER_MATCHES: Final[tuple[str, ...]] = (
+    "model",
+    "units",
+)
+_OBJTYPE_MATCHES: Final[list[str]] = model.__all__ + units.__all__
 
 
 def sorting_hat(target: str) -> domain.HashableParticle:
@@ -120,13 +139,31 @@ class LexingStep(AbstractStepChain[str, dict[str, Any]]):
 
 
 class AnalyzeStep(AbstractStepChain[dict[str, Any], dict[str, Any]]):
+    @staticmethod
+    def _with_suggest_to(
+        part: str,
+        *,
+        matches: Iterable[str],
+        in_: Optional[str] = None,
+    ) -> str:
+        base_msg = f"Undefined part {part!r}"
+        if in_ is not None:
+            base_msg += f" in {in_!r}."
+
+        matches = difflib.get_close_matches(part, matches)
+        if matches:
+            base_msg += f" Did you mean any of ~{matches}?"
+        return base_msg
+
     def take_a_step(self, target: dict[str, Any]) -> dict[str, Any]:
         _copied_target = target.copy()
         for key, value in _copied_target.items():
             key_parts = key.split(".")
             if len(key_parts) == 1:
                 if key_parts[0].lower() != _VIRTUAL_PREFIX:
-                    raise exceptions.AnalyzeError(f"Undefined key {key!r}.")
+                    raise exceptions.AnalyzeError(
+                        self._with_suggest_to(key, matches=_ONEWORD_HEADER_MATCHES)
+                    )
                 _VIRTUALS.append(value)
                 target.pop(key)
                 continue
@@ -135,13 +172,15 @@ class AnalyzeStep(AbstractStepChain[dict[str, Any], dict[str, Any]]):
             module = globals().get(key_type, None)
             if module is None:
                 raise exceptions.AnalyzeError(
-                    f"Undefined part {key_type!r} in key {key!r}."
+                    self._with_suggest_to(
+                        key_type, in_=key, matches=_MODULE_HEADER_MATCHES
+                    )
                 )
 
             obj = getattr(module, obj_type, None)
             if obj is None:
                 raise exceptions.AnalyzeError(
-                    f"Undefined object {obj_type!r} in key {key!r}."
+                    self._with_suggest_to(obj_type, in_=key, matches=_OBJTYPE_MATCHES)
                 )
 
         return target

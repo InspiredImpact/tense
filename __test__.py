@@ -1,11 +1,13 @@
-def _open_config():
-    with open(".aiotense", "r") as cfg:
-        return cfg.read()
+# def _open_config():
+#     with open(".aiotense", "r") as cfg:
+#         return cfg.read()
+#
+#
+# CFG = _open_config()
+#
 
-
-CFG = _open_config()
-
-# from aiotense.service_layer.dot_tense.step_chain import from_tense_file
+# from aiotense import from_tense_file_source
+#
 #
 # a = """
 # [model.Tense]
@@ -16,24 +18,22 @@ CFG = _open_config()
 # aliases = m, min, mins
 #
 # [virtual]
-# duration = 666
+# duration = exp(hour * minute)
 # aliases = alisher,
 # """
 # import pprint
-# pprint.pprint(from_tense_file(a))
-
-import timeit
-import cProfile
-from aiotense import TenseParser, TenseUnitOfWork
-from aiotense.adapters import repository
-from aiotense.application.ports import parsers
-from aiotense.service_layer import functional
-import asyncio
-
-
-parser = TenseParser(TenseParser.DIGIT)
-import timeit
-print(timeit.timeit("asyncio.run(parser.parse('1 min'))", globals=globals(), number=1))
-# no - 1.1775783999910345
-# yes - 0.39019660001213197
-#print(asyncio.run(parser.parse('1 min')))
+# pprint.pprint(from_tense_file_source(a))
+# from aiotense.domain import model
+# from aiotense.adapters import repository
+# from aiotense import TenseParser, TenseUnitOfWork
+#
+# tenses = repository.TenseRepository()
+# with TenseUnitOfWork() as uow:
+#     uow.update_config(from_tense_file_source(a))
+#
+# with TenseParser(TenseParser.DIGIT) as tense_parser:
+#     tense_parser.update_config(from_tense_file_source(a))
+#
+# parser = TenseParser(TenseParser.DIGIT, tense=model.Tense.from_dict(tenses.source))
+# import asyncio
+# print(asyncio.run(parser.parse("1 alisher")))

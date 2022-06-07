@@ -25,7 +25,7 @@ from aiotense.domain import units
 
 
 class _SingleRepo:
-    _instance = None
+    _instance: Optional[_SingleRepo] = None
 
     def __new__(cls, *args: Any, **kwargs: Any) -> _SingleRepo:
         if not isinstance(cls._instance, cls):
