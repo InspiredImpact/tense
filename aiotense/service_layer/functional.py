@@ -28,15 +28,19 @@ def async_lru(
     """LRU cache wrapper for coroutines.
 
     Parameters:
-        size: :class:`int` = 128
-            Cache size.
+    -----------
+    size: :class:`int` = 128
+        Cache size.
 
     !!! Sources taken from
         ~ https://gist.github.com/jaredLunde/7a118c03c3e9b925f2bf
 
         Typed by Animatea.
 
-    :return: Callable
+    Returns
+    -------
+    Callable
+        Wrapped coroutine.
     """
     cache: OrderedDict[str, Any] = OrderedDict()
 

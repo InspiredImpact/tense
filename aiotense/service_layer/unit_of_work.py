@@ -60,10 +60,13 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
         ones using the dict.update(new) method.
 
         Parameters:
-            config: :class:`dict[str, Any]`, /
-                New config items.
+        -----------
+        config: :class:`dict[str, Any]`, /
+            New config items.
 
-        :return: None
+        Returns:
+        --------
+        builtins.None
         """
         ...
 
@@ -79,14 +82,17 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
             the source attribute (`~self.products.source`).
 
         Parameters:
-            unit: :class:`str`
-                Concrete unit of time.
+        -----------
+        unit: :class:`str`
+            Concrete unit of time.
 
-            aliases: :class:`Iterable[str]`
-                Iterable object that contains string aliases for concrete unit
-                of time.
+        aliases: :class:`Iterable[str]`
+            Iterable object that contains string aliases for concrete unit
+            of time.
 
-        :return: None
+        Returns:
+        --------
+        builtins.None
         """
         ...
 
@@ -102,13 +108,16 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
             the source attribute (`~self.products.source`).
 
         Parameters:
-            unit: :class:`str`
-                Concrete unit of time.
+        -----------
+        unit: :class:`str`
+            Concrete unit of time.
 
-            replacements: :class:`dict[str, str]`
-                Dictionary where keys are old aliases and values are new aliases.
+        replacements: :class:`dict[str, str]`
+            Dictionary where keys are old aliases and values are new aliases.
 
-        :return: None
+        Returns:
+        --------
+        builtins.None
         """
         ...
 
@@ -121,7 +130,6 @@ class TenseUnitOfWork(AbstractTenseUnitOfWork):
 
     @staticmethod
     def _with_unit_resolve(unit: str, /) -> str:
-        """Resolves unit key."""
         if not unit.startswith("units."):
             unit = "units." + unit.title()
         return unit

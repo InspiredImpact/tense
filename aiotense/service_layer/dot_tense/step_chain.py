@@ -54,15 +54,20 @@ _OBJTYPE_MATCHES: Final[list[str]] = model.__all__ + units.__all__
 def sorting_hat(initial: str, /) -> domain.HashableParticle:
     """Converts a string to a particle (token) for further parsing.
 
-    Parameters:
-        initial: :class:`str`, /
-            String to parse.
+    Parameters
+    -----------
+    initial: :class:`str`, /
+        String to parse.
 
-    Raises:
-        :class:`KeyError`
-            If particle for string not found.
+    Raises
+    ------
+    :class:`KeyError`
+        If particle for string is not found.
 
-    :return: domain.HashableParticle
+    Returns
+    -------
+    domain.HashableParticle
+        Parsed string.
     """
     for pname in domain.__all__:
         particle = getattr(domain, pname)
@@ -80,10 +85,6 @@ def inject_particle_converters() -> dict[
     Type[domain.HashableParticle],
     converters.AbstractParticleConverter,
 ]:
-    """
-
-    :return: dict[particle: converter]
-    """
     injected = {}
     for pname in domain.__all__:
         particle = getattr(domain, pname)
