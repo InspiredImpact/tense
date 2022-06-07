@@ -1,20 +1,31 @@
+# Copyright 2022 Animatea
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+""" """
 from __future__ import annotations
 
 __all__ = [
     "AbstractParticleConverter",
     "DigitConverter",
     "BooleanConverter",
-    "ListParticleConverter",
+    "ListValueConverter",
     "AbstractValueConverter",
     "PARTICLE_CONVERTERS",
     "VALUE_CONVERTERS",
 ]
 
 import abc
-from typing import TYPE_CHECKING, Any, Hashable, Literal, SupportsInt
-
-if TYPE_CHECKING:
-    _BooleanType = Literal["true", "True", "false", "False"]
+from typing import Any, Hashable
 
 
 class AbstractParticleConverter(abc.ABC):
@@ -52,7 +63,7 @@ class DigitConverter(AbstractValueConverter):
     def matches(self, value: str) -> bool:
         return value.isdigit()
 
-    def convert(self, value: SupportsInt) -> int:
+    def convert(self, value: str) -> int:
         return int(value)
 
 
@@ -60,7 +71,7 @@ class BooleanConverter(AbstractValueConverter):
     def matches(self, value: str) -> bool:
         return value.lower() in {"true", "false"}
 
-    def convert(self, value: _BooleanType) -> bool:
+    def convert(self, value: str) -> bool:
         return value.lower() == "true"
 
 

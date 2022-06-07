@@ -1,8 +1,24 @@
+# Copyright 2022 Animatea
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+""" """
 from __future__ import annotations
+
+__all__ = ["TenseRepository"]
 
 import copy
 import dataclasses
-from typing import Any, Type, Optional
+from typing import Any, Optional
 
 from aiotense.domain import units
 from aiotense.application.ports.repository import AbstractTenseRepository
@@ -11,14 +27,14 @@ from aiotense.application.ports.repository import AbstractTenseRepository
 class _SingleRepo:
     _instance = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any) -> _SingleRepo:
         if not isinstance(cls._instance, cls):
             cls._instance = object.__new__(cls, *args, **kwargs)
         return cls._instance
 
 
 class TenseRepository(AbstractTenseRepository, _SingleRepo):
-    _config = {
+    _config: dict[str, Any] = {
         "model.Tense": {
             "multiplier": 1,
             "virtual": [],

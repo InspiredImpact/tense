@@ -1,8 +1,24 @@
+# Copyright 2022 Animatea
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+""" """
 from __future__ import annotations
+
+__all__ = ["from_tense_file"]
 
 import abc
 import inspect
-from typing import Any, Generic, Hashable, Optional, Type, TypeVar, final
+from typing import Any, Generic, Hashable, Optional, Type, TypeVar, final, cast
 
 from aiotense.domain import model, units
 from aiotense.service_layer.dot_tense import converters, domain, exceptions
@@ -23,7 +39,7 @@ def sorting_hat(target: str) -> domain.HashableParticle:
 
         particle = particle(target)
         if particle.matches():
-            return particle
+            return cast(domain.HashableParticle, particle)
 
     raise KeyError(f"Particle not found for {target!s}.")
 
@@ -50,10 +66,10 @@ class AbstractStepChain(abc.ABC, Generic[T, T_co]):
     # ~T - accept value
     # ~T_co - return value
     def __init__(self) -> None:
-        self._next_handler: Optional[AbstractStepChain] = None
+        self._next_handler: Optional[AbstractStepChain[T, T_co]] = None
 
     @final
-    def set_next(self, handler: Optional[AbstractStepChain]) -> AbstractStepChain:
+    def set_next(self, handler: AbstractStepChain[Any, Any]) -> AbstractStepChain[Any, Any]:
         self._next_handler = handler
         return handler
 
@@ -62,7 +78,7 @@ class AbstractStepChain(abc.ABC, Generic[T, T_co]):
         ...
 
     @property
-    def next_handler(self) -> Optional[AbstractStepChain]:
+    def next_handler(self) -> Optional[AbstractStepChain[Any, Any]]:
         return self._next_handler
 
 
@@ -74,7 +90,7 @@ class LexingStep(AbstractStepChain[str, dict[str, Any]]):
         return line
 
     def take_a_step(self, target: str) -> dict[str, Any]:
-        groups = {}
+        groups: dict[str, Any] = {}
         last_section = ""
         pconverters = inject_particle_converters()
 
@@ -147,8 +163,8 @@ def from_tense_file(file_source: str) -> Any:
         .set_next(CompilingStep())
         .set_next(_ShadowStep())
     )
-    handler = first_step
-    parsed_source = file_source
+    handler: AbstractStepChain[Any, Any] = first_step
+    parsed_source: Any = file_source
     while handler.next_handler is not None:
         parsed_source = handler.take_a_step(parsed_source)
         handler = handler.next_handler

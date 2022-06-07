@@ -17,13 +17,15 @@ from __future__ import annotations
 __all__ = ["AbstractTenseUnitOfWork", "TenseUnitOfWork"]
 
 import abc
-from typing import Any, Iterable
+from typing import Any, Iterable, TYPE_CHECKING
 
 from aiotense.adapters import repository
+if TYPE_CHECKING:
+    from aiotense.application.ports import repository as abc_repository
 
 
 class AbstractTenseUnitOfWork(abc.ABC):
-    tenses: repository.AbstractTenseRepository
+    tenses: abc_repository.AbstractTenseRepository
 
     def __enter__(self) -> AbstractTenseUnitOfWork:
         return self

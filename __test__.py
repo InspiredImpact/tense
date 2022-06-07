@@ -21,18 +21,27 @@ CFG = _open_config()
 # """
 # import pprint
 # pprint.pprint(from_tense_file(a))
-from aiotense.adapters.repository import TenseRepository
-from aiotense.service_layer.unit_of_work import TenseUnitOfWork
 
-repo = TenseRepository()
+import timeit
+import cProfile
+from aiotense import TenseParser
+parser = TenseParser(TenseParser.DIGIT)
+import asyncio
 
-with TenseUnitOfWork() as uow:
-    print("uow", uow.tenses.source["units.Minute"]["aliases"])
+async def _parse_alisher(some_str: str) -> int:
+    return await parser.parse(some_str)
 
-print("repo", repo.source["units.Minute"]["aliases"])
+async def run(coro_func):
+    results = []
+    for _ in range(1_000_000):
+        s = timeit.default_timer()
+        await coro_func("1 alisher")
+        e = timeit.default_timer()
+        results.append(e-s)
+    print(sum(results) / len(results))
 
-with TenseUnitOfWork() as uow:
-    uow.delete_aliases("minute", ("m", "min"))
-    print("edited uow", uow.tenses.source["units.Minute"]["aliases"])
+async def test(a):  # 1.5078479872317983e-07  # 2.492795797021245e-06 # 2.3552455006429228e-06
+    ...
+# 0.0010063999943668023  # 0.000890900002559647
 
-print("repo after edit", repo.source["units.Minute"]["aliases"])
+asyncio.run(run(parser.parse))
