@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" """
+"""Tense config parser."""
 from __future__ import annotations
 
 __all__ = ["from_tense_file", "from_tense_file_source"]
@@ -51,23 +51,39 @@ _MODULE_HEADER_MATCHES: Final[tuple[str, ...]] = (
 _OBJTYPE_MATCHES: Final[list[str]] = model.__all__ + units.__all__
 
 
-def sorting_hat(target: str) -> domain.HashableParticle:
+def sorting_hat(initial: str, /) -> domain.HashableParticle:
+    """Converts a string to a particle (token) for further parsing.
+
+    Parameters:
+        initial: :class:`str`, /
+            String to parse.
+
+    Raises:
+        :class:`KeyError`
+            If particle for string not found.
+
+    :return: domain.HashableParticle
+    """
     for pname in domain.__all__:
         particle = getattr(domain, pname)
         if inspect.isabstract(particle):
             continue
 
-        particle = particle(target)
+        particle = particle(initial)
         if particle.matches():
             return cast(domain.HashableParticle, particle)
 
-    raise KeyError(f"Particle not found for {target!s}.")
+    raise KeyError(f"Particle not found for {initial!s}.")
 
 
 def inject_particle_converters() -> dict[
     Type[domain.HashableParticle],
     converters.AbstractParticleConverter,
 ]:
+    """
+
+    :return: dict[particle: converter]
+    """
     injected = {}
     for pname in domain.__all__:
         particle = getattr(domain, pname)
