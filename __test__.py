@@ -30,16 +30,10 @@ from aiotense.application.ports import parsers
 from aiotense.service_layer import functional
 import asyncio
 
-class CachedDigitParser(parsers.AbstractParser[int]):
-    async def parse(self, raw_str: str) -> int:
-        return await super().parse(raw_str)
 
-    async def _parse(self, number: int) -> int:
-        return number
-
-
-parser = TenseParser(CachedDigitParser)
+parser = TenseParser(TenseParser.DIGIT)
 import timeit
-print(timeit.timeit("asyncio.run(parser.parse('1 min'))", globals=globals(), number=1_000))
+#print(timeit.timeit("asyncio.run(parser.parse('1 min'))", globals=globals(), number=1_000))
 # no - 1.1775783999910345
 # yes - 0.39019660001213197
+print(asyncio.run(parser.parse('1 min')))

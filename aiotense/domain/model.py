@@ -47,11 +47,11 @@ class Tense:
         _cached_units = self._cached_units
         if _cached_units:
             yield from _cached_units
-
-        for unit in self.__dict__.values():
-            if isinstance(unit, units.Unit):
-                self._cached_units.append(unit)
-                yield unit
+        else:
+            for unit in self.__dict__.values():
+                if isinstance(unit, units.Unit):
+                    self._cached_units.append(unit)
+                    yield unit
 
     def _resolve_virtual(self) -> None:
         for n, unit_dict in enumerate(self.virtual):
