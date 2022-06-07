@@ -25,15 +25,11 @@ from . import exceptions
 from .ports import parsers as abc_parsers
 
 _tenses = repository.TenseRepository()
-_PARSERS = {
-    parsers.UtcDateParser.name: parsers.UtcDateParser,
-    parsers.DigitParser.name: parsers.DigitParser,
-}
 
 
 class TenseParser:
-    DATE = _PARSERS["utcdate"]
-    DIGIT = _PARSERS["digit"]
+    DATE = parsers.UtcDateParser
+    DIGIT = parsers.DigitParser
 
     def __new__(
         cls,
@@ -43,7 +39,7 @@ class TenseParser:
     ) -> abc_parsers.AbstractParser:
         if not issubclass(parser_cls, abc_parsers.AbstractParser):
             raise exceptions.InvalidParserType(
-                f"Invalid parser type, you can only use {list(_PARSERS)}."
+                f"Invalid parser type, you can only use {parsers.__all__}."
             )
         instance = parser_cls.__new__(parser_cls)
         instance.__init__(tense=tense)

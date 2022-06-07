@@ -34,8 +34,6 @@ def _resolve_time_string(time_str: str) -> list[str]:
 
 
 class AbstractParser(abc.ABC, Generic[T_co]):
-    name: str = "<undefined>"
-
     def __init__(self, *, tense: model.Tense) -> None:
         self.tense = tense
 

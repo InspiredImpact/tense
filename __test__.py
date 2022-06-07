@@ -33,7 +33,7 @@ import asyncio
 
 parser = TenseParser(TenseParser.DIGIT)
 import timeit
-#print(timeit.timeit("asyncio.run(parser.parse('1 min'))", globals=globals(), number=1_000))
+print(timeit.timeit("asyncio.run(parser.parse('1 min'))", globals=globals(), number=1))
 # no - 1.1775783999910345
 # yes - 0.39019660001213197
-print(asyncio.run(parser.parse('1 min')))
+#print(asyncio.run(parser.parse('1 min')))
