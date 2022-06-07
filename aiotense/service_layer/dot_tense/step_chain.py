@@ -14,11 +14,12 @@
 """ """
 from __future__ import annotations
 
-__all__ = ["from_tense_file"]
+__all__ = ["from_tense_file", "from_tense_file_source"]
 
 import abc
 import inspect
-from typing import Any, Generic, Hashable, Optional, Type, TypeVar, final, cast
+import pathlib
+from typing import Any, Generic, Hashable, Optional, Type, TypeVar, cast, final
 
 from aiotense.domain import model, units
 from aiotense.service_layer.dot_tense import converters, domain, exceptions
@@ -69,7 +70,9 @@ class AbstractStepChain(abc.ABC, Generic[T, T_co]):
         self._next_handler: Optional[AbstractStepChain[T, T_co]] = None
 
     @final
-    def set_next(self, handler: AbstractStepChain[Any, Any]) -> AbstractStepChain[Any, Any]:
+    def set_next(
+        self, handler: AbstractStepChain[Any, Any]
+    ) -> AbstractStepChain[Any, Any]:
         self._next_handler = handler
         return handler
 
@@ -156,7 +159,7 @@ class _ShadowStep(AbstractStepChain[dict[Hashable, Any], dict[Hashable, Any]]):
         return target
 
 
-def from_tense_file(file_source: str) -> Any:
+def from_tense_file_source(file_source: str, /) -> Any:
     (
         (first_step := LexingStep())
         .set_next(AnalyzeStep())
@@ -170,3 +173,8 @@ def from_tense_file(file_source: str) -> Any:
         handler = handler.next_handler
 
     return parsed_source
+
+
+def from_tense_file(path: pathlib.Path | str, /) -> Any:
+    with open(path, "r") as file:
+        return from_tense_file_source(file.read())

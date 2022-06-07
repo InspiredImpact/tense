@@ -18,28 +18,32 @@ __all__ = ["TenseParser"]
 
 from typing import Any
 
+from aiotense.adapters import parsers, repository
 from aiotense.domain import model
-from aiotense.adapters import repository, parsers
-from .ports import parsers as abc_parsers
-from . import exceptions
 
-tenses = repository.TenseRepository()
-PARSERS = {
+from . import exceptions
+from .ports import parsers as abc_parsers
+
+_tenses = repository.TenseRepository()
+_PARSERS = {
     parsers.UtcDateParser.name: parsers.UtcDateParser,
     parsers.DigitParser.name: parsers.DigitParser,
 }
 
 
 class TenseParser:
-    DATE = PARSERS["utcdate"]
-    DIGIT = PARSERS["digit"]
+    DATE = _PARSERS["utcdate"]
+    DIGIT = _PARSERS["digit"]
 
     def __new__(
-        cls, parser_cls: Any = DIGIT, *, tense: model.Tense = model.Tense.from_dict(tenses.source),
+        cls,
+        parser_cls: Any = DIGIT,
+        *,
+        tense: model.Tense = model.Tense.from_dict(_tenses.source),
     ) -> abc_parsers.AbstractParser:
         if not issubclass(parser_cls, abc_parsers.AbstractParser):
             raise exceptions.InvalidParserType(
-                f"Invalid parser type, you can only use {list(PARSERS)}."
+                f"Invalid parser type, you can only use {list(_PARSERS)}."
             )
         instance = parser_cls.__new__(parser_cls)
         instance.__init__(tense=tense)

@@ -24,24 +24,22 @@ CFG = _open_config()
 
 import timeit
 import cProfile
-from aiotense import TenseParser
-parser = TenseParser(TenseParser.DIGIT)
+from aiotense import TenseParser, TenseUnitOfWork
+from aiotense.adapters import repository
+from aiotense.application.ports import parsers
+from aiotense.service_layer import functional
 import asyncio
 
-async def _parse_alisher(some_str: str) -> int:
-    return await parser.parse(some_str)
+class CachedDigitParser(parsers.AbstractParser[int]):
+    async def parse(self, raw_str: str) -> int:
+        return await super().parse(raw_str)
 
-async def run(coro_func):
-    results = []
-    for _ in range(1_000_000):
-        s = timeit.default_timer()
-        await coro_func("1 alisher")
-        e = timeit.default_timer()
-        results.append(e-s)
-    print(sum(results) / len(results))
+    async def _parse(self, number: int) -> int:
+        return number
 
-async def test(a):  # 1.5078479872317983e-07  # 2.492795797021245e-06 # 2.3552455006429228e-06
-    ...
-# 0.0010063999943668023  # 0.000890900002559647
 
-asyncio.run(run(parser.parse))
+parser = TenseParser(CachedDigitParser)
+import timeit
+print(timeit.timeit("asyncio.run(parser.parse('1 min'))", globals=globals(), number=1_000))
+# no - 1.1775783999910345
+# yes - 0.39019660001213197

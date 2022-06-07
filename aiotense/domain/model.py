@@ -18,7 +18,7 @@ __all__ = ["Tense"]
 
 import warnings
 from dataclasses import dataclass, field
-from typing import Iterator, Any
+from typing import Any, Iterator
 
 from aiotense.domain import units
 
@@ -33,19 +33,24 @@ class Tense:
     virtual: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
+        self._cached_units: list[units.Unit] = []
         if self.multiplier <= 0:
             warnings.warn(
                 "The time multiplier is less than zero, the work of "
                 "parsers may be incorrect. It is recommended to set "
                 "the value more than zero."
             )
-
         if self.virtual:
             self._resolve_virtual()
 
     def __iter__(self) -> Iterator[units.Unit]:
+        _cached_units = self._cached_units
+        if _cached_units:
+            yield from _cached_units
+
         for unit in self.__dict__.values():
             if isinstance(unit, units.Unit):
+                self._cached_units.append(unit)
                 yield unit
 
     def _resolve_virtual(self) -> None:
@@ -53,7 +58,7 @@ class Tense:
             self.__dict__[f"virtual{n}"] = units.VirtualUnit(**unit_dict)
 
     @classmethod
-    def from_dict(cls, tense_dict: dict[str, Any]) -> Tense:
+    def from_dict(cls, tense_dict: dict[str, Any], /) -> Tense:
         tense_attrs = {}
         for key, attrs in tense_dict.items():
             module, cls_name = key.split(".")

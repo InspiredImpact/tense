@@ -34,6 +34,8 @@ def _resolve_time_string(time_str: str) -> list[str]:
 
 
 class AbstractParser(abc.ABC, Generic[T_co]):
+    name: str = "<undefined>"
+
     def __init__(self, *, tense: model.Tense) -> None:
         self.tense = tense
 
@@ -47,17 +49,10 @@ class AbstractParser(abc.ABC, Generic[T_co]):
                     prev_entry = resolved[pos - 1]
                     if not prev_entry.isdigit():
                         continue
-                    duration += int(prev_entry) * (
-                        unit.duration * multiplier
-                    )
+                    duration += int(prev_entry) * (unit.duration * multiplier)
 
         return await self._parse(duration)
 
     @abc.abstractmethod
     async def _parse(self, number: int) -> T_co:
-        ...
-
-    @property
-    @abc.abstractmethod
-    def name(self) -> str:
         ...

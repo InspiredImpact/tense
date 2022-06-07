@@ -17,7 +17,7 @@ from __future__ import annotations
 __all__ = ["AbstractTenseRepository"]
 
 import abc
-from typing import Any, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     from aiotense.domain import units

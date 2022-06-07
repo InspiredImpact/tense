@@ -20,8 +20,8 @@ import copy
 import dataclasses
 from typing import Any, Optional
 
-from aiotense.domain import units
 from aiotense.application.ports.repository import AbstractTenseRepository
+from aiotense.domain import units
 
 
 class _SingleRepo:
