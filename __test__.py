@@ -5,7 +5,9 @@
 #
 # CFG = _open_config()
 #
+from aiotense import from_tense_file
 
+print(from_tense_file(".aiotense"))
 # from aiotense import from_tense_file_source
 #
 #

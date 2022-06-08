@@ -38,6 +38,10 @@ def _base_exc_format(exc: BaseException) -> str:
 @dataclass
 class SafelyExpEvalute:
     """Class that represents safely expression evalute tool.
+    This eval is safe because it creates a new dictionary of
+    local variables for executing code that copied from the
+    frame's local variables, which prevents global values from
+    being manipulated.
 
     Parameters:
     -----------

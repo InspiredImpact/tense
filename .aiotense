@@ -1,5 +1,10 @@
-[settings]
-base_unit_value = 1
-
-[settings.unit]
-case_sensitive = False
+[model.Tense] # Abobus
+multiplier = 1# Amogus
+# Hello kitty!!!!
+[virtual]
+duration = exp(hour * minute)
+aliases = alisher,
+# HELLOO AJAHHAHHAA
+[units.Minute] # kek
+duration = 60
+aliases = m, min, mins
