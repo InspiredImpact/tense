@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" """
+"""Dot_tense service domain."""
 __all__ = ["HashableParticle", "HeaderParticle", "GetattributeParticle"]
 
 import abc
@@ -19,6 +19,9 @@ from typing import cast
 
 
 class HashableParticle(abc.ABC):
+    """Base particle (token) class.
+    Used at the step of lexical analysis for convenience when parsing.
+    """
     def __init__(self, target: str) -> None:
         self.target = target
 
@@ -27,6 +30,7 @@ class HashableParticle(abc.ABC):
 
     @abc.abstractmethod
     def matches(self) -> bool:
+        """Returns True if particle matches to current value (target)."""
         ...
 
     @classmethod
@@ -39,7 +43,13 @@ class HashableParticle(abc.ABC):
 
 
 class HeaderParticle(HashableParticle):
+    """Header particle (token).
+
+    Matches to:
+     * [...]
+    """
     def matches(self) -> bool:
+        # <inherited docstring from :class:`HashableParticle` #
         return self.target.startswith("[") and self.target.endswith("]")
 
     @staticmethod
@@ -48,5 +58,11 @@ class HeaderParticle(HashableParticle):
 
 
 class GetattributeParticle(HashableParticle):
+    """Getattribute particle (token).
+
+    Matches to:
+     * variable = ...
+    """
     def matches(self) -> bool:
+        # <inherited docstring from :class:`HashableParticle` #
         return len(self.target.split("=")) > 1

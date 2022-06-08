@@ -28,7 +28,21 @@ _tenses = repository.TenseRepository()
 
 
 class TenseParser:
-    DATE = parsers.UtcDateParser
+    """Base parsers factory.
+
+    Parameters:
+    -----------
+    parser_cls: :class:`Any` = DIGIT
+        Concrete parser type.
+    tense: :class:`model.Tense` = model.Tense.from_dict(_tenses.source), *
+        Configuration for concrete parser.
+
+    Raises:
+    -------
+    :class:`exceptions.InvalidParserType`
+        Raises if 'parser_cls' is not subclass of :class:`abc_parsers.AbstractParser`
+    """
+    TIMEDELTA = parsers.TimedeltaParser
     DIGIT = parsers.DigitParser
 
     def __new__(
@@ -44,9 +58,3 @@ class TenseParser:
         instance = parser_cls.__new__(parser_cls)
         instance.__init__(tense=tense)
         return instance
-
-    def __enter__(self) -> TenseParser:
-        return self
-
-    def __exit__(self, *args: Any) -> None:
-        ...

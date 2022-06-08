@@ -11,11 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" """
+"""Tense errors."""
 __all__ = ["InvalidParserType", "TenseError"]
 
 
 class TenseError(Exception):
+    """Base exception for tense package."""
     pass
 
 

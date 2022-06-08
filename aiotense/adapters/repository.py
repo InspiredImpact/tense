@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" """
+"""Adapters of aiotense.application.ports."""
 from __future__ import annotations
 
 __all__ = ["TenseRepository"]
@@ -24,20 +24,31 @@ from aiotense.application.ports.repository import AbstractTenseRepository
 from aiotense.domain import units
 
 
-class _SingleRepo:
-    _instance: Optional[_SingleRepo] = None
+class _RepositorySingleton:
+    _instance: Optional[_RepositorySingleton] = None
 
-    def __new__(cls, *args: Any, **kwargs: Any) -> _SingleRepo:
+    def __new__(cls, *args: Any, **kwargs: Any) -> _RepositorySingleton:
         if not isinstance(cls._instance, cls):
             cls._instance = object.__new__(cls, *args, **kwargs)
         return cls._instance
 
 
-class TenseRepository(AbstractTenseRepository, _SingleRepo):
+class TenseRepository(AbstractTenseRepository, _RepositorySingleton):
+    """Singleton repository adapter."""
     _config: dict[str, Any] = {
         "model.Tense": {
             "multiplier": 1,
             "virtual": [],
+        },
+        "units.Second": {
+            "duration": 1,
+            "aliases": [
+                "s",
+                "sec",
+                "secs",
+                "second",
+                "seconds",
+            ],
         },
         "units.Minute": {
             "duration": 60,
@@ -92,7 +103,9 @@ class TenseRepository(AbstractTenseRepository, _SingleRepo):
         self.source[setting] = value
 
     def add_virtual_unit(self, unit: units.VirtualUnit) -> None:
+        # <inherited docstring from :class:`TenseRepository`> #
         self._config["model.Tense"]["virtual"].append(dataclasses.asdict(unit))
 
     def add_virtual_unit_dict(self, unit_dict: dict[str, Any]) -> None:
+        # <inherited docstring from :class:`TenseRepository`> #
         self._config["model.Tense"]["virtual"].append(unit_dict)

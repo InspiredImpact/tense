@@ -16,10 +16,10 @@ from __future__ import annotations
 
 __all__ = ["from_tense_file", "from_tense_file_source"]
 
-import io
 import abc
 import difflib
 import inspect
+import io
 import pathlib
 from typing import (
     Any,
@@ -109,6 +109,7 @@ class AbstractStepChain(abc.ABC, Generic[T, T_co]):
         ~T - accept value.
         ~T_co - return value.
     """
+
     def __init__(self) -> None:
         self._next_handler: Optional[AbstractStepChain[T, T_co]] = None
 
@@ -138,6 +139,7 @@ class LexingStep(AbstractStepChain[str, dict[str, Any]]):
           at a time. Therefore, it is important to observe the order of settings.
         * Each header is a dictionary.
     """
+
     @staticmethod
     def _trim_comment(line: str, /) -> str:
         """Removes comments from a string line."""
@@ -183,6 +185,7 @@ class AnalyzeStep(AbstractStepChain[dict[str, Any], dict[str, Any]]):
     is accepted. Checks for validity all names and in case of failure gives
     an error (often with a suggestion of possible variants of the word).
     """
+
     @staticmethod
     def _with_suggest_to(
         part: str,
@@ -243,6 +246,7 @@ class AnalyzeStep(AbstractStepChain[dict[str, Any], dict[str, Any]]):
 
 class CompilingStep(AbstractStepChain[dict[str, Any], dict[str, Any]]):
     """At this step, virtual values are added to the already converted dictionary."""
+
     def take_a_step(self, target: dict[str, Any]) -> dict[str, Any]:
         # <inherited docstring from :class:`AbstractStepChain`> #
         if _VIRTUALS:
@@ -252,6 +256,7 @@ class CompilingStep(AbstractStepChain[dict[str, Any], dict[str, Any]]):
 
 class _ShadowStep(AbstractStepChain[dict[Hashable, Any], dict[Hashable, Any]]):
     """The shadow step, which is necessary for the chain of responsibilities to work correctly."""
+
     def take_a_step(self, target: dict[Hashable, Any]) -> dict[Hashable, Any]:
         # <inherited docstring from :class:`AbstractStepChain`> #
         return target
@@ -294,5 +299,5 @@ def from_tense_file(
     encoding: :class:`Optional[str]` = None
         File encoding.
     """
-    with open(path, "r", encoding=io.text_encoding(encoding)) as file:
+    with open(path, "r", encoding=io.text_encoding(encoding)) as file:  # type: ignore[attr-defined]
         return from_tense_file_source(file.read())

@@ -11,7 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Adapters package."""
-from .repository import *
+"""Interfaces that are implemented in aiotense.adapters."""
+__all__ = ["AbstractConverter"]
 
-__all__ = repository.__all__
+import abc
+from typing import TypeVar, Generic, Any
+
+T_co = TypeVar("T_co", covariant=True)
+
+
+class AbstractConverter(abc.ABC, Generic[T_co]):
+    @abc.abstractmethod
+    async def convert(self, value: Any) -> T_co:
+        ...

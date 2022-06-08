@@ -11,19 +11,54 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" """
-from datetime import datetime, timedelta
+"""Adapters of aiotense.application.ports."""
+from __future__ import annotations
 
-__all__ = ["DigitParser", "UtcDateParser"]
+__all__ = ["DigitParser", "TimedeltaParser"]
+
+import re
+from typing import TYPE_CHECKING
 
 from aiotense.application.ports import parsers
+from . import converters
+if TYPE_CHECKING:
+    from aiotense.domain import model
+
+DIGIT_PATTERN: re.Pattern[str] = re.compile(r"(\d+)")
 
 
-class DigitParser(parsers.AbstractParser[int]):
-    async def _parse(self, number: int) -> int:
-        return number
+def resolve_time_string(raw_str: str) -> list[str]:
+    """Example of supported patterns:
+    * '1d1min'
+    * '1d 1min'
+    * '1d1min 2 seconds'
+    """
+    return list(
+        filter(
+            bool,
+            DIGIT_PATTERN.split(raw_str.replace(" ", "")),
+        )
+    )
 
 
-class UtcDateParser(parsers.AbstractParser[datetime]):
-    async def _parse(self, number: int) -> datetime:
-        return datetime.utcnow() + timedelta(seconds=number)
+class DigitParser(parsers.AbstractParser):
+    async def _parse(self, raw_str: str) -> int:
+        multiplier = self.tense.multiplier
+        resolved = resolve_time_string(raw_str)
+        duration = 0
+
+        for pos, word in enumerate(resolved):
+            for unit in self.tense:
+                if word in unit.aliases:
+                    prev_entry = resolved[pos - 1]
+                    if not prev_entry.isdigit():
+                        continue
+
+                    duration += int(prev_entry) * (unit.duration * multiplier)
+
+        return duration
+
+
+class TimedeltaParser(DigitParser):
+    def __init__(self, *, tense: model.Tense) -> None:
+        super().__init__(tense=tense, converter=converters.TimedeltaConverter())

@@ -32,6 +32,7 @@ class AbstractUnitOfWork:
         ~ :class:`AbstractTenseUnitOfWork`
         ~ :class:`TenseUnitOfWork`
     """
+
     products: Any
     pass
 
@@ -43,6 +44,7 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
     Implements in:
         ~ :class:`TenseUnitOfWork`
     """
+
     products: abc_repository.AbstractTenseRepository
 
     def __enter__(self) -> AbstractTenseUnitOfWork:
@@ -124,6 +126,7 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
 
 class TenseUnitOfWork(AbstractTenseUnitOfWork):
     """Adapter of :class:`AbstractTenseUnitOfWork`."""
+
     def __enter__(self) -> AbstractTenseUnitOfWork:
         self.tenses = repository.TenseRepository()
         return super().__enter__()

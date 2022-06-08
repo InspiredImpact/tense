@@ -11,10 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Units domain."""
+"""Tense domain."""
 from __future__ import annotations
 
-__all__ = ["Unit", "Minute", "Hour", "Day", "Week", "VirtualUnit"]
+__all__ = ["Unit", "Minute", "Hour", "Day", "Week", "VirtualUnit", "Second"]
 
 import warnings
 from dataclasses import dataclass
@@ -37,7 +37,13 @@ class Unit:
 
 @dataclass
 class VirtualUnit(Unit):
+    """Used to create custom units of time."""
     pass
+
+
+@dataclass
+class Second(Unit):
+    duration: int = 1
 
 
 @dataclass

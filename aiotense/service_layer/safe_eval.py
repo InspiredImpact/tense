@@ -65,6 +65,7 @@ class SafelyExpEvalute:
     >>> exp = "minute * 60"
     >>> assert SafelyExpEvalute(exp, eval_locals=deps).safe_evalute() == 3600
     """
+
     exp: str
     eval_locals: dict[str, Any] = field(default_factory=dict)
     frame: types.FrameType = field(default=sys._getframe(0))

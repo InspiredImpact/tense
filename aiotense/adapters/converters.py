@@ -11,7 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Adapters package."""
-from .repository import *
+"""Adapters of aiotense.application.ports."""
+__all__ = ["TimedeltaConverter"]
 
-__all__ = repository.__all__
+from datetime import timedelta
+from typing import Any
+
+from aiotense.application.ports import converters
+
+
+class TimedeltaConverter(converters.AbstractConverter[timedelta]):
+    async def convert(self, value: Any) -> timedelta:
+        if not isinstance(value, (int, float)):
+            raise ValueError("Value must be instance of (int, float).")
+
+        return timedelta(seconds=float(value))

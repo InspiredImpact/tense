@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" """
+"""Interfaces that are implemented in aiotense.adapters."""
 from __future__ import annotations
 
 __all__ = ["AbstractTenseRepository"]
@@ -29,6 +29,7 @@ class AbstractTenseRepository(abc.ABC):
 
     @abc.abstractmethod
     def get_config(self) -> dict[str, Any]:
+        """Returns deepcopy of current config."""
         ...
 
     @abc.abstractmethod
@@ -41,8 +42,10 @@ class AbstractTenseRepository(abc.ABC):
 
     @abc.abstractmethod
     def add_virtual_unit(self, unit: units.VirtualUnit) -> None:
+        """Adds custom unit of time."""
         ...
 
     @abc.abstractmethod
     def add_virtual_unit_dict(self, unit_dict: dict[str, Any]) -> None:
+        """Adds custom unit of time."""
         ...

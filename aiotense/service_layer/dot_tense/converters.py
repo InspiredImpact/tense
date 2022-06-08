@@ -1,13 +1,27 @@
+# Copyright 2022 Animatea
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""Dot_tense service converters."""
 from __future__ import annotations
 
 __all__ = [
     "AbstractParticleConverter",
-    "DigitConverter",
-    "BooleanConverter",
+    "DigitValueConverter",
+    "BooleanValueConverter",
     "ListValueConverter",
-    "AbstractValueConverter",
+    "AbstractParticleValueConverter",
     "PARTICLE_CONVERTERS",
-    "VALUE_CONVERTERS",
+    "GETATTRIBUTE_VALUE_CONVERTERS",
 ]
 
 import abc
@@ -26,12 +40,24 @@ _VCONVERTER_CONSTS: Final[dict[str, int]] = {
 
 
 class AbstractParticleConverter(abc.ABC):
+    """Base converter for particles (tokens)."""
+
     @abc.abstractmethod
     def convert(self, value: Any) -> Any:
         ...
 
 
-class AbstractValueConverter(abc.ABC):
+class AbstractParticleValueConverter(abc.ABC):
+    """Base converter for particle values.
+
+    We can say that it is a subconverter.
+    For example, if AbstractParticleConverter
+    will convert the expression `variable = value`,
+                                            ^^^^^
+    then AbstractParticleValueConverter will convert
+    the value of `variable` -- `value`.
+                                ^^^^^
+    """
     @abc.abstractmethod
     def matches(self, value: str) -> bool:
         ...
@@ -49,14 +75,14 @@ class GetattributeParticleConverter(AbstractParticleConverter):
 
     def convert(self, value: str) -> dict[Hashable, Any]:
         key, value = self._parse_exp(value)
-        for vconverter in VALUE_CONVERTERS:
+        for vconverter in GETATTRIBUTE_VALUE_CONVERTERS:
             if vconverter.matches(value):
                 return {key: vconverter.convert(value)}
 
         raise ValueError(f"Can't find converter for {value!r}")
 
 
-class DigitConverter(AbstractValueConverter):
+class DigitValueConverter(AbstractParticleValueConverter):
     def matches(self, value: str) -> bool:
         return value.isdigit()
 
@@ -64,7 +90,7 @@ class DigitConverter(AbstractValueConverter):
         return int(value)
 
 
-class BooleanConverter(AbstractValueConverter):
+class BooleanValueConverter(AbstractParticleValueConverter):
     def matches(self, value: str) -> bool:
         return value.lower() in {"true", "false"}
 
@@ -72,7 +98,7 @@ class BooleanConverter(AbstractValueConverter):
         return value.lower() == "true"
 
 
-class ListValueConverter(AbstractValueConverter):
+class ListValueConverter(AbstractParticleValueConverter):
     def matches(self, value: str) -> bool:
         return len(value.split(",")) > 1
 
@@ -81,7 +107,7 @@ class ListValueConverter(AbstractValueConverter):
         return [i.strip() for i in by_comma if i and not i.isspace()]
 
 
-class ExpressionValueConverter(AbstractValueConverter):
+class ExpressionValueConverter(AbstractParticleValueConverter):
     def matches(self, value: str) -> bool:
         return value.startswith("exp(") and value.endswith(")")
 
@@ -93,10 +119,10 @@ class ExpressionValueConverter(AbstractValueConverter):
 PARTICLE_CONVERTERS: frozenset[AbstractParticleConverter] = frozenset(
     (GetattributeParticleConverter(),)
 )
-VALUE_CONVERTERS: frozenset[AbstractValueConverter] = frozenset(
+GETATTRIBUTE_VALUE_CONVERTERS: frozenset[AbstractParticleValueConverter] = frozenset(
     (
-        BooleanConverter(),
-        DigitConverter(),
+        BooleanValueConverter(),
+        DigitValueConverter(),
         ListValueConverter(),
         ExpressionValueConverter(),
     )

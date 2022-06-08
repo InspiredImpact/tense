@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Locale domain."""
+"""Tense domain."""
 from __future__ import annotations
 
 __all__ = ["Tense"]
@@ -25,6 +25,7 @@ from aiotense.domain import units
 
 @dataclass
 class Tense:
+    second: units.Second
     minute: units.Minute
     hour: units.Hour
     day: units.Day
