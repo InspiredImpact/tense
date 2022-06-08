@@ -1,14 +1,25 @@
+<div id="top"></div>
 <img src="assets/tense-logo.jpg" align="left" width="200px"/>
-Name: Luander De Faria
+Project: aiotense
 <br>
-OS: Zorin OS
+License: Apache 2.0
 <br>
-Location: seu-pais
+About: Time Processing Tool
 <br>
-Hobbies: seus-hobbies
+OS: Independent
 <br>
-Projetos: seus-projetos
+Python: 3.10+
 <br>
-Linguagem-Favorita: sua-liguagem-favorita :)
+Typing: Typed
 <br>
-Aprendendo: Linguagens-que-voce-esta-aprendendo
+Topic: Utilities
+<br />
+    <p align="center">
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template">Documentation</a>
+    ·
+    <a href="https://github.com/Animatea/aiotense/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Animatea/aiotense/issues">Request Feature</a>
+    </p>
+<div id="top"></div>
