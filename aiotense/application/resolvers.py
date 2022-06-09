@@ -47,7 +47,7 @@ def smart_resolver(raw_str: str, tense: model.Tense) -> list[str]:
     * etc
     """
     basic_resolve = basic_resolver(raw_str, tense)
-    unit_aliases = sum((u.aliases for u in tense), [])
+    unit_aliases: list[str] = sum((u.aliases for u in tense), [])
     for idx, part in enumerate(basic_resolve):
         if part.isdigit():
             continue

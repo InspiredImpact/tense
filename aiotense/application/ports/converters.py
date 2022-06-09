@@ -15,7 +15,7 @@
 __all__ = ["AbstractConverter"]
 
 import abc
-from typing import TypeVar, Generic, Any
+from typing import Any, Generic, TypeVar
 
 T_co = TypeVar("T_co", covariant=True)
 

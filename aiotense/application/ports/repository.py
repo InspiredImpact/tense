@@ -27,17 +27,27 @@ class AbstractTenseRepository(abc.ABC):
     def __init__(self, source: Optional[dict[str, Any]] = None, /) -> None:
         self.source = source
 
+    def __getitem__(self, item: Any) -> Any:
+        if not isinstance(item, str):
+            return NotImplemented
+        return self.source[item]
+
+    def __setitem__(self, key: Any, value: Any) -> Any:
+        if not isinstance(key, str) or not isinstance(value, str):
+            return NotImplemented
+        if key not in self.source:
+            raise KeyError(
+                f"Key {key} does not exist in config. New keys cannot be added."
+            )
+        self.source[key] = value
+
     @abc.abstractmethod
     def get_config(self) -> dict[str, Any]:
         """Returns deepcopy of current config."""
         ...
 
     @abc.abstractmethod
-    def get_setting(self, setting: str, /) -> Any:
-        ...
-
-    @abc.abstractmethod
-    def add_setting(self, setting: str, value: Any, /) -> None:
+    def get_setting(self, path: str, setting: str, /) -> Any:
         ...
 
     @abc.abstractmethod

@@ -17,6 +17,7 @@ __all__ = ["InvalidParserType", "TenseError"]
 
 class TenseError(Exception):
     """Base exception for tense package."""
+
     pass
 
 

@@ -17,9 +17,10 @@ from __future__ import annotations
 __all__ = ["AbstractParser"]
 
 import abc
-from typing import final, TYPE_CHECKING, Any, Callable, Optional
+from typing import TYPE_CHECKING, Any, Callable, Optional, final
 
 from aiotense.application.ports import converters
+
 if TYPE_CHECKING:
     from aiotense.domain import model
 
@@ -47,3 +48,13 @@ class AbstractParser(abc.ABC):
     @abc.abstractmethod
     def _parse(self, raw_str: str) -> Any:
         ...
+
+    @property
+    def resolver(self) -> Optional[Callable[[str, model.Tense], list[str]]]:
+        return self._resolver
+
+    @resolver.setter
+    def resolver(self, new_resolver: Callable[[str, model.Tense], list[str]]) -> None:
+        if not callable(new_resolver):
+            raise ValueError("Resolver must be callable.")
+        self._resolver = new_resolver

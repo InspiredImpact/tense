@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING, Any, Callable, Optional
 
 from aiotense.adapters import parsers, repository
 from aiotense.domain import model
+
 if TYPE_CHECKING:
     from aiotense.application.ports import converters
 
@@ -44,6 +45,7 @@ class TenseParser:
     :class:`exceptions.InvalidParserType`
         Raises if 'parser_cls' is not subclass of :class:`abc_parsers.AbstractParser`
     """
+
     TIMEDELTA = parsers.TimedeltaParser
     DIGIT = parsers.DigitParser
 

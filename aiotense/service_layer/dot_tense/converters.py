@@ -58,6 +58,7 @@ class AbstractParticleValueConverter(abc.ABC):
     the value of `variable` -- `value`.
                                 ^^^^^
     """
+
     @abc.abstractmethod
     def matches(self, value: str) -> bool:
         ...

@@ -35,6 +35,7 @@ class _RepositorySingleton:
 
 class TenseRepository(AbstractTenseRepository, _RepositorySingleton):
     """Singleton repository adapter."""
+
     _config: dict[str, Any] = {
         "model.Tense": {
             "multiplier": 1,
@@ -102,13 +103,8 @@ class TenseRepository(AbstractTenseRepository, _RepositorySingleton):
     def get_config(self) -> dict[str, Any]:
         return copy.deepcopy(self._config)
 
-    def get_setting(self, setting: str, /) -> Any:
-        return self.source[setting]
-
-    def add_setting(self, setting: str, value: Any, /) -> None:
-        if setting in self.source:
-            raise KeyError(f"Key {setting!r} already exists.")
-        self.source[setting] = value
+    def get_setting(self, path: str, setting: str, /) -> Any:
+        return self.source[path][setting]
 
     def add_virtual_unit(self, unit: units.VirtualUnit) -> None:
         # <inherited docstring from :class:`TenseRepository`> #

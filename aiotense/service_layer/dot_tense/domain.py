@@ -22,6 +22,7 @@ class HashableParticle(abc.ABC):
     """Base particle (token) class.
     Used at the step of lexical analysis for convenience when parsing.
     """
+
     def __init__(self, target: str) -> None:
         self.target = target
 
@@ -48,6 +49,7 @@ class HeaderParticle(HashableParticle):
     Matches to:
      * [...]
     """
+
     def matches(self) -> bool:
         # <inherited docstring from :class:`HashableParticle` #
         return self.target.startswith("[") and self.target.endswith("]")
@@ -63,6 +65,7 @@ class GetattributeParticle(HashableParticle):
     Matches to:
      * variable = ...
     """
+
     def matches(self) -> bool:
         # <inherited docstring from :class:`HashableParticle` #
         return len(self.target.split("=")) > 1

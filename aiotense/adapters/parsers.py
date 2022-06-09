@@ -19,10 +19,12 @@ __all__ = ["DigitParser", "TimedeltaParser"]
 from typing import TYPE_CHECKING, Callable, Optional
 
 from aiotense.application.ports import parsers
+
 from . import converters
+
 if TYPE_CHECKING:
-    from aiotense.domain import model
     from aiotense.application.ports import converters as abc_converters
+    from aiotense.domain import model
 
 
 class DigitParser(parsers.AbstractParser):

@@ -18,12 +18,11 @@ __all__ = ["Unit", "Minute", "Hour", "Day", "Week", "VirtualUnit", "Second"]
 
 import warnings
 from dataclasses import dataclass
-from typing import Iterable
 
 
 @dataclass
 class Unit:
-    aliases: Iterable[str]
+    aliases: list[str]
     duration: int
 
     def __post_init__(self) -> None:
@@ -38,6 +37,7 @@ class Unit:
 @dataclass
 class VirtualUnit(Unit):
     """Used to create custom units of time."""
+
     pass
 
 

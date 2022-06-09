@@ -17,9 +17,11 @@ __all__ = ["DotTenseError", "AnalyzeError"]
 
 class DotTenseError(Exception):
     """Base exception for dot_tense service."""
+
     pass
 
 
 class AnalyzeError(DotTenseError):
     """Raises on configuration analyze step."""
+
     pass
