@@ -24,7 +24,7 @@ Typing: Аннотирован
     </p>
 <div id="top"></div>
 <p align="center">
-   <a href="i18n/ua_README.md"><img height="20" src="https://img.shields.io/badge/language-ua-green?style=social&logo=googletranslate"></a>
+   <a href="ua_README.md"><img height="20" src="https://img.shields.io/badge/language-ua-green?style=social&logo=googletranslate"></a>
    <a href="../README.md"><img height="20" src="https://img.shields.io/badge/language-en-green?style=social&logo=googletranslate"></a>
 </p>
 
@@ -68,7 +68,7 @@ Typing: Аннотирован
 
 Нет? Тогда посоветуйте наш проект своим друзьям :) Если вы всё ещё здесь - давайте двигаться дальше!
 
-<h5 align="center">Диаграма с основной логикой проекта</h5>
+<h5 align="center">UML Диаграма с основной логикой проекта</h5>
 <img src="../assets/tense-uml.jpg" align="left"/>
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/вернуться в-начало-green?style=social&logo=github"></a></p>
@@ -200,7 +200,7 @@ assert str(delta_value) == "36865 days, 0:00:05"
 
 ## Примеры
 Если Вы думаете, что на этом возможности aiotense заканчиваются, то вы ошибаетесь!
-Возможностей aiotense слишком много для README, поэтому я предлагаю вам продолжить просмотр 
+Возможностей aiotense слишком много для README, поэтому я предлагаю Вам продолжить просмотр 
 примеров использования тут:
 <p align="center">
 <br />

@@ -1,92 +1,92 @@
 <div id="top"></div>
 <img src="../assets/tense-logo.jpg" align="left" width="200px"/>
-Project: aiotense
+Проект: aiotense
 <br>
-License: Apache 2.0
+Ліцензія: Apache 2.0
 <br>
-About: Time Processing Tool
+Опис: Інструмент для парсингу часу
 <br>
-OS: Independent
+OS: Незалежний
 <br>
 Python: 3.10+
 <br>
-Typing: Typed
+Typing: Annotated
 <br>
-Topic: Utilities
+Тема: Утиліти
 <br />
     <p align="center">
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">Documentation</a>
+    <a href="https://github.com/othneildrew/Best-README-Template">Документація</a>
     ·
-    <a href="https://github.com/Animatea/aiotense/issues">Report Bug</a>
+    <a href="https://github.com/Animatea/aiotense/issues">Сповістити про баг</a>
     ·
-    <a href="https://github.com/Animatea/aiotense/issues">Request Feature</a>
+    <a href="https://github.com/Animatea/aiotense/issues">Запропонувати ідею</a>
     </p>
 <div id="top"></div>
 <p align="center">
-   <a href="i18n/ua_README.md"><img height="20" src="https://img.shields.io/badge/language-ua-green?style=social&logo=googletranslate"></a>
-   <a href="i18n/ru_README.md"><img height="20" src="https://img.shields.io/badge/language-ru-green?style=social&logo=googletranslate"></a>
+   <a href="../README.md"><img height="20" src="https://img.shields.io/badge/language-en-green?style=social&logo=googletranslate"></a>
+   <a href="ru_README.md"><img height="20" src="https://img.shields.io/badge/language-ru-green?style=social&logo=googletranslate"></a>
 </p>
 
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Зміст</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#про-проект">Про проект</a>
       <ul>
-        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#ласкаво-просимо">Ласкаво просимо</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#перейти-до-використання">Перейти до використання</a>
       <ul>
-        <li><a href="#with-pypi">With PyPi</a></li>
-        <li><a href="#with-poetry">With Poetry</a></li>
+        <li><a href="#pypi">PyPi</a></li>
+        <li><a href="#poetry">Poetry</a></li>
       </ul>
     </li>
     <li>
-      <a href="#usage">Usage</a>
+      <a href="#використання">Використання</a>
       <ul>
-        <li><a href="#built-in-basic">Built-in basics</a></li>
-        <li><a href="#reconfiguring-existing-settings">Reconfiguring existing settings</a></li>
-        <li><a href="#adding-new-settings">Adding new settings</a></li>
+        <li><a href="#основні-можливості">Основні можливості</a></li>
+        <li><a href="#зміна-наявних-параметрів">Зміна наявних параметрів</a></li>
+        <li><a href="#додавання-нових-налаштувань">Додавання нових налаштувань</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
     </li>
-    <li><a href="#examples">Examples</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#приклади">Приклади</a></li>
+    <li><a href="#вклад-у-проект">Вклад у проект</a></li>
+    <li><a href="#ліцензия">Ліцензия</a></li>
+    <li><a href="#контакт">Контакт</a></li>
+    <li><a href="#подяки">Подяки</a></li>
   </ol>
 </details>
 
-## About The Project
-<h5 align="center">Diagram with the main logic of the project</h5>
+## Про проект
+### Ласкаво просимо
+> Чи потрібно Вам було конвертувати, наприклад, строку "1д1хвилина 2 сек" 
+у кількість секунд або об'єкт datetime.timedelta?
+
+Ні? Тоді порадьте наш проект своїм друзям :) Якщо ви ще тут - йдемо далі!
+
+<h5 align="center">UML Діаграма з основною логікою проекта</h5>
 <img src="../assets/tense-uml.jpg" align="left"/>
 
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
-### Abstract
-> Have you ever needed to convert, for example, the string "1d1minute 2 sec" 
-to the number of seconds or a datetime.timedelta object?
-
-No? Then advise us to your friends :) And if you really need our tool - let's move on!
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
-
-## Getting started
-### With PyPi
+## Перейти до використання
+### PyPi
 ```bash
 $ pip3 install aiotense
 ```
 
-### With Poetry
+### Poetry
 ```bash
-install with poetry
+$ poetry add aiotense
 ```
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
-## Usage
-### Built-in basic
+## Використання
+### Основні можливості
 ```py
 import asyncio
 import datetime
@@ -107,59 +107,67 @@ delta_value = asyncio.run(delta_parser.parse(time_string))
 assert isinstance(delta_value, datetime.timedelta)
 assert str(delta_value) == "1 day, 0:02:05"
 ```
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
-### Reconfiguring existing settings
+### Зміна наявних параметрів
 ```py
 import asyncio
 from aiotense import TenseParser, from_tense_file_source
 
 config_emulation = """
 [model.Tense]
-multiplier = 2  # each unit of time will be multiplied by 2
-# !!! Note: If the multiplier is <= 0, then the parsers will 
-# not work correctly. In this case, a warning will be sent to the console.
+multiplier = 2  # секундне значення кожної одиниці часу буде помножене на 2
+# !!! Уточнення: Якщо multiplier <= 0, тоді парсери можуть працювати некоректно
+# У цьому випадку буде вислано попередження у консоль.
 
 [units.Minute]
-duration = 120  # Why not?...
-aliases = my_minute, my_minutes, my_min, my_mins
+duration = 120  # Чом би й ні?...
+aliases = хвилина, хвилин, хв
 """
 parser = TenseParser(
     TenseParser.TIMEDELTA,
     config=from_tense_file_source(config_emulation),
 )
-delta_value = asyncio.run(parser.parse("1 my_min 10my_mins 9  my_minutes"))
+delta_value = asyncio.run(parser.parse("1 хвилина 10хвилин 9  хв"))
 # <-- Assertions -->
-assert str(delta_value) ==  "1:20:00" # (each 120 * 2)
+assert str(delta_value) ==  "1:20:00" # (кожна 120 * 2)
 ```
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
-### Adding new settings
+### Додавання нових налаштувань
 ```py
 import asyncio
 from aiotense import TenseParser, from_tense_file_source
 
 config_emulation = """
-[model.Tense]  # This header is required.
+[model.Tense]  # Цей заголовок обов'язковий.
+
+[units.Year]
+duration = exp(year)
+aliases = рік,
+
+[units.Second]
+duration = exp(second)
+aliases = с, сек, секунд
 
 [virtual]
 duration = exp(year * 10)
-aliases = decade, dec, decs, decades
+aliases = десятиліття, десятиліть
 """
 
 parser = TenseParser(
     TenseParser.TIMEDELTA,
     config=from_tense_file_source(config_emulation),
 )
-delta_value = asyncio.run(parser.parse("1year 10 decades5   seconds"))
+delta_value = asyncio.run(parser.parse("1рік 10 десятиліть5   секунд"))
 # <-- Assertions -->
 assert str(delta_value) == "36865 days, 0:00:05"
 ```
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 ### FAQ
-But what if you need to parse a string like: "1year and 10 decades + 5 seconds"?
-Let's see:
+Але що як нам потрібно парсити строку типу: "1day and 10 minutes + 5 seconds"?
+Давайте подивимось:
 ```py
 >>> import asyncio
 >>> from aiotense import TenseParser
@@ -170,13 +178,13 @@ Let's see:
 >>> asyncio.run(parser.parse(complex_string))
 '0:00:05'
 ```
-Wait... What? 5 second? But there are days and minutes...
-- It's okay, you're using flexible aiotense! This problem is solved in two ways:
-  1) You write your own time_resolver and pass it
-  2) Choose an existing one from aiotense.resolvers
+Зачекайте... Що? 5 секунд? Але ж там дні та хвилини...
+- Все окей, ви ж користуєтесь гнучким aiotense! Проблему можно вирішити двума шляхами:
+  1) Ви пишете свій time_resolver
+  2) Ви вибираєте з вже існуючих aiotense.resolvers
 
-Let's demonstrate!
-I will use the second option, since the built-in time resolvers in aiotense are suitable for me.
+Давайте продемонструю!
+Я буду використовувати другий варіант, так як існуючі резольвери мені підходять.
 ```py
 >>> import asyncio
 >>> from aiotense import TenseParser, resolvers
@@ -187,58 +195,54 @@ I will use the second option, since the built-in time resolvers in aiotense are 
 >>> asyncio.run(parser.parse(complex_string)) 
 '1 day, 0:10:05'
 ```
-Well, that's better!
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+Ну, так вже краще!
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
-## Examples.
-If you think that this is where the possibilities of aiotense ends, then you are wrong! 
-The possibilities of aiotense are too many for a README, so I suggest you move on to viewing 
-the usage examples:
+## Приклади
+Якщо ви гадаєте, що на цьмоу можливості aiotense закінчуються, то ви помиляєтесь!
+Можливостей aiotense забагато для README, тому я пропоную Вам продовжити перегляд 
+прикладів використання тут:
 <p align="center">
 <br />
-<a href="https://github.com/Animatea/aiotense/tree/main/examples">Aiotense Examples</a>
+<a href="https://github.com/Animatea/aiotense/tree/main/examples">Aiotense Приклади</a>
 </p>
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
-## Contributing
+## Вклад у проект
+Вклади – це те, що робить спільнота з відкритим вихідним кодом таким чудовим місцем для навчання, натхнення та творчості. Будь-який ваш внесок дуже цінується.
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Якщо у вас є пропозиція, яка могла б покращити це, розгалужіть репозиторій і створіть запит на включення. Ви також можете відкрити питання з тегом «enhancement».
+Не забудьте поставити зірку проекту! Дякую ще раз!
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+1. Зробіть форк проекта
+2. Зробіть вашу гілку з нововведеннями (`git checkout -b feature/AmazingFeature`)
+3. Затвердіть зміни (`git commit -m 'Add some AmazingFeature'`)
+4. Внесіть зміни на гілку (`git push origin feature/AmazingFeature`)
+5. Зробіть пул реквест
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 <!-- LICENSE -->
-## License
+## Ліцензия
 
-Distributed under the Apache 2.0 License. See [`LICENSE`](https://github.com/Animatea/aiotense/blob/main/LICENSE) for more information.
+Поширюється під ліцензією Apache 2.0. Див. детальніше [`LICENSE`](https://github.com/Animatea/aiotense/blob/main/LICENSE).
 
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 
 <!-- CONTACT -->
-## Contact
+## Контакт
 <div align="left">
     <a href="https://discord.com/invite/KKUFRZCt4f"><img src="https://discordapp.com/api/guilds/744099317836677161/widget.png?style=banner4" alt="" /></a>
 </div>
 
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 
-## Acknowledgments
+## Подяки
 * [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
 * [Img Shields](https://shields.io)
 * [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Python](https://www.python.org)
+* [Python Community](https://www.python.org/community/)
 
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
