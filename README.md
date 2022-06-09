@@ -155,7 +155,7 @@ delta_value = asyncio.run(parser.parse("1year 10 decades5   seconds"))
 # <-- Assertions -->
 assert str(delta_value) == "36865 days, 0:00:05"
 ```
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-white?style=flat&logo=github"></a></p>
 
 ### Hm...
 But what if you need to parse a string like: "1year and 10 decades + 5 seconds"?
@@ -174,6 +174,7 @@ Wait... What? 5 second? But there are days and minutes...
 - It's okay, you're using flexible aiotense! This problem is solved in two ways:
   1) You write your own time_resolver and pass it
   2) Choose an existing one from aiotense.resolvers
+
 Let's demonstrate!
 I will use the second option, since the built-in time resolvers in aiotense are suitable for me.
 ```py
@@ -187,7 +188,7 @@ I will use the second option, since the built-in time resolvers in aiotense are 
 '1 day, 0:10:05'
 ```
 Well, that's better!
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-black?style=flat&logo=github"></a></p>
 
 ## P.S.
 If you think that this is where the possibilities of aiotense ends, then you are wrong! 
@@ -210,5 +211,4 @@ Don't forget to give the project a star! Thanks again!
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
