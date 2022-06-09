@@ -1,6 +1,6 @@
 from contextlib import AbstractContextManager
 
-from hamcrest import assert_that, equal_to, is_, is_in, not_
+from hamcrest import assert_that, greater_than, is_, is_in, not_
 
 from aiotense.service_layer import unit_of_work as uow
 
@@ -26,13 +26,13 @@ class TestAtomicOperations:
         with uow.TenseUnitOfWork() as tense_uow:
             # Before update
             model_tense = tense_uow.tenses.source["model.Tense"]
-            assert_that(model_tense["multiplier"], equal_to(1))  # By default
+            initial_mul = model_tense["multiplier"]  # By default
 
-            tense_uow.update_config({"model.Tense": {"multiplier": 2}})
+            tense_uow.update_config({"model.Tense": {"multiplier": initial_mul + 1}})
 
             # After update
             model_tense = tense_uow.tenses.source["model.Tense"]
-            assert_that(model_tense["multiplier"], equal_to(2))
+            assert_that(model_tense["multiplier"], greater_than(initial_mul))
 
     def test_delete_aliases(self) -> None:
         with uow.TenseUnitOfWork() as tense_uow:

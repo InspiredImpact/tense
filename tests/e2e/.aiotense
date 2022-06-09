@@ -1,0 +1,6 @@
+[model.Tense]
+multiplier = 2
+
+[virtual]
+duration = exp(year * 10)
+aliases = decade, dec, decs, decades
