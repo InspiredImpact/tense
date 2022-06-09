@@ -1,5 +1,5 @@
 <div id="top"></div>
-<img src="assets/tense-logo.jpg" align="left" width="200px"/>
+<img src="../assets/tense-logo.jpg" align="left" width="200px"/>
 Project: aiotense
 <br>
 License: Apache 2.0
@@ -63,7 +63,7 @@ Topic: Utilities
 
 ## About The Project
 <h5 align="center">Diagram with the main logic of the project</h5>
-<img src="assets/tense-uml.jpg" align="left"/>
+<img src="../assets/tense-uml.jpg" align="left"/>
 
 
 ### Abstract
