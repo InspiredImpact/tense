@@ -64,3 +64,8 @@ class Day(Unit):
 @dataclass
 class Week(Unit):
     duration: int = 60 * 60 * 24 * 7
+
+
+@dataclass
+class Year(Unit):
+    duration: int = 60 * 60 * 24 * 365

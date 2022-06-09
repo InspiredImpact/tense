@@ -12,11 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Root package."""
-from aiotense.application import TenseParser
+from aiotense.application import TenseParser, resolvers
 from aiotense.service_layer import AbstractTenseUnitOfWork, TenseUnitOfWork
 from aiotense.service_layer.dot_tense import from_tense_file, from_tense_file_source
 
 __all__ = [
+    "resolvers",
     "TenseParser",
     "AbstractTenseUnitOfWork",
     "TenseUnitOfWork",

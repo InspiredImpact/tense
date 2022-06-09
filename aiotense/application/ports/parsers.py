@@ -17,7 +17,7 @@ from __future__ import annotations
 __all__ = ["AbstractParser"]
 
 import abc
-from typing import final, TYPE_CHECKING, Any, Optional
+from typing import final, TYPE_CHECKING, Any, Callable, Optional
 
 from aiotense.application.ports import converters
 if TYPE_CHECKING:
@@ -26,10 +26,15 @@ if TYPE_CHECKING:
 
 class AbstractParser(abc.ABC):
     def __init__(
-        self, *, tense: model.Tense, converter: Optional[converters.AbstractConverter] = None,
+        self,
+        *,
+        tense: model.Tense,
+        resolver: Optional[Callable[[str, model.Tense], list[str]]] = None,
+        converter: Optional[converters.AbstractConverter] = None,
     ) -> None:
         self.tense = tense
         self.converter = converter
+        self._resolver = resolver
 
     @final
     async def parse(self, raw_str: str) -> Any:

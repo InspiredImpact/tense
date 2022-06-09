@@ -11,17 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" """
+"""Aiotense factory."""
 from __future__ import annotations
 
 __all__ = ["TenseParser"]
 
-from typing import Any
+from typing import TYPE_CHECKING, Any, Callable, Optional
 
 from aiotense.adapters import parsers, repository
 from aiotense.domain import model
+if TYPE_CHECKING:
+    from aiotense.application.ports import converters
 
-from . import exceptions
+from . import exceptions, resolvers
 from .ports import parsers as abc_parsers
 
 _tenses = repository.TenseRepository()
@@ -49,12 +51,24 @@ class TenseParser:
         cls,
         parser_cls: Any = DIGIT,
         *,
-        tense: model.Tense = model.Tense.from_dict(_tenses.source),
+        config: Optional[dict[str, Any]] = None,
+        converter: Optional[converters.AbstractConverter] = None,
+        time_resolver: Optional[Callable[[str, model.Tense], list[str]]] = None,
     ) -> abc_parsers.AbstractParser:
+        if config is not None:
+            _tenses._config.update(config)
+
+        if time_resolver is None:
+            time_resolver = resolvers.basic_resolver
+
         if not issubclass(parser_cls, abc_parsers.AbstractParser):
             raise exceptions.InvalidParserType(
                 f"Invalid parser type, you can only use {parsers.__all__}."
             )
         instance = parser_cls.__new__(parser_cls)
-        instance.__init__(tense=tense)
+        instance.__init__(
+            tense=model.Tense.from_dict(_tenses.source),
+            resolver=time_resolver,
+            converter=converter,
+        )
         return instance

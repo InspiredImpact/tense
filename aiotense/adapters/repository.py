@@ -84,6 +84,14 @@ class TenseRepository(AbstractTenseRepository, _RepositorySingleton):
                 "weeks",
             ],
         },
+        "units.Year": {
+            "duration": 60 * 60 * 24 * 365,
+            "aliases": [
+                "y",
+                "year",
+                "years",
+            ],
+        },
     }
 
     def __init__(self, source: Optional[dict[str, Any]] = None, /) -> None:

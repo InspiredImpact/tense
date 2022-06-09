@@ -16,35 +16,19 @@ from __future__ import annotations
 
 __all__ = ["DigitParser", "TimedeltaParser"]
 
-import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable, Optional
 
 from aiotense.application.ports import parsers
 from . import converters
 if TYPE_CHECKING:
     from aiotense.domain import model
-
-DIGIT_PATTERN: re.Pattern[str] = re.compile(r"(\d+)")
-
-
-def resolve_time_string(raw_str: str) -> list[str]:
-    """Example of supported patterns:
-    * '1d1min'
-    * '1d 1min'
-    * '1d1min 2 seconds'
-    """
-    return list(
-        filter(
-            bool,
-            DIGIT_PATTERN.split(raw_str.replace(" ", "")),
-        )
-    )
+    from aiotense.application.ports import converters as abc_converters
 
 
 class DigitParser(parsers.AbstractParser):
     async def _parse(self, raw_str: str) -> int:
         multiplier = self.tense.multiplier
-        resolved = resolve_time_string(raw_str)
+        resolved = self._resolver(raw_str, self.tense)
         duration = 0
 
         for pos, word in enumerate(resolved):
@@ -60,5 +44,15 @@ class DigitParser(parsers.AbstractParser):
 
 
 class TimedeltaParser(DigitParser):
-    def __init__(self, *, tense: model.Tense) -> None:
-        super().__init__(tense=tense, converter=converters.TimedeltaConverter())
+    def __init__(
+        self,
+        *,
+        tense: model.Tense,
+        resolver: Optional[Callable[[str, model.Tense], list[str]]] = None,
+        converter: Optional[abc_converters.AbstractConverter] = None,
+    ) -> None:
+        super().__init__(
+            tense=tense,
+            resolver=resolver,
+            converter=converters.TimedeltaConverter(),
+        )

@@ -30,6 +30,7 @@ class Tense:
     hour: units.Hour
     day: units.Day
     week: units.Week
+    year: units.Year
     multiplier: int = 1
     virtual: list[dict[str, Any]] = field(default_factory=list)
 
