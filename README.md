@@ -31,18 +31,27 @@ Topic: Utilities
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#uml-representation">UML</a></li>
+        <li><a href="#abstract">Abstract</a></li>
       </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#with-pypi">With PyPi</a></li>
+        <li><a href="#with-poetry">With Poetry</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#built-in-basic">Built-in basic</a></li>
+        <li><a href="#reconfiguring-existing-settings">Reconfiguring existing settings</a></li>
+        <li><a href="#adding-new-settings">Adding new settings</a></li>
+        <li><a href="#hm...">Hm...</a></li>
+      </ul>
+    </li>
+    <li><a href="#examples">Examples</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -72,7 +81,7 @@ Topic: Utilities
 to the number of seconds or a datetime.timedelta object?
 
 No? Then advise us to your friends :) And if you really need our tool - let's move on!
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 ## Getting started
 ### With PyPi
@@ -84,9 +93,9 @@ $ pip3 install aiotense
 ```bash
 install with poetry
 ```
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
-## How to use it?
+## Usage
 ### Built-in basic
 ```py
 import asyncio
@@ -108,9 +117,8 @@ delta_value = asyncio.run(delta_parser.parse(time_string))
 assert isinstance(delta_value, datetime.timedelta)
 assert str(delta_value) == "1 day, 0:02:05"
 ```
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
-## Configuration basic
 ### Reconfiguring existing settings
 ```py
 import asyncio
@@ -155,7 +163,6 @@ delta_value = asyncio.run(parser.parse("1year 10 decades5   seconds"))
 # <-- Assertions -->
 assert str(delta_value) == "36865 days, 0:00:05"
 ```
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-white?style=flat&logo=github"></a></p>
 
 ### Hm...
 But what if you need to parse a string like: "1year and 10 decades + 5 seconds"?
@@ -188,9 +195,9 @@ I will use the second option, since the built-in time resolvers in aiotense are 
 '1 day, 0:10:05'
 ```
 Well, that's better!
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-black?style=flat&logo=github"></a></p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
-## P.S.
+## Examples.
 If you think that this is where the possibilities of aiotense ends, then you are wrong! 
 The possibilities of aiotense are too many for a README, so I suggest you move on to viewing 
 the usage examples:
@@ -211,4 +218,33 @@ Don't forget to give the project a star! Thanks again!
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+
+<!-- LICENSE -->
+## License
+
+Distributed under the Apache 2.0 License. See [`LICENSE`](https://github.com/Animatea/aiotense/blob/main/LICENSE) for more information.
+
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+
+
+<!-- CONTACT -->
+## Contact
+<div align="left">
+    <a href="https://discord.com/invite/KKUFRZCt4f"><img src="https://discordapp.com/api/guilds/744099317836677161/widget.png?style=banner4" alt="" /></a>
+</div>
+
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+
+
+## Acknowledgments
+* [Choose an Open Source License](https://choosealicense.com)
+* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
+* [Malven's Grid Cheatsheet](https://grid.malven.co/)
+* [Img Shields](https://shields.io)
+* [GitHub Pages](https://pages.github.com)
+* [Font Awesome](https://fontawesome.com)
+* [React Icons](https://react-icons.github.io/react-icons/search)
+
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
