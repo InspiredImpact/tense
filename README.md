@@ -51,7 +51,36 @@ Topic: Utilities
 </details>
 
 ## About The Project
+**User Interface**
+ - [x] Flexible 
+ - [x] Converters
+ - [x] UnitsOfWork
+ - [x] Repositories
+ - [x] Custom configuration
+ - [x] Adding new units of time
+
+**Dev**
+ - [x] Typed
+ - [x] Tested
+
+### UML representation
 <img src="assets/tense-uml.jpg" align="left"/>
+&ensp
 
+### Abstract
+> Have you ever needed to convert, for example, the string "1d1minute 2 sec" 
+to the number of seconds or a datetime.timedelta object?
 
+No? Then advise us to your friends :) And if you really need our tool - let's move on!
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+## Getting started
+### With PyPi
+```bash
+$ pip3 install aiotense
+```
+
+### With Poetry
+```bash
+install with poetry
+```
