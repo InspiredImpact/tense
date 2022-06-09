@@ -48,7 +48,7 @@ Topic: Utilities
         <li><a href="#built-in-basic">Built-in basic</a></li>
         <li><a href="#reconfiguring-existing-settings">Reconfiguring existing settings</a></li>
         <li><a href="#adding-new-settings">Adding new settings</a></li>
-        <li><a href="#hm...">Hm...</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
     </li>
     <li><a href="#examples">Examples</a></li>
@@ -74,6 +74,8 @@ Topic: Utilities
 
 ### UML representation
 <img src="assets/tense-uml.jpg" align="left"/>
+
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 
 ### Abstract
@@ -142,6 +144,8 @@ delta_value = asyncio.run(parser.parse("1 my_min 10my_mins 9  my_minutes"))
 # <-- Assertions -->
 assert str(delta_value) ==  "1:20:00" # (each 120 * 2)
 ```
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+
 ### Adding new settings
 ```py
 import asyncio
@@ -163,8 +167,9 @@ delta_value = asyncio.run(parser.parse("1year 10 decades5   seconds"))
 # <-- Assertions -->
 assert str(delta_value) == "36865 days, 0:00:05"
 ```
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
-### Hm...
+### FAQ
 But what if you need to parse a string like: "1year and 10 decades + 5 seconds"?
 Let's see:
 ```py
@@ -205,6 +210,7 @@ the usage examples:
 <br />
 <a href="https://github.com/Animatea/aiotense/tree/main/examples">Aiotense Examples</a>
 </p>
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 ## Contributing
 
