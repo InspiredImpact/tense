@@ -23,7 +23,10 @@ Topic: Utilities
     <a href="https://github.com/Animatea/aiotense/issues">Request Feature</a>
     </p>
 <div id="top"></div>
-
+<p align="center">
+   <a href="i18n/ua_README.md"><img height="20" src="https://img.shields.io/badge/language-ua-green?style=social&logo=googletranslate"></a>
+   <a href="i18n/ru_README.md"><img height="20" src="https://img.shields.io/badge/language-ru-green?style=social&logo=googletranslate"></a>
+</p>
 
 <details>
   <summary>Table of Contents</summary>
@@ -31,7 +34,6 @@ Topic: Utilities
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#uml-representation">UML</a></li>
         <li><a href="#abstract">Abstract</a></li>
       </ul>
     </li>
@@ -45,7 +47,7 @@ Topic: Utilities
     <li>
       <a href="#usage">Usage</a>
       <ul>
-        <li><a href="#built-in-basic">Built-in basic</a></li>
+        <li><a href="#built-in-basic">Built-in basics</a></li>
         <li><a href="#reconfiguring-existing-settings">Reconfiguring existing settings</a></li>
         <li><a href="#adding-new-settings">Adding new settings</a></li>
         <li><a href="#faq">FAQ</a></li>
@@ -60,22 +62,8 @@ Topic: Utilities
 </details>
 
 ## About The Project
-**User Interface**
- - [x] Flexible 
-   - [x] Converters
-   - [x] UnitsOfWork
-   - [x] Repositories
-   - [x] Custom configuration
-   - [x] Adding new units of time
-
-**Dev**
- - [x] Typed
- - [x] Tested
-
-### UML representation
+<h5 align="center">Diagram with the main logic of the project</h5>
 <img src="assets/tense-uml.jpg" align="left"/>
-
-<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 
 ### Abstract

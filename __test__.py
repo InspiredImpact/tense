@@ -11,14 +11,6 @@
 # a = asyncio.run(delta_parser.parse(time_string)) # 1 day, 0:02:05
 # print(a)
 
->>> import asyncio
->>> from aiotense import TenseParser, resolvers
-
->>> complex_string = "1day and 10 minutes + 5 seconds"
-
->>> parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
->>> asyncio.run(parser.parse(complex_string))
-'1 day, 0:10:05'
 # Wait
 # import asyncio
 # from aiotense import TenseParser, from_tense_file_source
