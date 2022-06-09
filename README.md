@@ -34,7 +34,7 @@ Topic: Utilities
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#welcome">Welcome</a></li>
       </ul>
     </li>
     <li>
@@ -62,15 +62,14 @@ Topic: Utilities
 </details>
 
 ## About The Project
-<h5 align="center">Diagram with the main logic of the project</h5>
-<img src="assets/tense-uml.jpg" align="left"/>
-
-
-### Abstract
+### Welcome
 > Have you ever needed to convert, for example, the string "1d1minute 2 sec" 
 to the number of seconds or a datetime.timedelta object?
 
 No? Then advise us to your friends :) And if you really need our tool - let's move on!
+<h5 align="center">Diagram with the main logic of the project</h5>
+<img src="assets/tense-uml.jpg" align="left"/>
+
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 ## Getting started
@@ -81,7 +80,7 @@ $ pip3 install aiotense
 
 ### With Poetry
 ```bash
-install with poetry
+$ poetry add aiotense
 ```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
@@ -233,12 +232,9 @@ Distributed under the Apache 2.0 License. See [`LICENSE`](https://github.com/Ani
 
 ## Acknowledgments
 * [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
 * [Img Shields](https://shields.io)
 * [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Python](https://www.python.org)
+* [Python Community](https://www.python.org/community/)
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>

@@ -62,15 +62,15 @@ Typing: Аннотирован
 </details>
 
 ## О проекте
-<h5 align="center">Диаграма с основной логикой проекта</h5>
-<img src="../assets/tense-uml.jpg" align="left"/>
-
-
 ### Добро пожаловать
 > Нужно ли Вам было конвертировать, например, строку "1д1минута 2 сек" 
 в кол-во секунд или обьект datetime.timedelta?
 
 Нет? Тогда посоветуйте наш проект своим друзьям :) Если вы всё ещё здесь - давайте двигаться дальше!
+
+<h5 align="center">Диаграма с основной логикой проекта</h5>
+<img src="../assets/tense-uml.jpg" align="left"/>
+
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/вернуться в-начало-green?style=social&logo=github"></a></p>
 
 ## Приступить к использованию
@@ -81,7 +81,7 @@ $ pip3 install aiotense
 
 ### Poetry
 ```bash
-install with poetry
+$ poetry add aiotense
 ```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/вернуться в-начало-green?style=social&logo=github"></a></p>
 
@@ -204,7 +204,7 @@ assert str(delta_value) == "36865 days, 0:00:05"
 примеров использования тут:
 <p align="center">
 <br />
-<a href="https://github.com/Animatea/aiotense/tree/main/examples">Aiotense Examples</a>
+<a href="https://github.com/Animatea/aiotense/tree/main/examples">Aiotense Примеры</a>
 </p>
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/вернуться в-начало-green?style=social&logo=github"></a></p>
 
@@ -212,8 +212,8 @@ assert str(delta_value) == "36865 days, 0:00:05"
 
 Вклады — это то, что делает сообщество с открытым исходным кодом таким замечательным местом для обучения, вдохновения и творчества. Любой ваш вклад **очень ценится**.
 
-Если у вас есть предложение, которое могло бы улучшить это, разветвите репозиторий и создайте запрос на включение. Вы также можете просто открыть вопрос с тегом «улучшение».
-Не забудьте поставить звезду проекту! Спасибо еще раз!
+Если у вас есть предложение, которое могло бы улучшить это, разветвите репозиторий и создайте запрос на включение. Вы также можете просто открыть вопрос с тегом «enhancement».
+Не забудьте поставить звезду проекту! Спасибо ещё раз!
 
 1. Создайте форк проекта
 2. Создайте вашу ветку с нововведением (`git checkout -b feature/AmazingFeature`)
@@ -241,12 +241,9 @@ assert str(delta_value) == "36865 days, 0:00:05"
 
 ## Благодарности
 * [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
 * [Img Shields](https://shields.io)
 * [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Python](https://www.python.org)
+* [Python Community](https://www.python.org/community/)
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/вернуться в-начало-green?style=social&logo=github"></a></p>
