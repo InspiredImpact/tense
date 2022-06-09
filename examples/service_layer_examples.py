@@ -1,5 +1,7 @@
 from aiotense.service_layer import safe_eval as time_exp_eval
 
+CONSTANT = 3.14
+
 
 def time_exp_eval_demonstration() -> None:
     # It works :)
@@ -12,7 +14,6 @@ def time_exp_eval_demonstration() -> None:
     assert time_exp_eval.SafelyExpEvalute(exp, eval_locals=deps).safe_evalute() == 3600
 
     # Safely.
-    CONSTANT = 3.14
     time_exp_eval.SafelyExpEvalute("globals().pop('CONSTANT')")
     assert "CONSTANT" in globals()
 

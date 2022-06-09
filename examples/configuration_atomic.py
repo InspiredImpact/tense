@@ -1,5 +1,5 @@
-from aiotense.adapters import repository
 from aiotense import TenseUnitOfWork
+from aiotense.adapters import repository
 
 tenses = repository.TenseRepository()
 # By default `multiplier`=1
@@ -29,7 +29,13 @@ with TenseUnitOfWork() as uow:
     assert "second" in initial_aliases
 
     # Deleting `s` and `second` aliases
-    uow.delete_aliases("second", ("s", "second",))
+    uow.delete_aliases(
+        "second",
+        (
+            "s",
+            "second",
+        ),
+    )
     # Works.
     assert "s" not in initial_aliases
     assert "second" not in initial_aliases

@@ -45,7 +45,7 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
         ~ :class:`TenseUnitOfWork`
     """
 
-    products: abc_repository.AbstractTenseRepository
+    tenses: abc_repository.AbstractTenseRepository
 
     def __enter__(self) -> AbstractTenseUnitOfWork:
         return self
