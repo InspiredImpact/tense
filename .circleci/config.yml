@@ -19,7 +19,7 @@ jobs:
           command: |
             . venv/bin/activate
             pytest
-            behave
+            behave tests/bdd
       # Saving test results.
       - run:
           name: Creating Dummy Artifacts
