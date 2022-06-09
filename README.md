@@ -53,11 +53,11 @@ Topic: Utilities
 ## About The Project
 **User Interface**
  - [x] Flexible 
- - [x] Converters
- - [x] UnitsOfWork
- - [x] Repositories
- - [x] Custom configuration
- - [x] Adding new units of time
+   - [x] Converters
+   - [x] UnitsOfWork
+   - [x] Repositories
+   - [x] Custom configuration
+   - [x] Adding new units of time
 
 **Dev**
  - [x] Typed
