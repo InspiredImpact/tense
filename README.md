@@ -158,7 +158,7 @@ assert str(delta_value) == "36865 days, 0:00:05"
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 ### FAQ
-But what if you need to parse a string like: "1year and 10 decades + 5 seconds"?
+But what if you need to parse a string like: "1day and 10 minutes + 5 seconds"?
 Let's see:
 ```py
 >>> import asyncio
@@ -193,7 +193,7 @@ Well, that's better!
 ## Examples.
 If you think that this is where the possibilities of aiotense ends, then you are wrong! 
 The possibilities of aiotense are too many for a README, so I suggest you move on to viewing 
-the usage examples:
+the usage examples here:
 <p align="center">
 <br />
 <a href="https://github.com/Animatea/aiotense/tree/main/examples">Aiotense Examples</a>

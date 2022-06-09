@@ -10,7 +10,32 @@
 # delta_parser = TenseParser(TenseParser.TIMEDELTA)
 # a = asyncio.run(delta_parser.parse(time_string)) # 1 day, 0:02:05
 # print(a)
+import asyncio
+from aiotense import TenseParser, from_tense_file_source
 
+config_emulation = """
+[model.Tense]  # Этот заголовок обязателен.
+
+[units.Year]
+duration = exp(year)
+aliases = год, лет
+
+[units.Second]
+duration = exp(second)
+aliases = с, сек, секунд
+
+[virtual]
+duration = exp(year * 10)
+aliases = десятилетие, десятилетий
+"""
+
+parser = TenseParser(
+    TenseParser.TIMEDELTA,
+    config=from_tense_file_source(config_emulation),
+)
+delta_value = asyncio.run(parser.parse("1год 10 десятилетий5   секунд"))
+# <-- Assertions -->
+assert str(delta_value) == "36865 days, 0:00:05"
 # Wait
 # import asyncio
 # from aiotense import TenseParser, from_tense_file_source
