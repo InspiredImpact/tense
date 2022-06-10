@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://aiotense.com/docs/</loc>
+         <loc>https://aiotense.com/</loc>
          <lastmod>2022-06-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://aiotense.com/docs/en_faq/</loc>
+         <loc>https://aiotense.com/en_faq/</loc>
          <lastmod>2022-06-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://aiotense.com/docs/ru_faq/</loc>
+         <loc>https://aiotense.com/ru_faq/</loc>
          <lastmod>2022-06-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://aiotense.com/docs/uk_faq/</loc>
+         <loc>https://aiotense.com/uk_faq/</loc>
          <lastmod>2022-06-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
