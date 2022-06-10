@@ -17,29 +17,38 @@ from __future__ import annotations
 __all__ = ["AbstractTenseRepository"]
 
 import abc
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TypedDict, TYPE_CHECKING, Any, Optional, Type
 
 if TYPE_CHECKING:
     from aiotense.domain import units
 
+    class _VirtualUnitDict(TypedDict):
+        duration: int
+        aliases: list[str]
+
 
 class AbstractTenseRepository(abc.ABC):
-    def __init__(self, source: Optional[dict[str, Any]] = None, /) -> None:
-        self.source = source
+    """`Add` operations allows fluent-style."""
+    def __init__(self, config: Optional[dict[str, Any]] = None, /) -> None:
+        self._config = config
 
     def __getitem__(self, item: Any) -> Any:
         if not isinstance(item, str):
             return NotImplemented
-        return self.source[item]
+        return self._config[item]
 
     def __setitem__(self, key: Any, value: Any) -> Any:
         if not isinstance(key, str) or not isinstance(value, str):
             return NotImplemented
-        if key not in self.source:
+        if key not in self._config:
             raise KeyError(
                 f"Key {key} does not exist in config. New keys cannot be added."
             )
-        self.source[key] = value
+        self._config[key] = value
+
+    @property
+    def config(self) -> Optional[dict[str, Any]]:
+        return self._config
 
     @abc.abstractmethod
     def get_config(self) -> dict[str, Any]:
@@ -51,11 +60,16 @@ class AbstractTenseRepository(abc.ABC):
         ...
 
     @abc.abstractmethod
-    def add_virtual_unit(self, unit: units.VirtualUnit) -> None:
-        """Adds custom unit of time."""
+    def add_virtual_unit(self, unit: units.VirtualUnit) -> AbstractTenseRepository:
+        """Adds custom unit of time. Allows fluent-style."""
         ...
 
     @abc.abstractmethod
-    def add_virtual_unit_dict(self, unit_dict: dict[str, Any]) -> None:
-        """Adds custom unit of time."""
+    def add_virtual_unit_dict(self, unit_dict: _VirtualUnitDict) -> AbstractTenseRepository:
+        """Adds custom unit of time. Allows fluent-style."""
+        ...
+
+    @abc.abstractmethod
+    def add_aliases_to(self, unit: Type[units.Unit], aliases: list[str]) -> AbstractTenseRepository:
+        """Adds aliases to unit of time. Allows fluent-style."""
         ...

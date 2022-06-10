@@ -17,9 +17,10 @@ from __future__ import annotations
 __all__ = ["AbstractTenseUnitOfWork", "TenseUnitOfWork"]
 
 import abc
-from typing import TYPE_CHECKING, Any, Iterable
+from typing import TYPE_CHECKING, Any, Iterable, Type
 
 from aiotense.adapters import repository
+from aiotense.domain import units
 
 if TYPE_CHECKING:
     from aiotense.application.ports import repository as abc_repository
@@ -56,6 +57,16 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
         """
         pass
 
+    @staticmethod
+    def with_unit_resolve(unit: str | Type[units.Unit], /) -> str:
+        if not isinstance(unit, str):
+            if not issubclass(unit, units.Unit):
+                raise ValueError("Unit must be instance of str or units.Unit.")
+            unit = unit.__name__
+        if not unit.startswith("units."):
+            unit = "units." + unit.title()
+        return unit
+
     @abc.abstractmethod
     def update_config(self, config: dict[str, Any], /) -> None:
         """Replaces the items of the current dictionary config with new
@@ -73,15 +84,15 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
         ...
 
     @abc.abstractmethod
-    def delete_aliases(self, unit: str, aliases: Iterable[str]) -> None:
+    def delete_aliases(self, unit: Type[units.Unit], aliases: Iterable[str]) -> None:
         """Removes aliases for a concrete unit of time.
 
         !!! Note:
             Will raise KeyError if you specify a non-existent unit of time.
-            See the documentation for all valid time units. If you added
+            See the docs for all valid time units. If you added
             virtual aliases, then you can view the current state of the
             config using the `~self.get_config()` method or by accessing
-            the source attribute (`~self.products.source`).
+            the config attribute (`~self.products.config`).
 
         Parameters:
         -----------
@@ -99,15 +110,15 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
         ...
 
     @abc.abstractmethod
-    def replace_aliases(self, unit: str, replacements: dict[str, str]) -> None:
+    def replace_aliases(self, unit: Type[units.Unit], replacements: dict[str, str]) -> None:
         """Replace aliases for concrete unit of time.
 
         !!! Note:
             Will raise KeyError if you specify a non-existent unit of time.
-            See the documentation for all valid time units. If you added
+            See the docs for all valid time units. If you added
             virtual aliases, then you can view the current state of the
             config using the `~self.get_config()` method or by accessing
-            the source attribute (`~self.products.source`).
+            the config attribute (`~self.products.config`).
 
         Parameters:
         -----------
@@ -131,27 +142,21 @@ class TenseUnitOfWork(AbstractTenseUnitOfWork):
         self.tenses = repository.TenseRepository()
         return super().__enter__()
 
-    @staticmethod
-    def _with_unit_resolve(unit: str, /) -> str:
-        if not unit.startswith("units."):
-            unit = "units." + unit.title()
-        return unit
-
     def update_config(self, config: dict[str, Any]) -> None:
         # <<inherited docstring from :class:`AbstractTenseUnitOfWork`>> #
-        self.tenses.source.update(config)
+        self.tenses._config.update(config)
 
-    def delete_aliases(self, unit: str, aliases: Iterable[str]) -> None:
+    def delete_aliases(self, unit: Type[units.Unit], aliases: Iterable[str]) -> None:
         # <<inherited docstring from :class:`AbstractTenseUnitOfWork`>> #
-        unit = self._with_unit_resolve(unit)
-        unit_aliases = self.tenses.source[unit]["aliases"]
+        unit = self.with_unit_resolve(unit.__name__)
+        unit_aliases = self.tenses._config[unit]["aliases"]
         for alias in aliases:
             unit_aliases.remove(alias)
 
-    def replace_aliases(self, unit: str, replacements: dict[str, str]) -> None:
+    def replace_aliases(self, unit: Type[units.Unit], replacements: dict[str, str]) -> None:
         # <<inherited docstring from :class:`AbstractTenseUnitOfWork`>> #
-        unit = self._with_unit_resolve(unit)
-        unit_aliases = self.tenses.source[unit]["aliases"]
+        unit = self.with_unit_resolve(unit.__name__)
+        unit_aliases = self.tenses._config[unit]["aliases"]
         for old, new in replacements.items():
             for idx, exiting_alias in enumerate(unit_aliases):
                 if old == exiting_alias:

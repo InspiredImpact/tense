@@ -19,7 +19,6 @@ __all__ = ["from_tense_file", "from_tense_file_source"]
 import abc
 import difflib
 import inspect
-import io
 import pathlib
 from typing import (
     Any,
@@ -288,7 +287,7 @@ def from_tense_file_source(file_source: str, /) -> Any:
 def from_tense_file(
     path: pathlib.Path | str,
     /,
-    encoding: Optional[str] = None,
+    encoding: str = "utf-8",
 ) -> Any:
     """Opens the configuration file and parses source into a dictionary.
 
@@ -299,5 +298,5 @@ def from_tense_file(
     encoding: :class:`Optional[str]` = None
         File encoding.
     """
-    with open(path, "r", encoding=io.text_encoding(encoding)) as file:  # type: ignore[attr-defined]
+    with open(path, "r", encoding=encoding) as file:  # type: ignore[attr-defined]
         return from_tense_file_source(file.read())

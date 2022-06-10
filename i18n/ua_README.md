@@ -62,6 +62,8 @@ Typing: Annotated
 </details>
 
 ## Про проект
+<a href="https://circleci.com/gh/Animatea/aiotense/tree/main"><img height="20" src="https://circleci.com/gh/Animatea/aiotense/tree/main.svg?style=svg&circle-token=066eb74fc70db6eeaa6df5ade9e3d2df131b1de1"></a>
+
 ### Ласкаво просимо
 > Чи потрібно Вам було конвертувати, наприклад, строку "1д1хвилина 2 сек" 
 у кількість секунд або об'єкт datetime.timedelta?

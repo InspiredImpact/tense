@@ -22,14 +22,15 @@ __all__ = [
     "AbstractParticleValueConverter",
     "PARTICLE_CONVERTERS",
     "GETATTRIBUTE_VALUE_CONVERTERS",
+    "VCONVERTER_CONSTS",
 ]
 
 import abc
-from typing import Any, Final, Hashable
+from typing import Any, Hashable
 
 from aiotense.service_layer.safe_eval import SafelyExpEvalute
 
-_VCONVERTER_CONSTS: Final[dict[str, int]] = {
+VCONVERTER_CONSTS: dict[str, int] = {
     "second": 1,
     "minute": 60,
     "hour": 60 * 60,
@@ -114,7 +115,7 @@ class ExpressionValueConverter(AbstractParticleValueConverter):
 
     def convert(self, value: str) -> Any:
         exp = value[value.find("(") + 1 : value.find(")")]
-        return SafelyExpEvalute(exp, eval_locals=_VCONVERTER_CONSTS).safe_evalute()
+        return SafelyExpEvalute(exp, eval_locals=VCONVERTER_CONSTS).safe_evalute()
 
 
 PARTICLE_CONVERTERS: frozenset[AbstractParticleConverter] = frozenset(

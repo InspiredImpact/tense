@@ -18,25 +18,15 @@ __all__ = ["TenseRepository"]
 
 import copy
 import dataclasses
-from typing import Any, Optional
+from typing import Any, Optional, Type
 
 from aiotense.application.ports.repository import AbstractTenseRepository
 from aiotense.domain import units
 
 
-class _RepositorySingleton:
-    _instance: Optional[_RepositorySingleton] = None
-
-    def __new__(cls, *args: Any, **kwargs: Any) -> _RepositorySingleton:
-        if not isinstance(cls._instance, cls):
-            cls._instance = object.__new__(cls, *args, **kwargs)
-        return cls._instance
-
-
-class TenseRepository(AbstractTenseRepository, _RepositorySingleton):
-    """Singleton repository adapter."""
-
-    _config: dict[str, Any] = {
+class TenseRepository(AbstractTenseRepository):
+    # <inherited docstring from :class:`TenseRepository`> #
+    _tense_config: dict[str, Any] = {
         "model.Tense": {
             "multiplier": 1,
             "virtual": [],
@@ -95,21 +85,28 @@ class TenseRepository(AbstractTenseRepository, _RepositorySingleton):
         },
     }
 
-    def __init__(self, source: Optional[dict[str, Any]] = None, /) -> None:
-        if source is None:
-            source = self._config
-        super().__init__(source)
+    def __init__(self, config: Optional[dict[str, Any]] = None, /) -> None:
+        if config is None:
+            config = self._tense_config
+        super().__init__(config)
 
     def get_config(self) -> dict[str, Any]:
         return copy.deepcopy(self._config)
 
     def get_setting(self, path: str, setting: str, /) -> Any:
-        return self.source[path][setting]
+        return self._config[path][setting]
 
-    def add_virtual_unit(self, unit: units.VirtualUnit) -> None:
+    def add_virtual_unit(self, unit: units.VirtualUnit) -> TenseRepository:
         # <inherited docstring from :class:`TenseRepository`> #
         self._config["model.Tense"]["virtual"].append(dataclasses.asdict(unit))
+        return self
 
-    def add_virtual_unit_dict(self, unit_dict: dict[str, Any]) -> None:
+    def add_virtual_unit_dict(self, unit_dict: dict[str, Any]) -> TenseRepository:
         # <inherited docstring from :class:`TenseRepository`> #
         self._config["model.Tense"]["virtual"].append(unit_dict)
+        return self
+
+    def add_aliases_to(self, unit: Type[units.Unit], aliases: list[str]) -> TenseRepository:
+        # <inherited docstring from :class:`TenseRepository`> #
+        self._config["units." + unit.__name__]["aliases"].extend(aliases)
+        return self

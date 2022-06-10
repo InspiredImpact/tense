@@ -27,7 +27,6 @@ Topic: Utilities
    <a href="i18n/ua_README.md"><img height="20" src="https://img.shields.io/badge/language-ua-green?style=social&logo=googletranslate"></a>
    <a href="i18n/ru_README.md"><img height="20" src="https://img.shields.io/badge/language-ru-green?style=social&logo=googletranslate"></a>
 </p>
-
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -62,6 +61,8 @@ Topic: Utilities
 </details>
 
 ## About The Project
+<a href="https://circleci.com/gh/Animatea/aiotense/tree/main"><img height="20" src="https://circleci.com/gh/Animatea/aiotense/tree/main.svg?style=svg&circle-token=066eb74fc70db6eeaa6df5ade9e3d2df131b1de1"></a>
+
 ### Welcome
 > Have you ever needed to convert, for example, the string "1d1minute 2 sec" 
 to the number of seconds or a datetime.timedelta object?

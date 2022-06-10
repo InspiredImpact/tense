@@ -16,13 +16,13 @@ from __future__ import annotations
 
 __all__ = ["TenseParser"]
 
-from typing import TYPE_CHECKING, Any, Callable, Optional
+from typing import TYPE_CHECKING, Any, Type, Callable, Optional
 
 from aiotense.adapters import parsers, repository
 from aiotense.domain import model
 
 if TYPE_CHECKING:
-    from aiotense.application.ports import converters
+    from aiotense.application.ports import converters, parsers
 
 from . import exceptions, resolvers
 from .ports import parsers as abc_parsers
@@ -37,7 +37,7 @@ class TenseParser:
     -----------
     parser_cls: :class:`Any` = DIGIT
         Concrete parser type.
-    tense: :class:`model.Tense` = model.Tense.from_dict(_tenses.source), *
+    tense: :class:`model.Tense` = model.Tense.from_dict(_tenses.config), *
         Configuration for concrete parser.
 
     Raises:
@@ -51,7 +51,7 @@ class TenseParser:
 
     def __new__(
         cls,
-        parser_cls: Any = DIGIT,
+        parser_cls: Type[parsers.AbstractParser] = DIGIT,
         *,
         config: Optional[dict[str, Any]] = None,
         converter: Optional[converters.AbstractConverter] = None,
@@ -69,7 +69,7 @@ class TenseParser:
             )
         instance = parser_cls.__new__(parser_cls)
         instance.__init__(
-            tense=model.Tense.from_dict(_tenses.source),
+            tense=model.Tense.from_dict(_tenses.config),
             resolver=time_resolver,
             converter=converter,
         )

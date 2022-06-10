@@ -1,0 +1,65 @@
+site_name: aiotense
+site_url: https://aiotense.com/
+repo_url: https://github.com/Animatea/aiotense
+repo_name: Animatea/aiotense
+
+nav:
+    - Home: index.md
+    - Documentation: documentation.md
+
+theme:
+    name: material
+    language: en
+    favicon: tense-logo-filled-circle.png
+    palette:
+      - scheme: default
+        primary: deep orange
+        accent: teal
+        toggle:
+          icon: material/weather-sunny
+          name: Switch to dark mode
+      - scheme: slate
+        primary:  deep orange
+        accent: teal
+        toggle:
+          icon: material/weather-night
+          name: Switch to light mode
+    font:
+      text: Ubuntu
+    features:
+      - navigation.instant
+      - navigation.tracking
+      - navigation.sections
+      - navigation.expand
+      - navigation.top
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+
+copyright: >
+  Copyright &copy; 2022 Animatea –
+  <a href="https://github.com/Animatea/aiotense/blob/main/LICENSE">License</a>
+
+extra:
+  alternate:
+    - name: Ukrainian-FAQ
+      link: /uk/
+      lang: uk
+    - name: English-FAQ
+      link: /en/
+      lang: en
+    - name: Russian-FAQ
+      link: /ru/
+      lang: ru
+
+plugins:
+  - search:
+      lang:
+        - ru
+        - en

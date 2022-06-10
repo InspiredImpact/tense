@@ -47,6 +47,13 @@ def smart_resolver(raw_str: str, tense: model.Tense) -> list[str]:
     * etc
     """
     basic_resolve = basic_resolver(raw_str, tense)
+    if any(not p.isalpha() for p in basic_resolve if not p.isdigit()):
+        # Removes any char of string.punctuation
+        def _resolve_p(p: str, /) -> str:
+            return p if p.isdigit() else "".join(filter(str.isalpha, p))
+
+        basic_resolve = [_resolve_p(p) for p in basic_resolve[:]]
+
     unit_aliases: list[str] = sum((u.aliases for u in tense), [])
     for idx, part in enumerate(basic_resolve):
         if part.isdigit():
