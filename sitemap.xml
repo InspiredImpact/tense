@@ -6,22 +6,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://aiotense.com/docs/documentation/</loc>
+         <loc>https://aiotense.com/docs/en_faq/</loc>
          <lastmod>2022-06-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://aiotense.com/docs/en/</loc>
+         <loc>https://aiotense.com/docs/ru_faq/</loc>
          <lastmod>2022-06-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://aiotense.com/docs/ru/</loc>
-         <lastmod>2022-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://aiotense.com/docs/uk/</loc>
+         <loc>https://aiotense.com/docs/uk_faq/</loc>
          <lastmod>2022-06-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
