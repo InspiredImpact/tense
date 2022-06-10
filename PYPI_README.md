@@ -1,5 +1,4 @@
 <div id="top"></div>
-<img src="assets/tense-logo.jpg" align="left" width="200px"/>
 Project: aiotense
 <br>
 License: Apache 2.0
@@ -72,8 +71,6 @@ Topic: Utilities
 to the number of seconds or a datetime.timedelta object?
 
 No? Then advise us to your friends :) And if you really need our tool - let's move on!
-<h5 align="center">UML Diagram with the main logic of the project</h5>
-<img src="assets/tense-uml.jpg" align="left"/>
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 

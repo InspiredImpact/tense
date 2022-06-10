@@ -1,41 +1,37 @@
-from aiotense import TenseUnitOfWork
-from aiotense.adapters import repository
+from aiotense import unit_of_work, units
 
-tenses = repository.TenseRepository()
-# By default `multiplier`=1
-assert tenses.source["model.Tense"]["multiplier"] == 1
-
-with TenseUnitOfWork() as uow:
+with unit_of_work.TenseUnitOfWork() as uow:
     # Updating `multiplier` setting
     uow.update_config({"model.Tense": {"multiplier": 2}})
     # Works.
-    assert tenses.source["model.Tense"]["multiplier"] == 2
+    assert uow.tenses.config["model.Tense"]["multiplier"] == 2
 
-with TenseUnitOfWork() as uow:
+with unit_of_work.TenseUnitOfWork() as uow:
     # By default `s` is alias of `units.Second`.
-    initial_aliases = tenses.source["units.Second"]["aliases"]
+    initial_aliases = uow.tenses.config["units.Second"]["aliases"]
     assert "s" in initial_aliases
 
     # Replacing alias `s` to `ss`
-    uow.replace_aliases("second", {"s": "ss"})
+    uow.replace_aliases(units.Second, {"s": "ss"})
     # Works.
     assert "s" not in initial_aliases
     assert "ss" in initial_aliases
 
-with TenseUnitOfWork() as uow:
+with unit_of_work.TenseUnitOfWork() as uow:
     # By default `s` and `second` are aliases of `units.Second`.
-    initial_aliases = tenses.source["units.Second"]["aliases"]
-    assert "s" in initial_aliases
+    initial_aliases = uow.tenses.config["units.Second"]["aliases"]
+
+    assert "ss" in initial_aliases
     assert "second" in initial_aliases
 
     # Deleting `s` and `second` aliases
     uow.delete_aliases(
-        "second",
+        units.Second,
         (
-            "s",
+            "ss",
             "second",
         ),
     )
     # Works.
-    assert "s" not in initial_aliases
+    assert "ss" not in initial_aliases
     assert "second" not in initial_aliases

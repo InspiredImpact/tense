@@ -8,8 +8,8 @@ tenses = repository.TenseRepository()
 tenses2 = repository.TenseRepository()
 
 
-def singleton_demonstration() -> None:
-    assert not tenses.get_setting(
+def relation_demonstration() -> None:
+    assert not tenses2.get_setting(
         "model.Tense", "virtual"
     )  # no virtual units by default
 
@@ -44,5 +44,5 @@ def add_virtual_units_demonstration() -> None:
 
 
 if __name__ == "__main__":
-    singleton_demonstration()
+    relation_demonstration()
     add_virtual_units_demonstration()

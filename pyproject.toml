@@ -25,10 +25,10 @@ include = '\.pyi?$'
 
 [tool.poetry]
 name = "aiotense"
-version = "0.0.2a"
+version = "0.0.3a"
 description = "Time Processing Tool"
 authors = ["Animatea <animatea.programming@gmail.com>"]
-readme = "README.md"
+readme = "PYPI_README.md"
 license = "Apache-2.0"
 homepage = "https://github.com/Animatea/aiotense"
 repository = "https://github.com/Animatea/aiotense"

@@ -13,7 +13,7 @@ def time_exp_eval_demonstration() -> None:
     exp = "minute * 60"
     assert time_exp_eval.SafelyExpEvalute(exp, eval_locals=deps).safe_evalute() == 3600
 
-    # Safely.
+    # Safety.
     time_exp_eval.SafelyExpEvalute("globals().pop('CONSTANT')")
     assert "CONSTANT" in globals()
 
