@@ -59,6 +59,7 @@ def smart_resolver(raw_str: str, tense: model.Tense) -> list[str]:
         if part.isdigit():
             continue
 
+        part = part.lower()  # case insensitive
         for alias in unit_aliases:
             if alias in part:
                 if len(alias) == 1 and len(part) > 1:

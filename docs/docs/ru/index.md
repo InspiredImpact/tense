@@ -35,7 +35,8 @@ from aiotense import TenseParser, from_tense_file, from_tense_file_source
 ```
 А некоторые части импортируются как модули:
 ```py
-from aiotense import repository, units, model, unit_of_work, resolvers, ...
+from aiotense import units, model, unit_of_work, resolvers, ...
+from aiotense.adapters import repository
 ```
 Такой интерфейс сделан во избежание каких-либо циклических импортов и является основным стилем проекта.
 
@@ -57,7 +58,8 @@ from aiotense import repository, units, model, unit_of_work, resolvers, ...
 языка, все остальные вы можете добавить сами! См. пример ниже:
 ```py
 >>> import asyncio
->>> from aiotense import TenseParser, repository, units
+>>> from aiotense import TenseParser, units
+>>> from aiotense.adapters import repository
 
 >>> tenses = repository.TenseRepository()
 >>> (
@@ -104,6 +106,10 @@ TenseParser.__new__(
 комплексной (см. в конце FAQ термины).
 
 Помимо "примитивного" резольвера, который стоит по умолчанию, так же есть и "умный".
+
+!!! info
+    aiotense.application.resolvers.smart_resolver() так же не чувствителен к регистру.
+
 [См. на github](https://github.com/Animatea/aiotense/blob/3d86a8bd95330bf19289c941d14edbe2d6c30e15/aiotense/application/resolvers.py#L28-L63)
 
 !!! note
@@ -112,7 +118,8 @@ TenseParser.__new__(
 
 ```py
 >>> import asyncio
->>> from aiotense import TenseParser, repository, units, resolvers
+>>> from aiotense import TenseParser, units, resolvers
+>>> from aiotense.adapters import repository
 
 >>> tenses = repository.TenseRepository()
 >>> (
@@ -186,7 +193,8 @@ TenseParser.__new__(
 
 ```py
 import asyncio
-from aiotense import TenseParser, repository, units
+from aiotense import TenseParser, units
+from aiotense.adapters import repository
 
 tenses = repository.TenseRepository()
 (

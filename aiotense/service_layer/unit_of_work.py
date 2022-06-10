@@ -110,7 +110,9 @@ class AbstractTenseUnitOfWork(AbstractUnitOfWork, abc.ABC):
         ...
 
     @abc.abstractmethod
-    def replace_aliases(self, unit: Type[units.Unit], replacements: dict[str, str]) -> None:
+    def replace_aliases(
+        self, unit: Type[units.Unit], replacements: dict[str, str]
+    ) -> None:
         """Replace aliases for concrete unit of time.
 
         !!! Note:
@@ -148,14 +150,16 @@ class TenseUnitOfWork(AbstractTenseUnitOfWork):
 
     def delete_aliases(self, unit: Type[units.Unit], aliases: Iterable[str]) -> None:
         # <<inherited docstring from :class:`AbstractTenseUnitOfWork`>> #
-        unit = self.with_unit_resolve(unit.__name__)
+        unit = self.with_unit_resolve(unit.__name__)  # type: ignore[assignment]
         unit_aliases = self.tenses._config[unit]["aliases"]
         for alias in aliases:
             unit_aliases.remove(alias)
 
-    def replace_aliases(self, unit: Type[units.Unit], replacements: dict[str, str]) -> None:
+    def replace_aliases(
+        self, unit: Type[units.Unit], replacements: dict[str, str]
+    ) -> None:
         # <<inherited docstring from :class:`AbstractTenseUnitOfWork`>> #
-        unit = self.with_unit_resolve(unit.__name__)
+        unit = self.with_unit_resolve(unit.__name__)  # type: ignore[assignment]
         unit_aliases = self.tenses._config[unit]["aliases"]
         for old, new in replacements.items():
             for idx, exiting_alias in enumerate(unit_aliases):

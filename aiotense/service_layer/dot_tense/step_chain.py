@@ -298,5 +298,5 @@ def from_tense_file(
     encoding: :class:`Optional[str]` = None
         File encoding.
     """
-    with open(path, "r", encoding=encoding) as file:  # type: ignore[attr-defined]
+    with open(path, "r", encoding=encoding) as file:
         return from_tense_file_source(file.read())

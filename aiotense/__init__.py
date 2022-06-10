@@ -13,7 +13,6 @@
 # limitations under the License.
 """Root package."""
 from aiotense.application import TenseParser, resolvers
-from aiotense.adapters import repository
 from aiotense.domain import model, units
 from aiotense.service_layer import unit_of_work
 from aiotense.service_layer.dot_tense import from_tense_file, from_tense_file_source
@@ -24,7 +23,6 @@ __all__ = [
     "resolvers",
     "TenseParser",
     "unit_of_work",
-    "repository",
     "from_tense_file_source",
     "from_tense_file",
 ]

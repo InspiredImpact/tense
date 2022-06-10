@@ -106,7 +106,9 @@ class TenseRepository(AbstractTenseRepository):
         self._config["model.Tense"]["virtual"].append(unit_dict)
         return self
 
-    def add_aliases_to(self, unit: Type[units.Unit], aliases: list[str]) -> TenseRepository:
+    def add_aliases_to(
+        self, unit: Type[units.Unit], aliases: list[str]
+    ) -> TenseRepository:
         # <inherited docstring from :class:`TenseRepository`> #
         self._config["units." + unit.__name__]["aliases"].extend(aliases)
         return self

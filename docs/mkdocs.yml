@@ -10,7 +10,7 @@ nav:
 theme:
     name: material
     language: en
-    favicon: tense-logo-filled-circle.png
+    favicon: doc_assets/tense-logo-filled-circle.png
     palette:
       - scheme: default
         primary: deep orange

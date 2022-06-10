@@ -35,7 +35,8 @@ from aiotense import TenseParser, from_tense_file, from_tense_file_source
 ```
 And some parts are imported as modules:
 ```py
-from aiotense import repository, units, model, unit_of_work, resolvers, ...
+from aiotense import units, model, unit_of_work, resolvers, ...
+from aiotense.adapters import repository
 ```
 Such an interface is made to avoid any cyclic imports and is the main style of the project.
 
@@ -84,6 +85,9 @@ By default, there is a resolver that does an excellent job with primitive string
 complex (see terms at the end of the FAQ).
 
 In addition to the "primitive" resolver, which is the default, there is also a "smart" one.
+
+!!! info
+     aiotense.application.resolvers.smart_resolver() is also case insensitive.
 
 [See to github](https://github.com/Animatea/aiotense/blob/3d86a8bd95330bf19289c941d14edbe2d6c30e15/aiotense/application/resolvers.py#L28-L63)
 
@@ -159,7 +163,8 @@ functionality.
 
 ```py
 import asyncio
-from aiotense import TenseParser, repository, units
+from aiotense import TenseParser, units
+from aiotense.adapters import repository
 
 tenses = repository.TenseRepository()
 (
