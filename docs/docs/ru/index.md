@@ -70,7 +70,7 @@ from aiotense.adapters import repository
 
 >>> time_string = "1день1минута 20 секунд"
 
->>> parser = TenseParser(TenseParser.DIGIT, config=tenses.source)
+>>> parser = TenseParser(TenseParser.DIGIT, config=tenses.config)
 >>> asyncio.run(parser.parse(time_string))
 86480
 ```
@@ -132,7 +132,7 @@ TenseParser.__new__(
 
 >>> parser = TenseParser(
 ...     TenseParser.DIGIT, 
-...     config=tenses.source,
+...     config=tenses.config,
 ...     time_resolver=resolvers.smart_resolver,
 ... )
 >>> asyncio.run(parser.parse(time_string))
@@ -184,7 +184,7 @@ TenseParser.__new__(
         assert "секунда" in alias_state  # Вместо "second" появился новый алиас - "секунда"
     ```
 
-    __Далее мы передаём исходники репозитория в TenseParser(config=uow.tenses.source)__
+    __Далее мы передаём исходники репозитория в TenseParser(config=uow.tenses.config)__
 
 # Как добавить свои единицы времени?
 Для кастомных единиц времени в aiotense.domain.units выделен отдельный класс - VirtualUnit. Он ничем не отличается 

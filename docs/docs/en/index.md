@@ -154,7 +154,7 @@ alias repository.
         assert "other_second" in alias_state  # Instead of "second" there is a new alias - "other_second"
     ```
 
-    __Next, we pass the repository sources to TenseParser(config=uow.tenses.source)__
+    __Next, we pass the repository sources to TenseParser(config=uow.tenses.config)__
 
 # How to add custom time units?
 For custom time units, aiotense.domain.units has a separate class - VirtualUnit. He is no different

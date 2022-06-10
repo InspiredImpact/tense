@@ -198,6 +198,18 @@ assert str(delta_value) == "36865 days, 0:00:05"
 '1 day, 0:10:05'
 ```
 Ну, так вже краще!
+
+**aiotense.application.resolvers.smart_resolver()** також не є чутливим до регістру!
+```py
+>>> import asyncio
+>>> from aiotense import TenseParser, resolvers
+
+>>> complex_string = "1DAY and 10 MINUTES + 5 SECONDS"
+
+>>> parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
+>>> asyncio.run(parser.parse(complex_string)) 
+'1 day, 0:10:05'
+```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 ## Приклади
@@ -246,5 +258,7 @@ assert str(delta_value) == "36865 days, 0:00:05"
 * [GitHub Pages](https://pages.github.com)
 * [Python](https://www.python.org)
 * [Python Community](https://www.python.org/community/)
+* [MkDocs](https://www.mkdocs.org)
+* [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
