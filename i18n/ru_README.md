@@ -8,7 +8,7 @@
 <br>
 OS: Независимый
 <br>
-Python: 3.10+
+Python: 3.9+
 <br>
 Typing: Аннотирован
 <br>
@@ -16,7 +16,7 @@ Typing: Аннотирован
 <br />
     <p align="center">
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">Документация</a>
+    <a href="https://animatea.github.io/aiotense/">Документация</a>
     ·
     <a href="https://github.com/Animatea/aiotense/issues">Сообщить о баге</a>
     ·

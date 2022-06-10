@@ -7,7 +7,7 @@
 <br>
 Операционная система: Независимый
 <br>
-Python: 3.10+
+Python: 3.9+
 <br>
 Typing: Typed
 <br>
@@ -15,7 +15,7 @@ Typing: Typed
 <br />
     <p align="center">
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">PyPi</a>
+    <a href="https://pypi.org/project/aiotense/">PyPi</a>
     ·
     <a href="https://github.com/Animatea/aiotense/issues">Сообщить о Баге</a>
     ·

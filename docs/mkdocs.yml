@@ -2,6 +2,7 @@ site_name: aiotense
 site_url: https://aiotense.com/
 repo_url: https://github.com/Animatea/aiotense
 repo_name: Animatea/aiotense
+edit_uri: https://github.com/Animatea/aiotense/tree/main/docs/docs
 
 nav:
     - Home: index.md

@@ -7,7 +7,7 @@ About: Time Processing Tool
 <br>
 OS: Independent
 <br>
-Python: 3.10+
+Python: 3.9+
 <br>
 Typing: Typed
 <br>
@@ -15,7 +15,7 @@ Topic: Utilities
 <br />
     <p align="center">
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">PyPi</a>
+    <a href="https://pypi.org/project/aiotense/">PyPi</a>
     ·
     <a href="https://github.com/Animatea/aiotense/issues">Report Bug</a>
     ·

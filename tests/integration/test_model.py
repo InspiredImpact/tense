@@ -11,7 +11,7 @@ tenses = repository.TenseRepository()
 
 @pytest.fixture(name="tense")
 def tense_fixture() -> Iterator[model.Tense]:
-    yield model.Tense.from_dict(tenses.source)
+    yield model.Tense.from_dict(tenses.config)
 
 
 def test_tense_cache(tense: model.Tense) -> None:
@@ -23,4 +23,4 @@ def test_tense_cache(tense: model.Tense) -> None:
 
 
 def test_tense_from_dict() -> None:
-    assert_that(model.Tense.from_dict(tenses.source), instance_of(model.Tense))
+    assert_that(model.Tense.from_dict(tenses.config), instance_of(model.Tense))

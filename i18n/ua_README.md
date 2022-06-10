@@ -8,7 +8,7 @@
 <br>
 OS: Незалежний
 <br>
-Python: 3.10+
+Python: 3.9+
 <br>
 Typing: Annotated
 <br>
