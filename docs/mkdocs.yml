@@ -1,17 +1,20 @@
-site_name: aiotense
-site_url: https://aiotense.com/
-repo_url: https://github.com/Animatea/aiotense
-repo_name: Animatea/aiotense
-edit_uri: https://github.com/Animatea/aiotense/tree/main/docs/docs
+site_name: "Aiotense docs"
+site_url: https://tense.com/
+repo_url: https://github.com/Animatea/tense
+repo_name: Animatea/tense
+edit_uri: https://github.com/Animatea/tense/tree/main/docs/docs
 
 nav:
     - Home: index.md
-    - Documentation: documentation.md
+    - "FAQ":
+        - "Ukraine": uk_faq.md
+        - "English": en_faq.md
+        - "Russian": ru_faq.md
 
 theme:
     name: material
     language: en
-    favicon: doc_assets/tense-logo-filled-circle.png
+    favicon: tense-logo-filled-circle.png
     palette:
       - scheme: default
         primary: deep orange
@@ -46,18 +49,6 @@ markdown_extensions:
 copyright: >
   Copyright &copy; 2022 Animatea –
   <a href="https://github.com/Animatea/aiotense/blob/main/LICENSE">License</a>
-
-extra:
-  alternate:
-    - name: Ukrainian-FAQ
-      link: /uk/
-      lang: uk
-    - name: English-FAQ
-      link: /en/
-      lang: en
-    - name: Russian-FAQ
-      link: /ru/
-      lang: ru
 
 plugins:
   - search:

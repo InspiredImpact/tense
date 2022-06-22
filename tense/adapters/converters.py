@@ -11,19 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import Any, Callable, Hashable, MutableMapping
+"""Adapters of tense.application.ports."""
+__all__ = ["TimedeltaConverter"]
 
-from behave import use_fixture
+from datetime import timedelta
+from typing import Any
+
+from tense.application.ports import converters
 
 
-def use_fixture_by_tag(
-    tag: str,
-    context: object,
-    fixture_registry: MutableMapping[Hashable, Callable[..., Any]],
-) -> Any:
-    fixture_data = fixture_registry.get(tag, None)
-    if fixture_data is None:
-        raise LookupError(f"Unknown fixture-tag: {tag}")
+class TimedeltaConverter(converters.AbstractConverter[timedelta]):
+    def convert(self, value: Any) -> timedelta:
+        if not isinstance(value, (int, float)):
+            raise ValueError("Value must be instance of (int, float).")
 
-    fixture_func = fixture_data
-    return use_fixture(fixture_func, context)
+        return timedelta(seconds=float(value))

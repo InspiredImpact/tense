@@ -1,6 +1,6 @@
 <div id="top"></div>
 <img src="assets/tense-logo.jpg" align="left" width="200px"/>
-Project: aiotense
+Project: tense
 <br>
 License: Apache 2.0
 <br>
@@ -16,11 +16,11 @@ Topic: Utilities
 <br />
     <p align="center">
     <br />
-    <a href="https://animatea.github.io/aiotense/">Documentation</a>
+    <a href="https://animatea.github.io/tense/">Documentation</a>
     ·
-    <a href="https://github.com/Animatea/aiotense/issues">Report Bug</a>
+    <a href="https://github.com/Animatea/tense/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Animatea/aiotense/issues">Request Feature</a>
+    <a href="https://github.com/Animatea/tense/issues">Request Feature</a>
     </p>
 <div id="top"></div>
 <p align="center">
@@ -39,7 +39,7 @@ Topic: Utilities
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#with-pypi">With PyPi</a></li>
+        <li><a href="#with-pypi">With Pip</a></li>
         <li><a href="#with-poetry">With Poetry</a></li>
       </ul>
     </li>
@@ -57,56 +57,53 @@ Topic: Utilities
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#history">Project history</a></li>
   </ol>
 </details>
 
 ## About The Project
-<a href="https://circleci.com/gh/Animatea/aiotense/tree/main"><img height="20" src="https://circleci.com/gh/Animatea/aiotense/tree/main.svg?style=svg&circle-token=066eb74fc70db6eeaa6df5ade9e3d2df131b1de1"></a>
-<a href="https://pypi.org/project/aiotense/"><img height="20" alt="PyPi" src="https://img.shields.io/pypi/v/aiotense"></a>
+<a href="https://circleci.com/gh/Animatea/tense/tree/main"><img height="20" src="https://dl.circleci.com/status-badge/img/gh/Animatea/tense/tree/main.svg?style=svg"></a>
+<a href="https://pypi.org/project/tense/"><img height="20" alt="PyPi" src="https://img.shields.io/pypi/v/tense"></a>
 <a href="https://pypi.org/project/mypy/"><img height="20" alt="Mypy badge" src="http://www.mypy-lang.org/static/mypy_badge.svg"></a>
 <a href="https://github.com/psf/black"><img height="20" alt="Black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-<a href="https://pycqa.github.io/isort/"><img height="20" alt="Supported python versions" src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336">
+<a href="https://pycqa.github.io/isort/"><img height="20" alt="Supported python versions" src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336"></a>
 
 ### Welcome
 > Have you ever needed to convert, for example, the string "1d1minute 2 sec" 
 to the number of seconds or a datetime.timedelta object?
 
 No? Then advise us to your friends :) And if you really need our tool - let's move on!
-<h5 align="center">UML Diagram with the main logic of the project</h5>
-<img src="assets/tense-uml.jpg" align="left"/>
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 ## Getting started
 ### With PyPi
 ```bash
-$ pip3 install aiotense
+$ pip3 install tense
 ```
 
 ### With Poetry
 ```bash
-$ poetry add aiotense
+$ poetry add tense
 ```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 ## Usage
 ### Built-in basic
+
 ```py
-import asyncio
 import datetime
-from aiotense import TenseParser
+from tense import TenseParser
 
 time_string = "1d2minutes 5 sec"
 
 # <-- Digit parser -->
 digit_parser = TenseParser(TenseParser.DIGIT)
-digit_value = asyncio.run(digit_parser.parse(time_string))
-# <-- Assertions -->
-assert digit_value == 86525
+assert digit_parser.parse(time_string) == 86525
 
 # <-- Timedelta parser -->
 delta_parser = TenseParser(TenseParser.TIMEDELTA)
-delta_value = asyncio.run(delta_parser.parse(time_string))
+delta_value = delta_parser.parse(time_string)
 # <-- Assertions -->
 assert isinstance(delta_value, datetime.timedelta)
 assert str(delta_value) == "1 day, 0:02:05"
@@ -114,9 +111,9 @@ assert str(delta_value) == "1 day, 0:02:05"
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 ### Reconfiguring existing settings
+
 ```py
-import asyncio
-from aiotense import TenseParser, from_tense_file_source
+from tense import TenseParser, from_tense_file_source
 
 config_emulation = """
 [model.Tense]
@@ -130,18 +127,17 @@ aliases = my_minute, my_minutes, my_min, my_mins
 """
 parser = TenseParser(
     TenseParser.TIMEDELTA,
-    config=from_tense_file_source(config_emulation),
+    tenses=from_tense_file_source(config_emulation),
 )
-delta_value = asyncio.run(parser.parse("1 my_min 10my_mins 9  my_minutes"))
-# <-- Assertions -->
-assert str(delta_value) ==  "1:20:00" # (each 120 * 2)
+delta_value = parser.parse("1 my_min 10my_mins 9  my_minutes")
+assert str(delta_value) == "1:20:00"  # (each 120 * 2)
 ```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 ### Adding new settings
+
 ```py
-import asyncio
-from aiotense import TenseParser, from_tense_file_source
+from tense import TenseParser, from_tense_file_source
 
 config_emulation = """
 [model.Tense]  # This header is required.
@@ -153,10 +149,9 @@ aliases = decade, dec, decs, decades
 
 parser = TenseParser(
     TenseParser.TIMEDELTA,
-    config=from_tense_file_source(config_emulation),
+    tenses=from_tense_file_source(config_emulation),
 )
-delta_value = asyncio.run(parser.parse("1year 10 decades5   seconds"))
-# <-- Assertions -->
+delta_value = parser.parse("1year 10 decades5   seconds")
 assert str(delta_value) == "36865 days, 0:00:05"
 ```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
@@ -164,56 +159,56 @@ assert str(delta_value) == "36865 days, 0:00:05"
 ### FAQ
 But what if you need to parse a string like: "1day and 10 minutes + 5 seconds"?
 Let's see:
+
 ```py
->>> import asyncio
->>> from aiotense import TenseParser
+>> > from tense import TenseParser
 
->>> complex_string = "1day and 10 minutes + 5 seconds"
+>> > complex_string = "1day and 10 minutes + 5 seconds"
 
->>> parser = TenseParser(TenseParser.TIMEDELTA)
->>> asyncio.run(parser.parse(complex_string))
+>> > parser = TenseParser(TenseParser.TIMEDELTA)
+>> > parser.parse(complex_string)
 '0:00:05'
 ```
 Wait... What? 5 second? But there are days and minutes...
-- It's okay, you're using flexible aiotense! This problem is solved in two ways:
+- It's okay, you're using flexible tense! This problem is solved in two ways:
   1) You write your own time_resolver and pass it
-  2) Choose an existing one from aiotense.resolvers
+  2) Choose an existing one from tense.resolvers
 
 Let's demonstrate!
-I will use the second option, since the built-in time resolvers in aiotense are suitable for me.
+I will use the second option, since the built-in time resolvers in tense are suitable for me.
+
 ```py
->>> import asyncio
->>> from aiotense import TenseParser, resolvers
+>> > from tense import TenseParser, resolvers
 
->>> complex_string = "1day and 10 minutes + 5 seconds"
+>> > complex_string = "1day and 10 minutes + 5 seconds"
 
->>> parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
->>> asyncio.run(parser.parse(complex_string)) 
+>> > parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
+>> > parser.parse(complex_string)
 '1 day, 0:10:05'
 ```
 Well, that's better!
 
-**aiotense.application.resolvers.smart_resolver()** is also case insensitive!
+**tense.application.resolvers.smart_resolver()** is also case insensitive!
+
 ```py
->>> import asyncio
->>> from aiotense import TenseParser, resolvers
+>> > from tense import TenseParser, resolvers
 
->>> complex_string = "1DAY and 10 MINUTES + 5 SECONDS"
+>> > complex_string = "1DAY and 10 MINUTES + 5 SECONDS"
 
->>> parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
->>> asyncio.run(parser.parse(complex_string)) 
+>> > parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
+>> > parser.parse(complex_string)
 '1 day, 0:10:05'
 ```
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
 ## Examples.
-If you think that this is where the possibilities of aiotense ends, then you are wrong! 
-The possibilities of aiotense are too many for a README, so I suggest you move on to viewing 
+If you think that this is where the possibilities of tense ends, then you are wrong! 
+The possibilities of tense are too many for a README, so I suggest you move on to viewing 
 the usage examples here:
 <p align="center">
 <br />
-<a href="https://github.com/Animatea/aiotense/tree/main/examples">Aiotense Examples</a>
+<a href="https://github.com/Animatea/tense/tree/main/examples">Tense Examples</a>
 </p>
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
@@ -234,7 +229,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the Apache 2.0 License. See [`LICENSE`](https://github.com/Animatea/aiotense/blob/main/LICENSE) for more information.
+Distributed under the Apache 2.0 License. See [`LICENSE`](https://github.com/Animatea/tense/blob/main/LICENSE) for more information.
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
 
@@ -256,5 +251,19 @@ Distributed under the Apache 2.0 License. See [`LICENSE`](https://github.com/Ani
 * [Python Community](https://www.python.org/community/)
 * [MkDocs](https://www.mkdocs.org)
 * [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)
+
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
+
+## History
+Initially, the project was made asynchronous, which significantly slowed down the parsing process, because tense is a CPU-bound module.
+
+By refactoring the project, we got a `~x22.31` speedup in processing complex strings (using `smart_resolver`).
+> Was: `~0.00095030...`μs | Now: `~0.00004260...`μs
+
+And `~x38.28` speed up processing simple strings (using `basic_resolver`).
+> Was: `~0.00062400...`μs | Now: `~0.00001630...`μs
+
+The previous (async) version is still available in the repository branches - https://github.com/Animatea/tense/tree/async-final,
+but the site with the documentation will be changed.
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>

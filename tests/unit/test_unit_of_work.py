@@ -1,61 +1,100 @@
+# Copyright 2022 Animatea
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 from contextlib import AbstractContextManager
 
-from hamcrest import assert_that, greater_than, is_, is_in, not_
+from hamcrest import assert_that, equal_to, greater_than, has_length, is_, is_in, not_
 
-from aiotense.domain import units
-from aiotense.service_layer import unit_of_work as uow
+from tense.service_layer import unit_of_work as uow
 
 from ..pyhamcrest import has_attributes, in_, subclass_of
 
-
-def test_hierarchy() -> None:
-    assert_that(uow.AbstractTenseUnitOfWork, is_(subclass_of(uow.AbstractUnitOfWork)))
-    assert_that(uow.TenseUnitOfWork, is_(subclass_of(uow.AbstractTenseUnitOfWork)))
-
-
-def test_syntax_sugar() -> None:
-    assert_that(uow.AbstractTenseUnitOfWork, is_(subclass_of(AbstractContextManager)))
+_BASE_SETTING_GROUP = "model.Tense"
+_MULTIPLIER_SETTING = "multiplier"
+_SECOND_SETTING = "units.Second"
+_ALIASES_SETTING = "aliases"
 
 
-def test_basic() -> None:
-    with uow.TenseUnitOfWork() as tense_uow:
-        assert_that(tense_uow, has_attributes("tenses"))
+class TestTenseUnitOfWork:
+    def test_tense_unit_of_work(self) -> None:
+        assert_that(uow.TenseUnitOfWork, is_(subclass_of(uow.AbstractTenseUnitOfWork)))
+        assert_that(
+            uow.AbstractTenseUnitOfWork, is_(subclass_of(AbstractContextManager))
+        )
 
+        tense_uow = uow.TenseUnitOfWork()
+        assert_that(tense_uow, not_(has_attributes("products")))
 
-class TestAtomicOperations:
+        with tense_uow:
+            assert_that(tense_uow, has_attributes("products"))
+
     def test_update_config(self) -> None:
-        with uow.TenseUnitOfWork() as tense_uow:
-            # Before update
-            model_tense = tense_uow.tenses.config["model.Tense"]
-            initial_mul = model_tense["multiplier"]  # By default
+        tense_uow = uow.TenseUnitOfWork()
 
-            tense_uow.update_config({"model.Tense": {"multiplier": initial_mul + 1}})
+        with tense_uow:
+            before_multiplier = tense_uow.products.config[_BASE_SETTING_GROUP][
+                _MULTIPLIER_SETTING
+            ]
+            assert_that(before_multiplier, equal_to(1))
 
-            # After update
-            model_tense = tense_uow.tenses.config["model.Tense"]
-            assert_that(model_tense["multiplier"], greater_than(initial_mul))
+            tense_uow.update_config(
+                {
+                    _BASE_SETTING_GROUP: {
+                        _MULTIPLIER_SETTING: 2,
+                    }
+                }
+            )
+
+            # multiplier changed
+            after_multiplier = tense_uow.products.config[_BASE_SETTING_GROUP][
+                _MULTIPLIER_SETTING
+            ]
+            assert_that(after_multiplier, equal_to(2))
+
+            # other values are saved
+            assert_that(tense_uow.products.config, has_length(greater_than(1)))
 
     def test_delete_aliases(self) -> None:
-        with uow.TenseUnitOfWork() as tense_uow:
-            # Before delete
-            second = tense_uow.tenses.config["units.Second"]
-            assert_that("s", is_in(second["aliases"]))
+        from tense import units
 
-            tense_uow.delete_aliases(units.Second, ("s",))
+        tense_uow = uow.TenseUnitOfWork()
 
-            # After delete
-            second = tense_uow.tenses.config["units.Second"]
-            assert_that("s", not_(in_(second["aliases"])))
+        with tense_uow:
+            before_second_aliases = tense_uow.products.get_setting(
+                _SECOND_SETTING, _ALIASES_SETTING
+            )
+            assert_that("s", is_in(before_second_aliases))
+
+            tense_uow.delete_aliases(units.Second, ["s"])
+            after_second_aliases = tense_uow.products.get_setting(
+                _SECOND_SETTING, _ALIASES_SETTING
+            )
+            assert_that("s", not_(in_(after_second_aliases)))
 
     def test_replace_aliases(self) -> None:
-        with uow.TenseUnitOfWork() as tense_uow:
-            # Before replace
-            second = tense_uow.tenses.config["units.Second"]
-            assert_that("sec", is_in(second["aliases"]))
+        from tense import units
+
+        tense_uow = uow.TenseUnitOfWork()
+
+        with tense_uow:
+            before_second_aliases = tense_uow.products.get_setting(
+                _SECOND_SETTING, _ALIASES_SETTING
+            )
+            assert_that("sec", is_in(before_second_aliases))
 
             tense_uow.replace_aliases(units.Second, {"sec": "ssec"})
-
-            # After replace
-            second_aliases = tense_uow.tenses.config["units.Second"]["aliases"]
-            assert_that("sec", not_(in_(second_aliases)))
-            assert_that("ssec", is_in(second_aliases))
+            after_second_aliases = tense_uow.products.get_setting(
+                _SECOND_SETTING, _ALIASES_SETTING
+            )
+            assert_that("sec", not_(in_(after_second_aliases)))
+            assert_that("ssec", is_in(after_second_aliases))

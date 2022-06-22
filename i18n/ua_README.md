@@ -1,6 +1,6 @@
 <div id="top"></div>
 <img src="../assets/tense-logo.jpg" align="left" width="200px"/>
-Проект: aiotense
+Проект: tense
 <br>
 Ліцензія: Apache 2.0
 <br>
@@ -18,9 +18,9 @@ Typing: Annotated
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template">Документація</a>
     ·
-    <a href="https://github.com/Animatea/aiotense/issues">Сповістити про баг</a>
+    <a href="https://github.com/Animatea/tense/issues">Сповістити про баг</a>
     ·
-    <a href="https://github.com/Animatea/aiotense/issues">Запропонувати ідею</a>
+    <a href="https://github.com/Animatea/tense/issues">Запропонувати ідею</a>
     </p>
 <div id="top"></div>
 <p align="center">
@@ -58,15 +58,16 @@ Typing: Annotated
     <li><a href="#ліцензия">Ліцензия</a></li>
     <li><a href="#контакт">Контакт</a></li>
     <li><a href="#подяки">Подяки</a></li>
+    <li><a href="#історія">Історія проекту</a></li>
   </ol>
 </details>
 
 ## Про проект
-<a href="https://circleci.com/gh/Animatea/aiotense/tree/main"><img height="20" src="https://circleci.com/gh/Animatea/aiotense/tree/main.svg?style=svg&circle-token=066eb74fc70db6eeaa6df5ade9e3d2df131b1de1"></a>
-<a href="https://pypi.org/project/aiotense/"><img height="20" alt="PyPi" src="https://img.shields.io/pypi/v/aiotense"></a>
+<a href="https://circleci.com/gh/Animatea/tense/tree/main"><img height="20" src="https://dl.circleci.com/status-badge/img/gh/Animatea/tense/tree/main.svg?style=svg"></a>
+<a href="https://pypi.org/project/tense/"><img height="20" alt="PyPi" src="https://img.shields.io/pypi/v/tense"></a>
 <a href="https://pypi.org/project/mypy/"><img height="20" alt="Mypy badge" src="http://www.mypy-lang.org/static/mypy_badge.svg"></a>
 <a href="https://github.com/psf/black"><img height="20" alt="Black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-<a href="https://pycqa.github.io/isort/"><img alt="Supported python versions" height="20" src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&amp;labelColor=ef8336"/>
+<a href="https://pycqa.github.io/isort/"><img alt="Supported python versions" height="20" src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&amp;labelColor=ef8336"/></a>
 
 ### Ласкаво просимо
 > Чи потрібно Вам було конвертувати, наприклад, строку "1д1хвилина 2 сек" 
@@ -74,41 +75,36 @@ Typing: Annotated
 
 Ні? Тоді порадьте наш проект своїм друзям :) Якщо ви ще тут - йдемо далі!
 
-<h5 align="center">UML Діаграма з основною логікою проекта</h5>
-<img src="../assets/tense-uml.jpg" align="left"/>
-
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 ## Перейти до використання
 ### PyPi
 ```bash
-$ pip3 install aiotense
+$ pip3 install tense
 ```
 
 ### Poetry
 ```bash
-$ poetry add aiotense
+$ poetry add tense
 ```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 ## Використання
 ### Основні можливості
+
 ```py
-import asyncio
 import datetime
-from aiotense import TenseParser
+from tense import TenseParser
 
 time_string = "1d2minutes 5 sec"
 
 # <-- Digit parser -->
 digit_parser = TenseParser(TenseParser.DIGIT)
-digit_value = asyncio.run(digit_parser.parse(time_string))
-# <-- Assertions -->
-assert digit_value == 86525
+assert digit_parser.parse(time_string) == 86525
 
 # <-- Timedelta parser -->
 delta_parser = TenseParser(TenseParser.TIMEDELTA)
-delta_value = asyncio.run(delta_parser.parse(time_string))
+delta_value = delta_parser.parse(time_string)
 # <-- Assertions -->
 assert isinstance(delta_value, datetime.timedelta)
 assert str(delta_value) == "1 day, 0:02:05"
@@ -116,9 +112,9 @@ assert str(delta_value) == "1 day, 0:02:05"
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 ### Зміна наявних параметрів
+
 ```py
-import asyncio
-from aiotense import TenseParser, from_tense_file_source
+from tense import TenseParser, from_tense_file_source
 
 config_emulation = """
 [model.Tense]
@@ -132,18 +128,17 @@ aliases = хвилина, хвилин, хв
 """
 parser = TenseParser(
     TenseParser.TIMEDELTA,
-    config=from_tense_file_source(config_emulation),
+    tenses=from_tense_file_source(config_emulation),
 )
-delta_value = asyncio.run(parser.parse("1 хвилина 10хвилин 9  хв"))
-# <-- Assertions -->
-assert str(delta_value) ==  "1:20:00" # (кожна 120 * 2)
+delta_value = parser.parse("1 хвилина 10хвилин 9  хв")
+assert str(delta_value) == "1:20:00"  # (кожна 120 * 2)
 ```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 ### Додавання нових налаштувань
+
 ```py
-import asyncio
-from aiotense import TenseParser, from_tense_file_source
+from tense import TenseParser, from_tense_file_source
 
 config_emulation = """
 [model.Tense]  # Цей заголовок обов'язковий.
@@ -163,10 +158,9 @@ aliases = десятиліття, десятиліть
 
 parser = TenseParser(
     TenseParser.TIMEDELTA,
-    config=from_tense_file_source(config_emulation),
+    tenses=from_tense_file_source(config_emulation),
 )
-delta_value = asyncio.run(parser.parse("1рік 10 десятиліть5   секунд"))
-# <-- Assertions -->
+delta_value = parser.parse("1рік 10 десятиліть5   секунд")
 assert str(delta_value) == "36865 days, 0:00:05"
 ```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
@@ -174,55 +168,55 @@ assert str(delta_value) == "36865 days, 0:00:05"
 ### FAQ
 Але що як нам потрібно парсити строку типу: "1day and 10 minutes + 5 seconds"?
 Давайте подивимось:
+
 ```py
->>> import asyncio
->>> from aiotense import TenseParser
+>> > from tense import TenseParser
 
->>> complex_string = "1day and 10 minutes + 5 seconds"
+>> > complex_string = "1day and 10 minutes + 5 seconds"
 
->>> parser = TenseParser(TenseParser.TIMEDELTA)
->>> asyncio.run(parser.parse(complex_string))
+>> > parser = TenseParser(TenseParser.TIMEDELTA)
+>> > parser.parse(complex_string)
 '0:00:05'
 ```
 Зачекайте... Що? 5 секунд? Але ж там дні та хвилини...
-- Все окей, ви ж користуєтесь гнучким aiotense! Проблему можно вирішити двума шляхами:
+- Все окей, ви ж користуєтесь гнучким tense! Проблему можно вирішити двома шляхами:
   1) Ви пишете свій time_resolver
-  2) Ви вибираєте з вже існуючих aiotense.resolvers
+  2) Ви вибираєте з вже існуючих tense.resolvers
 
 Давайте продемонструю!
-Я буду використовувати другий варіант, так як існуючі резольвери мені підходять.
+Я буду використовувати інший варіант, так як існуючі резольвери мені підходять.
+
 ```py
->>> import asyncio
->>> from aiotense import TenseParser, resolvers
+>> > from tense import TenseParser, resolvers
 
->>> complex_string = "1day and 10 minutes + 5 seconds"
+>> > complex_string = "1day and 10 minutes + 5 seconds"
 
->>> parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
->>> asyncio.run(parser.parse(complex_string)) 
+>> > parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
+>> > parser.parse(complex_string)
 '1 day, 0:10:05'
 ```
 Ну, так вже краще!
 
-**aiotense.application.resolvers.smart_resolver()** також не є чутливим до регістру!
+**tense.application.resolvers.smart_resolver()** також не є чутливим до регістру!
+
 ```py
->>> import asyncio
->>> from aiotense import TenseParser, resolvers
+>> > from tense import TenseParser, resolvers
 
->>> complex_string = "1DAY and 10 MINUTES + 5 SECONDS"
+>> > complex_string = "1DAY and 10 MINUTES + 5 SECONDS"
 
->>> parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
->>> asyncio.run(parser.parse(complex_string)) 
+>> > parser = TenseParser(TenseParser.TIMEDELTA, time_resolver=resolvers.smart_resolver)
+>> > parser.parse(complex_string)
 '1 day, 0:10:05'
 ```
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
 ## Приклади
-Якщо ви гадаєте, що на цьмоу можливості aiotense закінчуються, то ви помиляєтесь!
-Можливостей aiotense забагато для README, тому я пропоную Вам продовжити перегляд 
+Якщо ви гадаєте, що на цьмоу можливості tense закінчуються, то ви помиляєтесь!
+Можливостей tense забагато для README, тому я пропоную Вам продовжити перегляд 
 прикладів використання тут:
 <p align="center">
 <br />
-<a href="https://github.com/Animatea/aiotense/tree/main/examples">Aiotense Приклади</a>
+<a href="https://github.com/Animatea/tense/tree/main/examples">Tense Приклади</a>
 </p>
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
@@ -242,7 +236,7 @@ assert str(delta_value) == "36865 days, 0:00:05"
 <!-- LICENSE -->
 ## Ліцензия
 
-Поширюється під ліцензією Apache 2.0. Див. детальніше [`LICENSE`](https://github.com/Animatea/aiotense/blob/main/LICENSE).
+Поширюється під ліцензією Apache 2.0. Див. детальніше [`LICENSE`](https://github.com/Animatea/tense/blob/main/LICENSE).
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
 
@@ -264,5 +258,19 @@ assert str(delta_value) == "36865 days, 0:00:05"
 * [Python Community](https://www.python.org/community/)
 * [MkDocs](https://www.mkdocs.org)
 * [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)
+
+<p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
+
+## Історія
+Спочатку проект був зроблений асинхронним, що суттєво уповільнювало процес парсингу, адже tense є CPU-bound модулем.
+
+Відрефакторивши проект, ми отримали `~x22.31` прискорення в обробці складних рядків (за допомогою `smart_resolver`).
+> Було: `~0.00095030...`μs | Стало: `~0.00004260...`μs
+
+І `~x38.28` прискорення в обробці простих рядків, відповідно (за допомогою `basic_resolver`).
+> Було: `~0.00062400...`μs | Стало: `~0.00001630...`μs
+
+Попередня (асинхронна) версія, як і раніше, доступна у гілках репозиторію - https://github.com/Animatea/tense/tree/async-final,
+але сайт із документацією буде змінено.
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>
