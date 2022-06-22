@@ -1,5 +1,5 @@
 [tool.mypy]
-mypy_path = "aiotense"
+mypy_path = "tense"
 python_version = "3.10"
 exclude = "__init__.py"
 
@@ -17,28 +17,27 @@ no_site_packages = true
 [tool.isort]
 profile = "black"
 py_version = 310
-src_paths = ["aiotense", "tests"]
+src_paths = ["tense", "tests", "examples"]
 
 [tool.black]
 target-version = ["py310"]
 include = '\.pyi?$'
 
 [tool.poetry]
-name = "aiotense"
-version = "0.0.3a"
+name = "tense"
+version = "1.0.0b"
 description = "Time Processing Tool"
 authors = ["Animatea <animatea.programming@gmail.com>"]
 readme = "PYPI_README.md"
 license = "Apache-2.0"
-homepage = "https://github.com/Animatea/aiotense"
-repository = "https://github.com/Animatea/aiotense"
-documentation = "https://animatea.github.io/aiotense/"
+homepage = "https://github.com/Animatea/tense"
+repository = "https://github.com/Animatea/tense"
+documentation = "https://animatea.github.io/tense/"
 include = [
     "LICENSE", "assets", "i18n",
 ]
-keywords = ["parser", "tool", "aiotense", "time", "utility"]
+keywords = ["parser", "tool", "tense", "time", "utility"]
 classifiers = [
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Development Status :: 3 - Alpha",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -51,24 +50,24 @@ classifiers = [
     "Topic :: Utilities",
 ]
 packages = [
-    { include = "aiotense" },
+    { include = "tense" },
 ]
 
 [tool.poetry.urls]
-"Bug Tracker" = "https://github.com/Animatea/aiotense/issues"
-"Documentation" = "https://animatea.github.io/aiotense/"
+"Bug Tracker" = "https://github.com/Animatea/tense/issues"
+"Documentation" = "https://animatea.github.io/tense/"
 
 [tool.poetry.dependencies]
 python = "^3.9"
 
 [tool.poetry.dev-dependencies]
-parse = "^1.19.0"
-PyHamcrest = "2^.0.3"
-pytest = "^7.1.2"
-behave = "^1.2.6"
-black = "^22.3.0"
-isort = "^5.10.1"
-mypy = "^0.961"
+parse = "1.19.0"
+PyHamcrest = "2.0.3"
+pytest = "7.1.2"
+behave = "1.2.6"
+black = "22.3.0"
+isort = "5.10.1"
+mypy = "0.961"
 
 [build-system]
 requires = ["poetry>=0.12"]

@@ -1,14 +1,14 @@
-from aiotense import unit_of_work, units
+from tense import unit_of_work, units
 
 with unit_of_work.TenseUnitOfWork() as uow:
     # Updating `multiplier` setting
     uow.update_config({"model.Tense": {"multiplier": 2}})
     # Works.
-    assert uow.tenses.config["model.Tense"]["multiplier"] == 2
+    assert uow.products.config["model.Tense"]["multiplier"] == 2
 
 with unit_of_work.TenseUnitOfWork() as uow:
     # By default `s` is alias of `units.Second`.
-    initial_aliases = uow.tenses.config["units.Second"]["aliases"]
+    initial_aliases = uow.products.config["units.Second"]["aliases"]
     assert "s" in initial_aliases
 
     # Replacing alias `s` to `ss`
@@ -19,7 +19,7 @@ with unit_of_work.TenseUnitOfWork() as uow:
 
 with unit_of_work.TenseUnitOfWork() as uow:
     # By default `s` and `second` are aliases of `units.Second`.
-    initial_aliases = uow.tenses.config["units.Second"]["aliases"]
+    initial_aliases = uow.products.config["units.Second"]["aliases"]
 
     assert "ss" in initial_aliases
     assert "second" in initial_aliases

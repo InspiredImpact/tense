@@ -1,10 +1,23 @@
+# Copyright 2022 Animatea
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 from functools import partial
 from typing import Any
 
 from behave import given, then
 from hamcrest import assert_that, calling, instance_of, is_not, raises
 
-from aiotense.service_layer.dot_tense import exceptions, step_chain
+from tense.service_layer.dot_tense import exceptions, step_chain
 from tests.pyhamcrest import has_attributes
 
 

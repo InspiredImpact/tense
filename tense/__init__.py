@@ -11,19 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import Any, Callable, Hashable, MutableMapping
+"""Root package."""
+from tense.application import TenseParser, resolvers
+from tense.domain import model, units
+from tense.service_layer import unit_of_work
+from tense.service_layer.dot_tense import from_tense_file, from_tense_file_source
 
-from behave import use_fixture
-
-
-def use_fixture_by_tag(
-    tag: str,
-    context: object,
-    fixture_registry: MutableMapping[Hashable, Callable[..., Any]],
-) -> Any:
-    fixture_data = fixture_registry.get(tag, None)
-    if fixture_data is None:
-        raise LookupError(f"Unknown fixture-tag: {tag}")
-
-    fixture_func = fixture_data
-    return use_fixture(fixture_func, context)
+__all__ = [
+    "model",
+    "units",
+    "resolvers",
+    "TenseParser",
+    "unit_of_work",
+    "from_tense_file_source",
+    "from_tense_file",
+]

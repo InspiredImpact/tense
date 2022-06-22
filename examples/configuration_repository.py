@@ -1,8 +1,6 @@
-import asyncio
-
-from aiotense import TenseParser, resolvers
-from aiotense.adapters import repository
-from aiotense.domain import units
+from tense import TenseParser, resolvers
+from tense.adapters import repository
+from tense.domain import units
 
 tenses = repository.TenseRepository()
 tenses2 = repository.TenseRepository()
@@ -40,7 +38,7 @@ def add_virtual_units_demonstration() -> None:
         time_resolver=resolvers.smart_resolver,
     )
 
-    assert asyncio.run(parser.parse(integration_time_string)).days > 0
+    assert parser.parse(integration_time_string).days > 0
 
 
 if __name__ == "__main__":
