@@ -15,20 +15,20 @@ Typing: Typed
 <br />
     <p align="center">
     <br />
-    <a href="https://pypi.org/project/aiotense/">PyPi</a>
+    <a href="https://pypi.org/project/tense/">PyPi</a>
     ·
-    <a href="https://github.com/Animatea/aiotense/issues">Сообщить о Баге</a>
+    <a href="https://github.com/Animatea/tense/issues">Сообщить о Баге</a>
     ·
-    <a href="https://github.com/Animatea/aiotense/issues">Предложить Идею</a>
+    <a href="https://github.com/Animatea/tense/issues">Предложить Идею</a>
     </p>
 
-# Что из себя представляет aiotense?
-`aiotense` - инструмент для парсинга времени. Нужно ли Вам было конвертировать строку 
+# Что из себя представляет tense?
+`tense` - инструмент для парсинга времени. Нужно ли Вам было конвертировать строку 
 типа "1день1минута 20 секунд" в кол-во секунд или объект datetime.timedelta? Нет? 
 Тогда посоветуйте нас своим друзьям :) А если вы всё ещё здесь - давайте продолжим!
 
-# Как спроектирован aiotense?
-`aiotense` спроектирован так, чтоб обеспечить максимальную **гибкость**, **практичность** и **удобство** пользователю.
+# Как спроектирован tense?
+`tense` спроектирован так, чтоб обеспечить максимальную **гибкость**, **практичность** и **удобство** пользователю.
 Некоторая логика импортируется сразу, как класс или функция:
 
 ```py
@@ -37,9 +37,7 @@ from tense import TenseParser, from_tense_file, from_tense_file_source
 А некоторые части импортируются как модули:
 
 ```py
-from tense import units, model, unit_of_work, resolvers,
-
-...
+from tense import units, model, unit_of_work, resolvers, ...
 from tense.adapters import repository
 ```
 Такой интерфейс сделан во избежание каких-либо циклических импортов и является основным стилем проекта.
@@ -50,34 +48,33 @@ from tense.adapters import repository
 - Давайте рассмотрим!
 
 ```py
->> > import asyncio
->> > from tense import TenseParser
+from tense import TenseParser
 
->> > time_string = "1день1минута 20 секунд"
+time_string = "1день1минута 20 секунд"
 
->> > parser = TenseParser(TenseParser.DIGIT)
->> > asyncio.run(parser.parse(time_string))
+parser = TenseParser(TenseParser.DIGIT)
+>>> parser.parse(time_string)
 0
 ```
 Подождите-ка, 0? И это всё? - Нет. По умолчанию поддерживаются только некоторые алиасы английского 
 языка, все остальные вы можете добавить сами! См. пример ниже:
 
 ```py
->> > import asyncio
->> > from tense import TenseParser, units
->> > from tense.adapters import repository
+from tense import TenseParser, units
+from tense.adapters import repository
 
->> > tenses = repository.TenseRepository()
->> > (
-    ...    tenses.add_aliases_to(units.Day, ["день"])
-    ....add_aliases_to(units.Minute, ["минута"])
-    ....add_aliases_to(units.Second, ["секунд"])
-    ... )
+tenses = repository.TenseRepository()
+(
+    tenses
+    .add_aliases_to(units.Day, ["день"])
+    .add_aliases_to(units.Minute, ["минута"])
+    .add_aliases_to(units.Second, ["секунд"])
+)
 
->> > time_string = "1день1минута 20 секунд"
+time_string = "1день1минута 20 секунд"
 
->> > parser = TenseParser(TenseParser.DIGIT, config=tenses.config)
->> > asyncio.run(parser.parse(time_string))
+parser = TenseParser(TenseParser.DIGIT, tenses=tenses.config)
+>>> parser.parse(time_string)
 86480
 ```
 Вот, другое дело!
@@ -85,22 +82,24 @@ from tense.adapters import repository
 # Как работает TenseParser?
 ```py
 TenseParser.__new__(
-    cls,
-    parser_cls: parsers.AbstractParser = DIGIT,
+    parser_cls: Type[abc_parsers.AbstractParser] = DIGIT,
     *,
-    config: Optional[dict[str, Any]] = None,
-    converter: Optional[converters.AbstractConverter] = None,
-    time_resolver: Optional[Callable[[str, model.Tense], list[str]]] = None,
+    tenses: Optional[
+        Union[abc_repository.AbstractTenseRepository, dict[str, Any]]
+    ] = None,
+    converter: Optional[abc_converters.AbstractConverter] = None,
+    time_resolver: Optional[Callable[[str, model.Tense], Iterator[str]]] = None,
+    iteration_speedup: bool = False,
 ) -> abc_parsers.AbstractParser:
 ```
-[См. на github](https://github.com/Animatea/aiotense/blob/3d86a8bd95330bf19289c941d14edbe2d6c30e15/aiotense/application/factory.py#L33-L76)
+[См. на github](https://github.com/Animatea/tense/blob/main/tense/application/factory.py)
 
-Первым аргументом `TenseParser` принимает подкласс от *aiotense.application.ports.parsers.AbstractParser*. 
-Изначально есть уже некоторые готовые реализации, такие как **TenseParser.DIGIT** - aiotense.adapters.parsers.DigitParser 
-и **TIMEDELTA** - aiotense.adapters.parsers.TimedeltaParser.
+Первым аргументом `TenseParser` принимает подкласс от *tense.application.ports.parsers.AbstractParser*. 
+Изначально есть уже некоторые готовые реализации, такие как **TenseParser.DIGIT** - tense.adapters.parsers.DigitParser 
+и **TIMEDELTA** - tense.adapters.parsers.TimedeltaParser.
 
 !!! note
-    Вы можете создавать и свои кастомные парсеры, прежде унаследовав **aiotense.application.ports.parsers.AbstractParser**
+    Вы можете создавать и свои кастомные парсеры, прежде унаследовав **tense.application.ports.parsers.AbstractParser**
 
 В `TenseParser.__new__` происходит небольшая "обработка" значений, которые в дальнейшем будут переданы 
 в инициализаторы подклассов **...AbstractParser**, в конечном итоге мы получаем готовый подкласс **...AbstractParser**.
@@ -114,37 +113,34 @@ TenseParser.__new__(
 Помимо "примитивного" резольвера, который стоит по умолчанию, так же есть и "умный".
 
 !!! info
-    aiotense.application.resolvers.smart_resolver() так же не чувствителен к регистру.
+    tense.application.resolvers.smart_resolver() так же не чувствителен к регистру.
 
-[См. на github](https://github.com/Animatea/aiotense/blob/3d86a8bd95330bf19289c941d14edbe2d6c30e15/aiotense/application/resolvers.py#L28-L63)
+[См. на github](https://github.com/Animatea/tense/blob/main/tense/application/resolvers.py)
 
 !!! note
     Так же как и с парсерами, вы можете создать **свой** кастомный резольвер, только не забывайте, 
     что у резольвера есть базовая сигнатура (arg1: str, arg2: model.Tense).
 
 ```py
->> > import asyncio
->> > from tense import TenseParser, units, resolvers
->> > from tense.adapters import repository
+from tense import TenseParser, units, resolvers
+from tense.adapters import repository
 
->> > tenses = repository.TenseRepository()
->> > (
-    ...    tenses.add_aliases_to(units.Day, ["день"])
-    ....add_aliases_to(units.Minute, ["минуты"])
-    ....add_aliases_to(units.Second, ["секунд"])
-    ... )
+tenses = repository.TenseRepository()
+(
+    tenses
+    .add_aliases_to(units.Day, ["день"])
+    .add_aliases_to(units.Minute, ["минуты"])
+    .add_aliases_to(units.Second, ["секунд"])
+)
 
->> > time_string = "1 день + 2 минуты и 5 секунд"
+time_string = "1 день + 2 минуты и 5 секунд"
 
->> > parser = TenseParser(
-    ...
-TenseParser.DIGIT,
-...
-config = tenses.config,
-         ...
-time_resolver = resolvers.smart_resolver,
-                ... )
->> > asyncio.run(parser.parse(time_string))
+parser = TenseParser(
+    TenseParser.DIGIT,
+    tenses=tenses.config,
+    time_resolver=resolvers.smart_resolver,
+)
+>>> parser.parse(time_string)
 86525
 ```
 # А что за аргумент "converter" у TenseParser?
@@ -153,55 +149,54 @@ time_resolver = resolvers.smart_resolver,
 которого конвертируется в соответствии с указанными конвертером, если тот не равен None.
 
 !!! note
-    Мы стараемся сделать `aiotense` как можно более гибким, поэтому практически каждый хук вы можете 
+    Мы стараемся сделать `tense` как можно более гибким, поэтому практически каждый хук вы можете 
     реализовать по-своему и передать в соответствующее место. Конвертер не является исключением, Вы
-    можете создать свой, кастомный, прежде унаследовав его от aiotense.application.ports.converters.AbstractConverter.
+    можете создать свой, кастомный, прежде унаследовав его от tense.application.ports.converters.AbstractConverter.
     Так же стоит учесть тот факт, что ...AbstractConverter является дженериком, который принимает тип значения,
     которое будет возвращено в результате конвертации (его же и возвращает в абстрактном методе .convert()).
 
 # А что насчёт delete/replace алиасов?
-Атомарные операции в `aiotense` реализованы паттерном **UnitOfWork**, который, в свою очередь, взаимодействует с 
+Атомарные операции в `tense` реализованы паттерном **UnitOfWork**, который, в свою очередь, взаимодействует с 
 репозиторием алиасов.
 
 !!! info "Давайте рассмотрим детальнее"
     === "Удаление алиасов"
     ```py
     # <--- Синтаксический сахар "with" позволяет разбивать участки кода на логические блоки ---> #
-    from aiotense import unit_of_work, units
+    from tense import unit_of_work, units
     
     with unit_of_work.TenseUnitOfWork() as uow:
         second_str = uow.with_unit_resolve(units.Second)  # Конвертировали тип единицы времени в путь для конфига
-        assert "second" in uow.tenses.get_setting(second_str, "aliases")  # Алиас "second" по умолчанию в алиасах units.Second
+        assert "second" in uow.products.get_setting(second_str, "aliases")  # Алиас "second" по умолчанию в алиасах units.Second
     
         uow.delete_aliases(units.Second, ["second"])  # Удаляем алиас у units.Second
     
-        assert "second" not in uow.tenses.get_setting(second_str, "aliases")  # Алиас удалён.
+        assert "second" not in uow.products.get_setting(second_str, "aliases")  # Алиас удалён.
     ```
     === "Замена алиасов"
     ```py
-    from aiotense import unit_of_work, units
+    from tense import unit_of_work, units
 
     with unit_of_work.TenseUnitOfWork() as uow:
         second_str = uow.with_unit_resolve(units.Second)  # Конвертировали тип единицы времени в путь для конфига
-        assert "second" in uow.tenses.get_setting(second_str,
+        assert "second" in uow.products.get_setting(second_str,
                                                   "aliases")  # Алиас "second" по умолчанию в алиасах units.Second
     
         uow.replace_aliases(units.Second, {"second": "секунда"})  # Заменяем алиас "second" на "секунда"
         
-        alias_state = uow.tenses.get_setting(second_str, "aliases")  # Получаем состояние алиас после замены
+        alias_state = uow.products.get_setting(second_str, "aliases")  # Получаем состояние алиас после замены
         assert "second" not in alias_state  # Алиас "second" удалён
         assert "секунда" in alias_state  # Вместо "second" появился новый алиас - "секунда"
     ```
 
-    __Далее мы передаём исходники репозитория в TenseParser(config=uow.tenses.config)__
+    __Далее мы передаём исходники репозитория в TenseParser(tenses=uow.products.config)__
 
 # Как добавить свои единицы времени?
-Для кастомных единиц времени в aiotense.domain.units выделен отдельный класс - VirtualUnit. Он ничем не отличается 
+Для кастомных единиц времени в tense.domain.units выделен отдельный класс - VirtualUnit. Он ничем не отличается 
 от ..Unit, но удобен для логического разделения виртуальных единиц от базовых и, возможно, в ближайшем будущем - новым 
 функционалом.
 
 ```py
-import asyncio
 from tense import TenseParser, units
 from tense.adapters import repository
 
@@ -216,18 +211,18 @@ tenses = repository.TenseRepository()
     )
 )
 
-parser = TenseParser(TenseParser.DIGIT, config=tenses.config)
-assert asyncio.run(parser.parse("1 двесекунды 1 трисекунды")) == 5
+parser = TenseParser(TenseParser.DIGIT, tenses=tenses.config)
+assert parser.parse("1 двесекунды 1 трисекунды") == 5
 ```
 
 # Файл конфигурации
 На первый взгляд может показаться непонятным, как и любой другой конфиг без документации. Но для этого ж она 
 (ред. документация) и создана!
 
-Конфиг `aiotense` не привязан к конкретному типу файлов или их названию, но мы рекомендуем придерживаться основного 
-стандарта - названия ".aiotense".
+Конфиг `tense` не привязан к конкретному типу файлов или их названию, но мы рекомендуем придерживаться основного 
+стандарта - названия ".tense".
 
-Парсер конфигфайлов aiotense поддерживает буквально несколько паттернов, но больше и не нужно. Давайте рассмотрим 
+Парсер конфигфайлов tense поддерживает буквально несколько паттернов, но больше и не нужно. Давайте рассмотрим 
 каждый из них.
 === "GetattributeParticleConverter"
     ```markdown
@@ -245,7 +240,7 @@ assert asyncio.run(parser.parse("1 двесекунды 1 трисекунды")
     ```
 === "ListValueConverter"
     !!! danger
-        Списки в `aiotense` по паттерну схожи с кортежами python. Если у вас 
+        Списки в `tense` по паттерну схожи с кортежами python. Если у вас 
         всего один элемент списка, то вы должны указать его с запятой, иначе возникнет ошибка.
 
     ```markdown
@@ -290,7 +285,7 @@ assert asyncio.run(parser.parse("1 двесекунды 1 трисекунды")
 Сам процесс парсинга конфигурации реализован с помощью паттерна "chain_of_responsibility", где у каждого этапа (шага) 
 есть своя задача. В нашем случае реализовано 3 этапа: LexingStep, AnalyzeStep, CompilingStep.
 
-[См. на github](https://github.com/Animatea/aiotense/blob/3d86a8bd95330bf19289c941d14edbe2d6c30e15/aiotense/service_layer/dot_tense/step_chain.py#L133-L262)
+[См. на github](https://github.com/Animatea/tense/blob/main/tense/service_layer/dot_tense/step_chain.py)
 
 !!! note
     Прежде чем мы начнём разбор этапов парсинга конфигурации, стоит уточнить, что анализ файла конфигурации (или 
@@ -302,10 +297,10 @@ assert asyncio.run(parser.parse("1 двесекунды 1 трисекунды")
 - На третьем этапе, CompilingStep, добавляются виртуальные единицы времени. 
 
 ??? info "Развернуть базовый шаблон конфигурации"
-    [См. на github](https://github.com/Animatea/aiotense/blob/3d86a8bd95330bf19289c941d14edbe2d6c30e15/aiotense/adapters/repository.py#L36-L115)
+    [См. на github](https://github.com/Animatea/tense/blob/main/tense/adapters/repository.py)
     ```json
     class TenseRepository(AbstractTenseRepository):
-        # <inherited docstring from :class:`TenseRepository`> #
+        # <inherited docstring from :class:`AbstractTenseRepository`> #
         _tense_config: dict[str, Any] = {
             "model.Tense": {
                 "multiplier": 1,
@@ -522,7 +517,6 @@ assert asyncio.run(parser.parse("1 двесекунды 1 трисекунды")
 Я буду использовать `from_tense_file_source` для эмуляции конфига, но суть Вы поняли.
 
 ```py
-import asyncio
 from tense import TenseParser, from_tense_file_source, resolvers
 
 config_emulation = """
@@ -542,10 +536,10 @@ duration = exp(year * 1000)
 time_string = "1 тысячелетие и 20 секунд..."
 parser = TenseParser(
     TenseParser.DIGIT,
-    config=from_tense_file_source(config_emulation),
+    tenses=from_tense_file_source(config_emulation),
     time_resolver=resolvers.smart_resolver,
 )
-assert asyncio.run(parser.parse(time_string)) == 31536000020  # :D
+assert parser.parse(time_string) == 31536000020  # :D
 ```
 
 И тут Остапа понесло... По ходу написания документации я заметил одну интересную фишку.
@@ -553,7 +547,6 @@ assert asyncio.run(parser.parse(time_string)) == 31536000020  # :D
 конфигурации типа **year * 10**) и добавить туда новые значения!
 
 ```py
-import asyncio
 from tense import TenseParser, from_tense_file_source, resolvers
 from tense.service_layer.dot_tense.converters import VCONVERTER_CONSTS
 
@@ -572,10 +565,10 @@ duration = exp(десятилетие * 10)
 time_string = "1 век"
 parser = TenseParser(
     TenseParser.TIMEDELTA,
-    config=from_tense_file_source(config_emulation),
+    tenses=from_tense_file_source(config_emulation),
     time_resolver=resolvers.smart_resolver,
 )
-assert asyncio.run(parser.parse(time_string)).days == 36500
+assert parser.parse(time_string).days == 36500
 ```
 
 # Термины

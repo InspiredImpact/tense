@@ -1,4 +1,4 @@
-site_name: "Aiotense docs"
+site_name: "Tense docs"
 site_url: https://tense.com/
 repo_url: https://github.com/Animatea/tense
 repo_name: Animatea/tense
@@ -48,7 +48,7 @@ markdown_extensions:
 
 copyright: >
   Copyright &copy; 2022 Animatea –
-  <a href="https://github.com/Animatea/aiotense/blob/main/LICENSE">License</a>
+  <a href="https://github.com/Animatea/tense/blob/main/LICENSE">License</a>
 
 plugins:
   - search:

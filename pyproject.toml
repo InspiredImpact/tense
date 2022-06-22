@@ -25,7 +25,7 @@ include = '\.pyi?$'
 
 [tool.poetry]
 name = "tense"
-version = "1.0.0b"
+version = "1.0.1b"
 description = "Time Processing Tool"
 authors = ["Animatea <animatea.programming@gmail.com>"]
 readme = "PYPI_README.md"
@@ -38,8 +38,8 @@ include = [
 ]
 keywords = ["parser", "tool", "tense", "time", "utility"]
 classifiers = [
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
-    "Development Status :: 3 - Alpha",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Libraries",
     "Programming Language :: Python :: Implementation :: CPython",

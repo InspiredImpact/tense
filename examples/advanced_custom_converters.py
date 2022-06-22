@@ -1,11 +1,11 @@
-from typing import Any
+from typing import Any, Union
 
 from tense import TenseParser
 from tense.application.ports import converters as abc_converters
 
 
-class DoubleConverter(abc_converters.AbstractConverter[int | float]):  # <--|
-    def convert(self, value: Any) -> int | float:  # <----------------------|
+class DoubleConverter(abc_converters.AbstractConverter[Union[int, float]]):  # <--|
+    def convert(self, value: Any) -> Union[int, float]:  # <----------------------|
         if not isinstance(value, (int, float)):
             raise ValueError("Value must be instance of (int, float).")
         return value * 2
