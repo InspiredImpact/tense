@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://aiotense.com/</loc>
-         <lastmod>2022-06-11</lastmod>
+         <loc>https://tense.com/</loc>
+         <lastmod>2022-06-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://aiotense.com/en_faq/</loc>
-         <lastmod>2022-06-11</lastmod>
+         <loc>https://tense.com/en_faq/</loc>
+         <lastmod>2022-06-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://aiotense.com/ru_faq/</loc>
-         <lastmod>2022-06-11</lastmod>
+         <loc>https://tense.com/ru_faq/</loc>
+         <lastmod>2022-06-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://aiotense.com/uk_faq/</loc>
-         <lastmod>2022-06-11</lastmod>
+         <loc>https://tense.com/uk_faq/</loc>
+         <lastmod>2022-06-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
