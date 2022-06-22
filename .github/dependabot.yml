@@ -1,5 +1,6 @@
 version: 2
 updates:
+  # Python packages
   - package-ecosystem: pip
     directory: /
     schedule:
