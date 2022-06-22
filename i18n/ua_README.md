@@ -272,5 +272,6 @@ assert str(delta_value) == "36865 days, 0:00:05"
 
 Попередня (асинхронна) версія, як і раніше, доступна у гілках репозиторію - https://github.com/Animatea/tense/tree/async-final,
 але сайт із документацією буде змінено.
+Пакет на PyPi також залишиться у відкритому доступі.
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/повернутися на-початок-green?style=social&logo=github"></a></p>

@@ -265,5 +265,6 @@ And `~x38.28` speed up processing simple strings (using `basic_resolver`).
 
 The previous (async) version is still available in the repository branches - https://github.com/Animatea/tense/tree/async-final,
 but the site with the documentation will be changed.
+Note that the package on PyPi will also remain in the public domain.
 
 <p align="right"><a href="#top"><img height="20" src="https://img.shields.io/badge/back_to-top-green?style=social&logo=github"></a></p>
