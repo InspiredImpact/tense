@@ -67,7 +67,7 @@ pytest = "7.1.2"
 behave = "1.2.6"
 black = "22.6.0"
 isort = "5.10.1"
-mypy = "0.961"
+mypy = "0.971"
 
 [build-system]
 requires = ["poetry>=0.12"]
