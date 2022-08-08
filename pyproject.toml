@@ -62,7 +62,7 @@ python = "^3.9"
 
 [tool.poetry.dev-dependencies]
 parse = "1.19.0"
-PyHamcrest = "2.0.3"
+PyHamcrest = "2.0.4"
 pytest = "7.1.2"
 behave = "1.2.6"
 black = "22.6.0"
