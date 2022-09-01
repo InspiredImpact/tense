@@ -65,7 +65,7 @@ parse = "1.19.0"
 PyHamcrest = "2.0.3"
 pytest = "7.1.2"
 behave = "1.2.6"
-black = "22.6.0"
+black = "22.8.0"
 isort = "5.10.1"
 mypy = "0.971"
 
